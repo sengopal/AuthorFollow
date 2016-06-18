@@ -1,0 +1,159 @@
+== CAPSTONE
+* https://futurestud.io/blog/retrofit-how-to-integrate-xml-converter
+* https://gist.github.com/nahba/fce4531b089323123299
+* http://webservices.amazon.com/scratchpad/index.html#http://webservices.amazon.com/onca/xml?Service=AWSECommerceService&Operation=ItemLookup&SubscriptionId=AKIAIV32PE3ER4WKYHOA&AssociateTag=sengopalme-20&ItemId=0439358078&ResponseGroup=ItemAttributes
+
+== Reference Apps
+* https://github.com/firebase/firebase-login-demo-android
+* https://github.com/chrisbanes/cheesesquare
+* MAIN STARTING POINT: https://github.com/swissonid/android-design-support-lib-sample
+
+== MATERIAL
+* https://codelabs.developers.google.com/codelabs/material-design-style/index.html
+* https://github.com/chrisbanes/cheesesquare
+
+== UI ELEMENTS
+* Name of the App: Author Follow - Icon: Book and bell Incoming
+* LOGO - http://mdbootstrap.com/material-design-logo-generator/
+* DIALOGS - https://github.com/afollestad/material-dialogs
+* SUPER RECYCLER View - https://github.com/Malinskiy/SuperRecyclerView
+* CIRCLE IMAGE VIEW - https://github.com/hdodenhof/CircleImageView
+* FAB Button - https://github.com/futuresimple/android-floating-action-button
+* SETTINGS - https://github.com/kenumir/MaterialSettings
+* NAVIGATION DRAWER - https://github.com/mikepenz/MaterialDrawer
+* SWIPE TO ACTION - https://github.com/vcalvello/SwipeToAction
+* MAPS - http://googlemaps.github.io/android-maps-utils/, https://developers.google.com/maps/documentation/android-api/?hl=en
+* RATING BAR - http://www.materialdoc.com/rating-bar/
+
+== SPLASH Screen / COVER / TUTORIAL / INTRO
+* http://www.materialdoc.com/splash-screens/
+
+
+== FUTURE - Monetization
+1. Recommendations
+2. Affliates
+3. In App purchase for books
+4. Adding a reading challenge
+
+== ANALYTICS (two of Google APIs)
+* which author is tagged more) (for that book perhaps????
+* https://developers.google.com/analytics/devguides/collection/android/v4/mobile-implementation-guide
+
+== EXPORT VIA GOOGLE DRIVE (perhaps)
+
+== App Indexing ????
+
+== AdMob
+
+== SIGNIN WITH GOOGLE
+* Google SignIn -> Identity -> https://www.udacity.com/course/viewer#!/c-ud876-5/l-4331999941
+* https://github.com/googlesamples/google-services/tree/master/android/app-indexing
+* https://github.com/udacity/google-play-services/tree/master/Identity_Lessons_Final/UdacityPlus2_1
+* https://github.com/firebase/firebase-login-demo-android
+
+
+== FIREBASE instead of ActiveAndroid???
+
+== LIBRARY REFERENCES
+* http://android-developers.blogspot.jp/2015/05/android-design-support-library.html
+* http://android-developers.blogspot.jp/2014/10/implementing-material-design-in-your.html
+* https://github.com/udacity/ud862-samples - Udacity material design aps
+* http://blog.grafixartist.com/top-10-material-design-libraries-for-android/
+* https://github.com/lightSky/Awesome-MaterialDesign
+* https://github.com/wasabeef/awesome-android-ui
+* LIST OF LIBRARIES - http://alamkanak.github.io/android-libraries-and-resources/
+* Check if the list can be changed to: https://github.com/jpardogo/ListBuddies
+* https://github.com/lightSky/Awesome-MaterialDesign#View
+* *Exactly what i want: https://github.com/swissonid/android-design-support-lib-sample*
+* https://developers.google.com/analytics/devguides/collection/android/v4/mobile-implementation-guide
+
+== TRANSITION
+* http://www.thedroidsonroids.com/blog/android/meaningful-motion-with-shared-element-transition-and-circular-reveal-animation/
+* https://github.com/saulmm/Android-L-Preview-Concepts
+* http://avatars.adorable.io/#what
+* http://lorempixel.com/
+* https://github.com/googlesamples/android-ActivitySceneTransitionBasic/
+
+
+= APIS
+
+=== AUTHOR DETAIL
+https://www.goodreads.com/author/show/1077326?format=xml&key=We96lMbi0gpn6i9oHKd0dA
+
+=== PREVIEW
+https://developers.google.com/books/docs/overview?csw=1#data_api
+Price and Preview: https://www.googleapis.com/books/v1/volumes?q=isbn:9781429985208
+https://github.com/google/google-api-java-client-samples
+
+
+== AUTHOR NAME SEARCH
+http://isbndb.com/api/v2/docs/authors
+http://authoralerts.com/autocomplete.jsp?q=Eoin
+alternative - author + id static api cache
+
+
+== AMAZON
+Amazon Associate ID: sengopalme-20
+https://affiliate-program.amazon.com/gp/associates/network/main.html
+https://console.aws.amazon.com/iam/home?rw_useCurrentProtocol=1#security_credential
+AWSAccessKeyId=AKIAIV32PE3ER4WKYHOA
+AWSSecretKey=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
+
+http://docs.aws.amazon.com/AWSECommerceService/latest/DG/EX_SearchingbyAuthor.html
+http://docs.aws.amazon.com/AWSECommerceService/latest/DG/NewReleases.html
+http://docs.aws.amazon.com/AWSECommerceService/latest/DG/rest-signature.html
+http://docs.aws.amazon.com/AWSECommerceService/latest/DG/BrowseNodeIDValues.html
+
+http://webservices.amazon.com/onca/xml?Service=AWSECommerceService&Operation=ItemSearch&SubscriptionId=AKIAIV32PE3ER4WKYHOA&AssociateTag=sengopalme-20&SearchIndex=Books&Keywords=John Grisham&ResponseGroup=Large&Sort=-publication_date&Author=John+Grisham
+
+http://webservices.amazon.com/onca/xml?
+  Service=AWSECommerceService
+  &Operation=ItemSearch
+  &ResponseGroup=Small
+  &SearchIndex=Books
+  &Author=J.K.Rowling
+  &AWSAccessKeyId=[Your_AWSAccessKeyID]
+  &AssociateTag=[Your_AssociateTag]
+  &Timestamp=[YYYY-MM-DDThh:mm:ssZ]
+  &Signature=[Request_Signature]
+
+  Langage Restriction: http://docs.aws.amazon.com/AWSECommerceService/latest/DG/PowerSearchSyntax.html
+
+
+
+=== ARCHIVE
+  Home
+     - Fab button to search for Authors - link to the Authors page
+     - Search by Author Name
+     - New upcoming releases (book cover grid)
+     - Show recent - pin
+     - click for book detail
+          - book detail - add to GR - want to read
+                        - add to My wish list
+                        - View Author Detail
+                        - Amazon link
+
+   - My Wish list - Activity
+        - List of added books (book cover grid)
+        - Linkt to Book detail
+
+  - Authors
+    - Followed list with count of books (with upcoming/recent releases)
+    - Author detail
+    - FAB Button: Search and add author to follow list
+    -
+
+  - Recommendations
+    - From Amazon or Grs
+    - http://lifehacker.com/5595842/five-best-book-recommendation-services
+
+
+  - Settings
+    - Show Home Page as Authors or Books
+    - Content refresh??
+    - GoodReads Link
+
+  -Drawer
+  GoodReads in navigation drawer - use GRs to manage Want to Reads
+  Authors link in drawer
+  My Wish list in drawer
