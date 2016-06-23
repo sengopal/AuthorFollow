@@ -35,7 +35,7 @@ public class BookDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(BOOK_ID)) {
+        if (null!=getArguments() && getArguments().containsKey(BOOK_ID)) {
             // use a Loader to load content from a content provider.
             //upcomingBook = DummyContent.ITEM_MAP.get(getArguments().getString(BOOK_ID));
 
@@ -49,11 +49,11 @@ public class BookDetailFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.book_detail, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_book_detail, container, false);
 
         // Show the dummy content as text in a TextView.
         if (upcomingBook != null) {
-            ((TextView) rootView.findViewById(R.id.book_detail)).setText("dummytext");
+            ((TextView) rootView.findViewById(R.id.movie_detail_synopsys_title_text_view)).setText("dummytext");
         }
 
         return rootView;
