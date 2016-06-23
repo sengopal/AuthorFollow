@@ -85,6 +85,42 @@ public class UpcomingBook extends Model implements Parcelable {
         dest.writeString(publishedDate);
     }
 
+    public String getGrApiId() {
+        return grApiId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getIsbn() {
+        return isbn;
+    }
+
+    public String getSmallImageUrl() {
+        return smallImageUrl;
+    }
+
+    public String getBigImageUrl() {
+        return bigImageUrl;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public String getAmazonLink() {
+        return amazonLink;
+    }
+
+    public String getPublishedDate() {
+        return publishedDate;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -101,4 +137,20 @@ public class UpcomingBook extends Model implements Parcelable {
             return new UpcomingBook[size];
         }
     };
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("UpcomingBook{");
+        sb.append("grApiId='").append(grApiId).append('\'');
+        sb.append(", title='").append(title).append('\'');
+        sb.append(", author='").append(author).append('\'');
+        sb.append(", isbn='").append(isbn).append('\'');
+        sb.append(", smallImageUrl='").append(smallImageUrl).append('\'');
+        sb.append(", bigImageUrl='").append(bigImageUrl).append('\'');
+        sb.append(", rating=").append(rating);
+        sb.append(", amazonLink='").append(amazonLink).append('\'');
+        sb.append(", publishedDate='").append(publishedDate).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

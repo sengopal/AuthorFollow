@@ -118,6 +118,7 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
 //        }
 
         mPopularGridView.setAdapter(bookGridAdaptor);
+        bookGridAdaptor.addBooks(DBHelper.upcoming());
         mSwipeRefreshLayout.setOnRefreshListener(this);
         return view;
     }

@@ -11,7 +11,7 @@ public class Constants {
     public final static String MOVIES_KEY = "movies";
     public static final String POSTER_IMAGE_KEY = "poster";
     public final static String TWO_PANE_KEY = "two_pane";
-    public final static String MOVIE_DETAIL_KEY = "movie_detail";
+    public final static String BOOK_DETAIL = "book_detail";
     public static final String POSITION_KEY = "position";
     public final static String SORT_BY_KEY = "sort_by";
     public final static String MOVIE_URL = "http://api.themoviedb.org";

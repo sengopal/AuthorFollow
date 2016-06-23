@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.capstone.authorfollow.data.types.DBHelper;
 import com.capstone.authorfollow.data.types.UpcomingBook;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -55,13 +56,10 @@ public class BookGridAdaptor extends RecyclerView.Adapter<BookGridAdaptor.ViewHo
         });
 
         //holder.mGridItemContainer.setContentDescription(holder.mGridItemContainer.getContext().getString(R.string.a11y_movie_title, bookData.originalTitle));
-        /*
-        if (bookData.getFormattedDate() != null) {
-            mCalendar.setTime(bookData.getFormattedDate());
-            holder.mReleaseDateTextView.setText(String.valueOf(mCalendar.get(Calendar.YEAR)));
-            //holder.mReleaseDateTextView.setContentDescription(holder.mReleaseDateTextView.getContext().getString(R.string.a11y_movie_year, String.valueOf(mCalendar.get(Calendar.YEAR))));
-        }
 
+        holder.mReleaseDateTextView.setText(bookData.getAuthor());
+        //holder.mReleaseDateTextView.setContentDescription(holder.mReleaseDateTextView.getContext().getString(R.string.a11y_movie_year, String.valueOf(mCalendar.get(Calendar.YEAR))));
+        checkIfPresentInWishlist(holder, bookData);
         /*
         if (Constants.SORT_BY_POPULARITY_DESC.equals(sortType)) {
             setIconForType(holder, sortType, bookData.popularity);
@@ -71,9 +69,8 @@ public class BookGridAdaptor extends RecyclerView.Adapter<BookGridAdaptor.ViewHo
             holder.mSortTypeValueTextView.setText(String.valueOf(Math.round(bookData.voteAverage)));
         }*/
 
-        //String imageUrl = Constants.IMAGE_MOVIE_URL + Constants.IMAGE_SIZE_W185 + bookData.posterPath;
-        String imageUrl = "https://d.gr-assets.com/books/1461191018m/29605516.jpg";
         final RelativeLayout container = holder.mMovieTitleContainer;
+        String imageUrl = (null!=bookData.getSmallImageUrl()) ? bookData.getSmallImageUrl() : bookData.getBigImageUrl();
         Picasso.with(holder.mMovieImageView.getContext()).load(imageUrl).placeholder(R.drawable.ic_movie_placeholder).
                 into(holder.mMovieImageView, new Callback() {
                     @Override
@@ -93,14 +90,12 @@ public class BookGridAdaptor extends RecyclerView.Adapter<BookGridAdaptor.ViewHo
                 });
 
     }
-    /*
-    private void setIconForType(ViewHolder holder, String sortType, double value) {
-        if (Constants.SORT_BY_POPULARITY_DESC.equals(sortType)) {
-            holder.mSortTypeIconImageView.setImageResource(R.drawable.ic_favorite_outline);
-        } else {
-            holder.mSortTypeIconImageView.setImageResource(CommonUtil.getRateIcon(value, false));
+
+    private void checkIfPresentInWishlist(ViewHolder holder, UpcomingBook book) {
+        if (DBHelper.checkInWishlist(book.getGrApiId())) {
+            holder.mSortTypeIconImageView.setImageResource(R.drawable.ic_star_dark);
         }
-    }*/
+    }
 
     @Override
     public int getItemCount() {

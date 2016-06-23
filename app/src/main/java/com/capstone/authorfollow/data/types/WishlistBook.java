@@ -92,4 +92,7 @@ public class WishlistBook extends Model implements Parcelable {
             return new WishlistBook[size];
         }
     };
+
+    public WishlistBook() {
+    }
 }

@@ -56,6 +56,8 @@ public class BooksDataLoader extends AsyncTaskLoader<List<UpcomingBook>> {
         for(String author : this.authors){
             booksList.addAll(getBookInfoForAuthor(author));
         }
+        DBHelper.updateUpcoming(booksList);
+
         return booksList;
     }
 

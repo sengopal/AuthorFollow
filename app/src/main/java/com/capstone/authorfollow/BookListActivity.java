@@ -92,7 +92,7 @@ public class BookListActivity extends BaseActivity implements BookListFragment.C
         Log.d(TAG, "onItemSelected() returned: " + bookData);
         if (mTwoPane) {
             Bundle args = new Bundle();
-            args.putParcelable(Constants.MOVIE_DETAIL_KEY, bookData);
+            args.putParcelable(Constants.BOOK_DETAIL, bookData);
             args.putParcelable(Constants.POSTER_IMAGE_KEY, posterBitmap);
             BookDetailFragment fragment = new BookDetailFragment();
             fragment.setArguments(args);
@@ -103,7 +103,7 @@ public class BookListActivity extends BaseActivity implements BookListFragment.C
                 options = ActivityOptions.makeSceneTransitionAnimation(this, view, Constants.POSTER_IMAGE_VIEW_KEY);
             }
             Intent openDetailIntent = new Intent(this, BookDetailActivity.class);
-            openDetailIntent.putExtra(Constants.MOVIE_DETAIL_KEY, bookData);
+            openDetailIntent.putExtra(Constants.BOOK_DETAIL, bookData);
             openDetailIntent.putExtra(Constants.POSTER_IMAGE_KEY, posterBitmap);
             if (options != null) {
                 startActivity(openDetailIntent, options.toBundle());
