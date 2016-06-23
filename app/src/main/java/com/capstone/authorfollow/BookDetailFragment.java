@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.capstone.authorfollow.data.types.UpcomingBook;
 
+import butterknife.ButterKnife;
+
 /**
  * A fragment representing a single UpcomingBook detail screen.
  * This fragment is either contained in a {@link BookListActivity}
@@ -34,13 +36,13 @@ public class BookDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setHasOptionsMenu(false);
         if (null!=getArguments() && getArguments().containsKey(BOOK_ID)) {
             // use a Loader to load content from a content provider.
             //upcomingBook = DummyContent.ITEM_MAP.get(getArguments().getString(BOOK_ID));
 
             Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.toolbar_layout);
+            CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) activity.findViewById(R.id.collapsing_toolbar);
             if (appBarLayout != null) {
                 appBarLayout.setTitle("dummy");
             }
@@ -50,6 +52,7 @@ public class BookDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_book_detail, container, false);
+        ButterKnife.bind(this, rootView);
 
         // Show the dummy content as text in a TextView.
         if (upcomingBook != null) {

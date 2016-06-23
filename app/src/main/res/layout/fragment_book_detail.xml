@@ -1,9 +1,32 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/movie_detail_synopsys_title_text_view"
-    style="?android:attr/textAppearanceLarge"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:textIsSelectable="true"
-    tools:context="com.capstone.authorfollow.BookDetailFragment" />
+    android:id="@+id/movie_container"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true">
+
+    <include
+        android:id="@+id/appbar"
+        layout="@layout/inc_toolbar_movie_detail" />
+
+    <include
+        android:id="@+id/inc_movie_detail"
+        layout="@layout/inc_movie_detail" />
+
+    <include
+        android:id="@+id/inc_no_selected_movie"
+        layout="@layout/inc_no_movie_selected" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="40dp"
+        android:clickable="true"
+        android:src="@drawable/ic_star_dark"
+        app:elevation="4dp"
+        app:layout_anchor="@id/appbar"
+        app:layout_anchorGravity="bottom|right|end" />
+
+</android.support.design.widget.CoordinatorLayout>
