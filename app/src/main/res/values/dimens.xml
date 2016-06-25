@@ -19,14 +19,14 @@
     <dimen name="spacing">1dp</dimen>
     <dimen name="title_container_height">60dp</dimen>
     <dimen name="item_trailer_height">75dp</dimen>
-    <dimen name="play_icon_size">42dp</dimen>
+    <dimen name="play_icon_size">56dp</dimen>
     <dimen name="text_margin_left">16dp</dimen>
     <dimen name="subtitle_text_size">16sp</dimen>
     <dimen name="title_text_size">22sp</dimen>
     <dimen name="text_padding_16dp">16sp</dimen>
     <dimen name="text_margin_top">16sp</dimen>
-    <dimen name="detail_poster_image_width">120dp</dimen>
-    <dimen name="detail_poster_image_height">140dp</dimen>
+    <dimen name="detail_poster_image_width">140dp</dimen>
+    <dimen name="detail_poster_image_height">160dp</dimen>
     <dimen name="detail_poster_image_margin_left">30dp</dimen>
     <dimen name="detail_poster_image_margin_bottom">20dp</dimen>
     <dimen name="appBarSize">250dp</dimen>

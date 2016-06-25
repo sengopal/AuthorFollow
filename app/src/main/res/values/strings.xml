@@ -20,5 +20,5 @@
     <string name="title_book_detail">Book Details</string>
     <string name="PublishedOn">Published On</string>
     <string name="ISBN">ISBN</string>
-    <string name="GoodreadsLink">Read more at Goodreads</string>
+    <string name="find_out_more">Find out more at </string>
 </resources>

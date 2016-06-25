@@ -47,13 +47,15 @@
                     android:layout_gravity="center"
                     tools:text="4.4" />
 
-                <ImageView
-                    android:id="@+id/movie_detail_rate_image_view"
+                <RatingBar
+                    android:rating="4.4"
+                    android:numStars="5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:isIndicator="true"
                     android:layout_gravity="center"
-                    android:paddingRight="@dimen/rate_icon_margin_right"
-                    tools:src="@drawable/ic_star_dark" />
+                    android:theme="@style/RatingBar"/>
+
             </LinearLayout>
         </LinearLayout>
 
@@ -144,16 +146,25 @@
                     style="@style/MovieDetailContainerSubTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/GoodreadsLink" />
-
-                <ImageView
-                    android:id="@+id/play_trailer_icon_image_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:baselineAlignBottom="true"
                     android:paddingLeft="@dimen/rate_icon_margin_right"
                     android:paddingRight="@dimen/rate_icon_margin_right"
-                    android:src="@drawable/ic_play_arrow_black_24dp" />
+                    android:text="@string/find_out_more" />
+
+                <ImageView
+                    android:id="@+id/amazon_icon_image_view"
+                    android:layout_width="@dimen/play_icon_size"
+                    android:layout_height="@dimen/play_icon_size"
+                    android:paddingLeft="@dimen/rate_icon_margin_right"
+                    android:paddingRight="@dimen/rate_icon_margin_right"
+                    android:src="@drawable/amazon_icon" />
+
+                <ImageView
+                    android:id="@+id/gr_icon_image_view"
+                    android:layout_width="@dimen/play_icon_size"
+                    android:layout_height="@dimen/play_icon_size"
+                    android:paddingLeft="@dimen/rate_icon_margin_right"
+                    android:paddingRight="@dimen/rate_icon_margin_right"
+                    android:src="@drawable/goodreads_icon" />
 
             </LinearLayout>
 

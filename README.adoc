@@ -1,3 +1,44 @@
+== TODO
+Step 1: Search Author using author alerts
+Step 2: When a author is being added
+  https://www.goodreads.com/api/index#search.authors
+  https://www.goodreads.com/api/author_url/J.K.Rowling?key=We96lMbi0gpn6i9oHKd0dA
+    Gives ID
+  https://www.goodreads.com/author/show/1077326?format=xml&key=We96lMbi0gpn6i9oHKd0dA
+  Store: AuthorFollow as Name, Image Url
+
+
+Replace Goodreads and Amazon links on the detail page
+
+List - MediumImage, isbn, author
+Wishlist - Image, isbn, author, Preview link
+Detail - LargeImage, isbn, author, Goodreads Link, Released on, Description, rating, Amazon link - DetailPageURL
+
+
+1. Change DB to use SyncAdaptor and use loader to load from that
+2. Add pubdate check to DB.upcoming() query
+3. Change pub date to Date and use Locale for publication date
+4. Add check for system time off value amazon
+http://webservices.amazon.com/onca/xml?AWSAccessKeyId=AKIAIV32PE3ER4WKYHOA&AssociateTag=sengopalme-20&ItemPage=1&Operation=ItemSearch&Power=language%3Aenglish%20and%20not%20keywords-begin%3Akindle%20and%20pubdate%3A%20after%2006-2016%20and%20pubdate%3A%20before%2010-2016%20and%20author%3AJames%20Patterson&ResponseGroup=ItemAttributes%2CImages&SearchIndex=Books&Service=AWSECommerceService&Sort=-publication_date&Timestamp=2016-06-23T02%3A21%3A41Z&Signature=O07Ka4d5ehqZ%2BZBs1qf2s040%2Fqt98X67vtAz4dfgUI8%3D
+<ItemSearchErrorResponse xmlns="http://ecs.amazonaws.com/doc/2005-10-05/">
+<Error>
+<Code>RequestExpired</Code>
+<Message>
+Request has expired. Timestamp date is 2016-06-23T02:21:41Z.
+</Message>
+</Error>
+<RequestId>ed2d30d6-e075-47b8-9cf2-8bfd5df0d42f</RequestId>
+</ItemSearchErrorResponse>
+
+5. <de.hdodenhof.circleimageview.CircleImageView
+       android:id="@+id/avatar"
+       android:layout_width="@dimen/list_item_avatar_size"
+       android:layout_height="@dimen/list_item_avatar_size"
+       android:layout_marginRight="16dp"/>
+
+Firebase - Login and Save Data for user
+
+
 == CAPSTONE
 * https://futurestud.io/blog/retrofit-how-to-integrate-xml-converter
 * https://gist.github.com/nahba/fce4531b089323123299
