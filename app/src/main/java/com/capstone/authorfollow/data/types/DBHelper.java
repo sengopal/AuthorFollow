@@ -45,6 +45,7 @@ public class DBHelper {
         for (UpcomingBook book : booksList) {
             book.save();
         }
+        ActiveAndroid.setTransactionSuccessful();
         ActiveAndroid.endTransaction();
     }
 

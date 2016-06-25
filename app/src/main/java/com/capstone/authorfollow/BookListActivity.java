@@ -6,14 +6,13 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.capstone.authorfollow.data.types.UpcomingBook;
 import com.capstone.authorfollow.service.Services.AmazonService;
@@ -34,7 +33,7 @@ public class BookListActivity extends BaseActivity implements BookListFragment.C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_list);
         ButterKnife.bind(this);
-        setToolbar(true, true);
+        setToolbar(false, true);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -42,21 +41,6 @@ public class BookListActivity extends BaseActivity implements BookListFragment.C
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        /*
-        View recyclerView = findViewById(R.id.book_list);
-        assert recyclerView != null;
-        setupRecyclerView((RecyclerView) recyclerView);
-        */
 
         if (findViewById(R.id.book_detail_container) != null) {
             // The detail container view will be present only in the large-screen layouts (res/values-w900dp).
@@ -118,6 +102,9 @@ public class BookListActivity extends BaseActivity implements BookListFragment.C
         switch (item.getItemId()) {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            case R.id.action_author_add:
+                Toast.makeText(getApplicationContext(), "Add Author", Toast.LENGTH_LONG);
                 return true;
         }
         return super.onOptionsItemSelected(item);

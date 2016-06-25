@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.capstone.authorfollow.data.types.DBHelper;
+import com.capstone.authorfollow.data.types.NetworkResponse;
 import com.capstone.authorfollow.data.types.UpcomingBook;
 import com.capstone.authorfollow.service.BooksDataLoader;
 import com.capstone.authorfollow.service.Services;
@@ -34,7 +35,7 @@ import butterknife.ButterKnife;
 import retrofit2.Retrofit;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
-public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, LoaderManager.LoaderCallbacks<List<UpcomingBook>> {
+public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, LoaderManager.LoaderCallbacks<NetworkResponse<List<UpcomingBook>>> {
 
     public void setSelectedPosition(int selectedPosition) {
         this.selectedPosition = selectedPosition;
@@ -78,7 +79,6 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         initRetrofit();
-        bookList = DBHelper.upcoming();
         getLoaderManager().initLoader(0, null, this);
         super.onActivityCreated(savedInstanceState);
     }
@@ -111,6 +111,8 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
         int colorPrimaryLight = ContextCompat.getColor(getActivity(), (R.color.colorPrimaryTransparent));
         mPopularGridView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
 
+        bookList = DBHelper.upcoming();
+
         bookGridAdaptor = new BookGridAdaptor(bookList, colorPrimaryLight, (Callback) getActivity());
         //TODO Mladen stage 2
 //        if (savedInstanceState != null && savedInstanceState.containsKey(Constants.POSITION_KEY)) {
@@ -118,8 +120,9 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
 //        }
 
         mPopularGridView.setAdapter(bookGridAdaptor);
-        bookGridAdaptor.addBooks(DBHelper.upcoming());
+        //bookGridAdaptor.addBooks(DBHelper.upcoming());
         mSwipeRefreshLayout.setOnRefreshListener(this);
+        mSwipeRefreshLayout.setRefreshing(true);
         return view;
     }
 
@@ -152,6 +155,7 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -193,29 +197,30 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     @Override
-    public Loader<List<UpcomingBook>> onCreateLoader(int id, Bundle args) {
+    public Loader<NetworkResponse<List<UpcomingBook>>> onCreateLoader(int id, Bundle args) {
         List<String> followList = DBHelper.getFollowList();
         return new BooksDataLoader(getActivity(), mService, followList);
     }
 
     @Override
-    public void onLoadFinished(Loader<List<UpcomingBook>> loader, List<UpcomingBook> data) {
+    public void onLoadFinished(Loader<NetworkResponse<List<UpcomingBook>>> loader, NetworkResponse<List<UpcomingBook>> response) {
         mSwipeRefreshLayout.setRefreshing(false);
-        bookList = data;
-        bookGridAdaptor.addBooks(data);
-        if (data == null || data.isEmpty()) {
+        if(response.isSuccess()) {
+            bookList = response.getResponse();
+            bookGridAdaptor.addBooks(bookList);
+            Snackbar.make(getView(), R.string.movies_data_loaded, Snackbar.LENGTH_LONG).show();
+        }else{
+            Snackbar.make(getView(), response.getErrorMessage(), Snackbar.LENGTH_LONG).show();
             if (!CommonUtil.isConnected(getActivity())) {
-                toggleShowEmptyMovie(false);
+                //toggleShowEmptyMovie(false);
             }
-        } else {
-            toggleShowEmptyMovie(true);
         }
-        //TODO Mladen stage 2
-        Snackbar.make(getView(), data == null ? R.string.movies_not_found : R.string.movies_data_loaded, Snackbar.LENGTH_LONG).show();
+        //If there are no upcoming books for selected Authors
+        mNoMovieContainer.setVisibility((bookList == null || bookList.isEmpty()) ? View.VISIBLE : View.GONE);
     }
 
     @Override
-    public void onLoaderReset(Loader<List<UpcomingBook>> loader) {
+    public void onLoaderReset(Loader<NetworkResponse<List<UpcomingBook>>> loader) {
         mSwipeRefreshLayout.setRefreshing(false);
         bookGridAdaptor.addBooks(null);
     }
@@ -223,10 +228,6 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public void onRefresh() {
         restartLoader();
-    }
-
-    private void toggleShowEmptyMovie(boolean showMovieGrid) {
-        mNoMovieContainer.setVisibility(showMovieGrid ? View.GONE : View.VISIBLE);
     }
 
     static class SpacesItemDecoration extends RecyclerView.ItemDecoration {

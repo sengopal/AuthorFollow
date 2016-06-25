@@ -6,10 +6,12 @@ import android.util.Log;
 
 import com.capstone.authorfollow.PreferenceUtil;
 import com.capstone.authorfollow.data.types.DBHelper;
+import com.capstone.authorfollow.data.types.NetworkResponse;
 import com.capstone.authorfollow.data.types.UpcomingBook;
 import com.capstone.authorfollow.service.Services.AmazonService;
 import com.capstone.authorfollow.service.Services.ItemSearchResponse;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -23,11 +25,11 @@ import java.util.Map;
 
 import retrofit2.Call;
 
-public class BooksDataLoader extends AsyncTaskLoader<List<UpcomingBook>> {
+public class BooksDataLoader extends AsyncTaskLoader<NetworkResponse<List<UpcomingBook>>> {
     private static final DateFormat PUB_DATE_FORMAT = new SimpleDateFormat("MM-yyyy");
     private static final String TAG = "BooksDataLoader";
     private List<String> authors;
-    private List<UpcomingBook> bookSvcInfoList;
+    private NetworkResponse<List<UpcomingBook>> bookSvcInfoList;
     private AmazonService service;
 
     public BooksDataLoader(Context context, AmazonService service, List<String> authors) {
@@ -43,7 +45,7 @@ public class BooksDataLoader extends AsyncTaskLoader<List<UpcomingBook>> {
     }
 
     @Override
-    public List<UpcomingBook> loadInBackground() {
+    public NetworkResponse<List<UpcomingBook>> loadInBackground() {
         List<UpcomingBook> booksList = new ArrayList<>();
         //TODO: Temp code for bootstrap
         if (null == this.authors || this.authors.isEmpty()) {
@@ -53,30 +55,30 @@ public class BooksDataLoader extends AsyncTaskLoader<List<UpcomingBook>> {
             this.authors = DBHelper.getFollowList();
         }
 
-        for(String author : this.authors){
-            booksList.addAll(getBookInfoForAuthor(author));
+        try {
+            for (String author : this.authors) {
+                booksList.addAll(getBookInfoForAuthor(author));
+            }
+            DBHelper.updateUpcoming(booksList);
+            return new NetworkResponse<List<UpcomingBook>>(null, booksList);
+        } catch (Exception e) {
+            Log.e(TAG, "IOException occurred in loadInBackground()", e);
+            return new NetworkResponse<List<UpcomingBook>>(e.getMessage(), booksList);
         }
-        DBHelper.updateUpcoming(booksList);
-
-        return booksList;
     }
 
-    private List<UpcomingBook> getBookInfoForAuthor(String author) {
+    private List<UpcomingBook> getBookInfoForAuthor(String author) throws IOException, InvalidKeyException, NoSuchAlgorithmException {
         List<UpcomingBook> booksList = new ArrayList<>();
         int upcomingFwdDays = PreferenceUtil.getPrefs(getContext(), PreferenceUtil.PREF_UPCOMING_FWD_DAYS, 120);
-        try {
-            Call<ItemSearchResponse> bookSvcInfoCall = service.findBooks(buildParams(author, upcomingFwdDays, 1));
-            ItemSearchResponse searchResponse = bookSvcInfoCall.execute().body();
-            booksList.addAll(convertToDBData(author, searchResponse));
-            if(searchResponse.resultItems.totalPages > 1){
-                for(int i = 2; i <= searchResponse.resultItems.totalPages; i++){
-                    bookSvcInfoCall = service.findBooks(buildParams(author, upcomingFwdDays, i));
-                    searchResponse = bookSvcInfoCall.execute().body();
-                    booksList.addAll(convertToDBData(author, searchResponse));
-                }
+        Call<ItemSearchResponse> bookSvcInfoCall = service.findBooks(buildParams(author, upcomingFwdDays, 1));
+        ItemSearchResponse searchResponse = bookSvcInfoCall.execute().body();
+        booksList.addAll(convertToDBData(author, searchResponse));
+        if(searchResponse.resultItems.totalPages > 1){
+            for(int i = 2; i <= searchResponse.resultItems.totalPages; i++){
+                bookSvcInfoCall = service.findBooks(buildParams(author, upcomingFwdDays, i));
+                searchResponse = bookSvcInfoCall.execute().body();
+                booksList.addAll(convertToDBData(author, searchResponse));
             }
-        } catch (Exception e) {
-            Log.e(TAG, "IOException occurred in loadInBackground()");
         }
         return booksList;
     }
@@ -120,7 +122,7 @@ public class BooksDataLoader extends AsyncTaskLoader<List<UpcomingBook>> {
     }
 
     @Override
-    public void deliverResult(List<UpcomingBook> bookSvcInfoList) {
+    public void deliverResult(NetworkResponse<List<UpcomingBook>> bookSvcInfoList) {
         this.bookSvcInfoList = bookSvcInfoList;
         if (isStarted()) {
             super.deliverResult(bookSvcInfoList);
