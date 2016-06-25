@@ -4,7 +4,7 @@
     <dimen name="no_movies_text_size">24dp</dimen>
     <dimen name="spacing">1dp</dimen>
     <dimen name="grid_column_height">245dp</dimen>
-    <dimen name="grid_text_size">22sp</dimen>
+    <dimen name="grid_text_size">18sp</dimen>
     <dimen name="detail_poster_image_margin_left">30dp</dimen>
     <dimen name="detail_poster_image_margin_bottom">20dp</dimen>
     <dimen name="text_margin_top">16sp</dimen>

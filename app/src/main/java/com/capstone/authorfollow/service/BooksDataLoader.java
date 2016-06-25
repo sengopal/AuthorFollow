@@ -9,6 +9,8 @@ import com.capstone.authorfollow.data.types.DBHelper;
 import com.capstone.authorfollow.data.types.NetworkResponse;
 import com.capstone.authorfollow.data.types.UpcomingBook;
 import com.capstone.authorfollow.service.Services.AmazonService;
+import com.capstone.authorfollow.service.Services.GRBookResponse;
+import com.capstone.authorfollow.service.Services.Item;
 import com.capstone.authorfollow.service.Services.ItemSearchResponse;
 
 import java.io.IOException;
@@ -24,6 +26,10 @@ import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
+
+import static com.capstone.authorfollow.CommonUtil.isEmpty;
 
 public class BooksDataLoader extends AsyncTaskLoader<NetworkResponse<List<UpcomingBook>>> {
     private static final DateFormat PUB_DATE_FORMAT = new SimpleDateFormat("MM-yyyy");
@@ -83,16 +89,33 @@ public class BooksDataLoader extends AsyncTaskLoader<NetworkResponse<List<Upcomi
         return booksList;
     }
 
-    private List<UpcomingBook> convertToDBData(String author, ItemSearchResponse searchResponse) {
+    private List<UpcomingBook> convertToDBData(String author, ItemSearchResponse searchResponse) throws IOException {
         List<UpcomingBook> bookList = new ArrayList<>();
         if(null!=searchResponse && null!=searchResponse.resultItems && null!=searchResponse.resultItems.itemList){
-            for(Services.Item item : searchResponse.resultItems.itemList) {
-                if(null!=item.isbn || null!=item.asin) {
-                    bookList.add(new UpcomingBook(author, item));
+            for(Item item : searchResponse.resultItems.itemList) {
+                String uniqueId = (null!=item.isbn ? item.isbn : item.asin);
+                if(!isEmpty(uniqueId)) {
+                    GRBookResponse grBookResponse = getBookInfoFromGR(uniqueId);
+                    if(null!=grBookResponse && isImgAvailable(item, grBookResponse)) {
+                        bookList.add(new UpcomingBook(author, item, grBookResponse));
+                    }
                 }
             }
         }
         return bookList;
+    }
+
+    private boolean isImgAvailable(Item item, GRBookResponse grBookInfo) {
+        //Atleast one image should be available
+        return (!isEmpty(item.mediumImageUrl) || !isEmpty(item.mediumImageUrl)
+                || (!isEmpty(grBookInfo.grImageUrl) && !grBookInfo.grImageUrl.contains("assets/nophoto/book/")));
+    }
+
+    private GRBookResponse getBookInfoFromGR(String uniqueId) throws IOException {
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Services.GR_URL).addConverterFactory(SimpleXmlConverterFactory.create()).build();
+        Services.GoodReadsService goodReadsService = retrofit.create(Services.GoodReadsService.class);
+        GRBookResponse grBookInfo = goodReadsService.getBookInfo(uniqueId,"We96lMbi0gpn6i9oHKd0dA").execute().body();
+        return grBookInfo;
     }
 
     private Map<String, String> buildParams(String author, int noOfForwardDays, int pageNum) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {

@@ -28,4 +28,8 @@ public class CommonUtil {
         return (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isAvailable()
                 && cm.getActiveNetworkInfo().isConnected());
     }
+
+    public static boolean isEmpty(String s){
+        return (null==s || s.length()==0);
+    }
 }

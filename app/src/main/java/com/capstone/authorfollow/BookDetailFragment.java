@@ -13,11 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.capstone.authorfollow.data.types.UpcomingBook;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import butterknife.Bind;
@@ -31,7 +34,7 @@ import butterknife.ButterKnife;
  */
 public class BookDetailFragment extends Fragment {
     public static final String DETAIL_FRAGMENT_TAG = "BKFRAGTAG";
-
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MMMM dd, yyyy");
     private static final String TAG = "MovieDetailFragment";
 
     @Nullable
@@ -54,8 +57,12 @@ public class BookDetailFragment extends Fragment {
     @Bind(R.id.movie_detail_year_text_view)
     TextView mDetailMovieYear;
 
-    @Bind(R.id.movie_detail_rate_image_view)
-    ImageView mDetailRateImageView;
+    @Bind(R.id.movie_detail_rating_value_view)
+    RatingBar ratingBar;
+
+
+    @Bind(R.id.book_detail_isbn_text_view)
+    TextView isbnTextView;
 
 //    @Bind(R.id.playTrailerImageView)
 //    ImageView mPlayTrailerImageView;
@@ -66,7 +73,8 @@ public class BookDetailFragment extends Fragment {
     @Bind(R.id.movie_detail_synopsys_data_text_view)
     TextView mDetailMovieSynopsis;
 
-    @Nullable @Bind(R.id.fab)
+    @Nullable
+    @Bind(R.id.fab)
     FloatingActionButton mFavoriteFab;
 
     @Bind({R.id.appbar, R.id.inc_movie_detail})
@@ -92,7 +100,7 @@ public class BookDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(false);
-        if (null!=getArguments() && getArguments().containsKey(Constants.BOOK_DETAIL)) {
+        if (null != getArguments() && getArguments().containsKey(Constants.BOOK_DETAIL)) {
             //TODO: use a Loader to load content from a content provider.
             upcomingBook = getArguments().getParcelable(Constants.BOOK_DETAIL);
             mPosterImage = getArguments().getParcelable(Constants.POSTER_IMAGE_KEY);
@@ -134,33 +142,39 @@ public class BookDetailFragment extends Fragment {
         Picasso.with(getActivity()).load(imageUrl).into(mBackdropMovie);
         Picasso.with(getActivity()).load(upcomingBook.getSmallImageUrl()).placeholder(R.drawable.ic_movie_placeholder).into(mPosterMovie);
 
-        mDetailRateImageView.setImageResource(CommonUtil.getRateIcon(upcomingBook.getRating(), true));
-        mDetailRateImageView.setContentDescription(getString(R.string.a11y_movie_title, upcomingBook.getTitle()));
+        String rating = upcomingBook.getRating() > 0 ? String.format("%2.1f", upcomingBook.getRating()) : getString(R.string.not_rated);
+
+        ratingBar.setRating(upcomingBook.getRating());
 
         //mDetailMovieTitle.setText(upcomingBook.getTitle());
         //mDetailMovieTitle.setContentDescription(getString(R.string.a11y_movie_title, upcomingBook.getTitle()));
 
-        mDetailRateTextView.setText(String.format("%d/10", Math.round(upcomingBook.getRating())));
-        mDetailRateTextView.setContentDescription(getString(R.string.a11y_movie_rate, String.format("%d/10", Math.round(upcomingBook.getRating()))));
+        mDetailRateTextView.setText(rating);
+        mDetailRateTextView.setContentDescription(getString(R.string.a11y_movie_rate, rating));
+
+
+        isbnTextView.setText(upcomingBook.getIsbn());
 
         //TODO: Build the description
-        mDetailMovieSynopsis.setText(upcomingBook.getTitle());
-        mDetailMovieSynopsis.setContentDescription(getString(R.string.a11y_movie_overview, upcomingBook.getTitle()));
+        mDetailMovieSynopsis.setText(upcomingBook.getDescription());
+        mDetailMovieSynopsis.setContentDescription(getString(R.string.a11y_movie_overview, upcomingBook.getDescription()));
 
-        mDetailMovieYear.setText(upcomingBook.getPublishedDate());
-        mDetailMovieYear.setContentDescription(getString(R.string.a11y_movie_year, upcomingBook.getPublishedDate()));
+        if (null != upcomingBook.getPublishedDate()) {
+            mDetailMovieYear.setText(DATE_FORMAT.format(upcomingBook.getPublishedDate()));
+            mDetailMovieYear.setContentDescription(getString(R.string.a11y_book_year, upcomingBook.getPublishedDate()));
+        }
     }
 
     private void toggleNonSelectedView(boolean noMovieData) {
         toggleVisibleFab(!noMovieData);
         noSelectedView.setVisibility(noMovieData ? View.VISIBLE : View.GONE);
-        for(View view : viewContainers){
+        for (View view : viewContainers) {
             view.setVisibility(noMovieData ? View.GONE : View.VISIBLE);
         }
     }
 
     private void toggleVisibleFab(boolean showFab) {
-        if(mFavoriteFab != null) {
+        if (mFavoriteFab != null) {
             CoordinatorLayout.LayoutParams p = (CoordinatorLayout.LayoutParams) mFavoriteFab.getLayoutParams();
             if (showFab) {
                 p.setAnchorId(R.id.appbar);

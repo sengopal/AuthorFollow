@@ -7,8 +7,12 @@ import android.provider.BaseColumns;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
-import com.capstone.authorfollow.Constants;
+import com.capstone.authorfollow.service.Services;
 import com.capstone.authorfollow.service.Services.Item;
+
+import java.util.Date;
+
+import static com.capstone.authorfollow.CommonUtil.isEmpty;
 
 /**
  * This is the Homescreen list - the upcoming Booklist
@@ -35,29 +39,44 @@ public class UpcomingBook extends Model implements Parcelable {
     private String bigImageUrl;
 
     @Column(name = "rating")
-    private int rating;
+    private float rating;
 
     @Column(name = "amazonLink")
     private String amazonLink;
 
-    @Column(name = "publishedDate")
-    private String publishedDate;
+    @Column(name = "grLink")
+    private String grLink;
 
-    public UpcomingBook() {
+    @Column(name = "publishedDate")
+    private Date publishedDate;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "noOfPages")
+    private int noOfPages;
+
+    @Column(name = "publisher")
+    private String publisher;
+
+    public UpcomingBook(){
+
     }
 
-    public UpcomingBook(String author, Item item){
-        this.grApiId = (item.isbn!=null && !item.isbn.isEmpty() ? item.isbn : item.asin);
+    public UpcomingBook(String author, Item item, Services.GRBookResponse grBookInfo) {
+        this.grApiId = (item.isbn != null && !item.isbn.isEmpty() ? item.isbn : item.asin);
         this.title = item.title;
         this.author = author;
-        this.isbn = (item.isbn!=null && !item.isbn.isEmpty() ? item.isbn : item.asin);
-        this.smallImageUrl = item.mediumImageUrl;
-        this.bigImageUrl = item.largeImageUrl;
+        this.isbn = (item.isbn != null && !item.isbn.isEmpty() ? item.isbn : item.asin);
+        this.smallImageUrl = (!isEmpty(item.mediumImageUrl) ? item.mediumImageUrl : grBookInfo.grImageUrl);
+        this.bigImageUrl = (!isEmpty(item.largeImageUrl) ? item.largeImageUrl : grBookInfo.grImageUrl);
         this.amazonLink = item.amazonUrl;
-        this.publishedDate = Constants.STD_DATE_FORMAT.format(item.pubDate);
-        //populated dynamically on detail page
-        //this.rating =
-        //this.grLink =
+        this.publishedDate = item.pubDate;
+        this.rating = grBookInfo.rating;
+        this.grLink = grBookInfo.grLinkUrl;
+        this.description = grBookInfo.description;
+        //this.noOfPages = grBookInfo.noOfPages;
+        this.publisher = grBookInfo.publisher;
     }
 
     protected UpcomingBook(Parcel in) {
@@ -67,9 +86,13 @@ public class UpcomingBook extends Model implements Parcelable {
         isbn = in.readString();
         smallImageUrl = in.readString();
         bigImageUrl = in.readString();
-        rating = in.readInt();
+        rating = in.readFloat();
         amazonLink = in.readString();
-        publishedDate = in.readString();
+        grLink = in.readString();
+        description = in.readString();
+        noOfPages = in.readInt();
+        publisher = in.readString();
+        publishedDate = new Date(in.readLong());
     }
 
     @Override
@@ -80,10 +103,31 @@ public class UpcomingBook extends Model implements Parcelable {
         dest.writeString(isbn);
         dest.writeString(smallImageUrl);
         dest.writeString(bigImageUrl);
-        dest.writeInt(rating);
+        dest.writeFloat(rating);
         dest.writeString(amazonLink);
-        dest.writeString(publishedDate);
+        dest.writeString(grLink);
+        dest.writeString(description);
+        dest.writeInt(noOfPages);
+        dest.writeString(publisher);
+        dest.writeLong(publishedDate.getTime());
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<UpcomingBook> CREATOR = new Creator<UpcomingBook>() {
+        @Override
+        public UpcomingBook createFromParcel(Parcel in) {
+            return new UpcomingBook(in);
+        }
+
+        @Override
+        public UpcomingBook[] newArray(int size) {
+            return new UpcomingBook[size];
+        }
+    };
 
     public String getGrApiId() {
         return grApiId;
@@ -109,7 +153,7 @@ public class UpcomingBook extends Model implements Parcelable {
         return bigImageUrl;
     }
 
-    public int getRating() {
+    public float getRating() {
         return rating;
     }
 
@@ -117,26 +161,25 @@ public class UpcomingBook extends Model implements Parcelable {
         return amazonLink;
     }
 
-    public String getPublishedDate() {
+    public Date getPublishedDate() {
         return publishedDate;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getGrLink() {
+        return grLink;
     }
 
-    public static final Creator<UpcomingBook> CREATOR = new Creator<UpcomingBook>() {
-        @Override
-        public UpcomingBook createFromParcel(Parcel in) {
-            return new UpcomingBook(in);
-        }
+    public String getDescription() {
+        return description;
+    }
 
-        @Override
-        public UpcomingBook[] newArray(int size) {
-            return new UpcomingBook[size];
-        }
-    };
+    public int getNoOfPages() {
+        return noOfPages;
+    }
+
+    public String getPublisher() {
+        return publisher;
+    }
 
     @Override
     public String toString() {
@@ -149,7 +192,11 @@ public class UpcomingBook extends Model implements Parcelable {
         sb.append(", bigImageUrl='").append(bigImageUrl).append('\'');
         sb.append(", rating=").append(rating);
         sb.append(", amazonLink='").append(amazonLink).append('\'');
-        sb.append(", publishedDate='").append(publishedDate).append('\'');
+        sb.append(", grLink='").append(grLink).append('\'');
+        sb.append(", publishedDate=").append(publishedDate);
+        sb.append(", description='").append(description).append('\'');
+        sb.append(", noOfPages=").append(noOfPages);
+        sb.append(", publisher='").append(publisher).append('\'');
         sb.append('}');
         return sb.toString();
     }

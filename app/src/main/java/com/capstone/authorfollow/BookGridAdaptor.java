@@ -46,7 +46,6 @@ public class BookGridAdaptor extends RecyclerView.Adapter<BookGridAdaptor.ViewHo
     @Override
     public void onBindViewHolder(final BookGridAdaptor.ViewHolder holder, int position) {
         final UpcomingBook bookData = bookList.get(position);
-        String sortType = PreferenceUtil.getPrefs(holder.mSortTypeValueTextView.getContext(), Constants.SORT_BY_KEY, Constants.SORT_BY_POPULARITY_DESC);
         mSelectedPosition = position;
         holder.mGridItemContainer.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -57,8 +56,8 @@ public class BookGridAdaptor extends RecyclerView.Adapter<BookGridAdaptor.ViewHo
 
         //holder.mGridItemContainer.setContentDescription(holder.mGridItemContainer.getContext().getString(R.string.a11y_movie_title, bookData.originalTitle));
 
-        holder.mReleaseDateTextView.setText(bookData.getAuthor());
-        //holder.mReleaseDateTextView.setContentDescription(holder.mReleaseDateTextView.getContext().getString(R.string.a11y_movie_year, String.valueOf(mCalendar.get(Calendar.YEAR))));
+        holder.authorTextView.setText(bookData.getAuthor());
+        holder.authorTextView.setContentDescription(holder.authorTextView.getContext().getString(R.string.a11y_book_author, bookData.getAuthor()));
         checkIfPresentInWishlist(holder, bookData);
         /*
         if (Constants.SORT_BY_POPULARITY_DESC.equals(sortType)) {
@@ -120,11 +119,8 @@ public class BookGridAdaptor extends RecyclerView.Adapter<BookGridAdaptor.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.grid_item_sort_type_text_view)
-        TextView mSortTypeValueTextView;
-
-        @Bind(R.id.grid_item_release_date_text_view)
-        TextView mReleaseDateTextView;
+        @Bind(R.id.grid_item_author_text_view)
+        TextView authorTextView;
 
         @Bind(R.id.grid_item_poster_image_view)
         ImageView mMovieImageView;

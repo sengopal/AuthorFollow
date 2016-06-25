@@ -35,6 +35,10 @@ public interface Services {
         //https://www.goodreads.com/api/author_url/Orson%20Scott%20Card?key=We96lMbi0gpn6i9oHKd0dA
         @GET("/api/author_url/{name}")
         Call<AuthorInfo> getAuthorId(@Path("name") String name, @Query("key") String key);
+
+        //https://www.goodreads.com/api/author_url/Orson%20Scott%20Card?key=We96lMbi0gpn6i9oHKd0dA
+        @GET("/book/isbn/{isbn}")
+        Call<GRBookResponse> getBookInfo(@Path("isbn") String isbn, @Query("key") String key);
     }
 
     public interface AuthorAlertService {
@@ -95,6 +99,34 @@ public interface Services {
         @Attribute(name = "id")
         @org.simpleframework.xml.Path("author")
         public String authorId;
+    }
+
+    @Root(name = "GoodreadsResponse", strict = false)
+    public static class GRBookResponse {
+        @Element(name = "id")
+        @org.simpleframework.xml.Path("book")
+        public String grBookId;
+
+        @Element(name = "publisher")
+        @org.simpleframework.xml.Path("book")
+        public String publisher;
+
+        @Element(name = "description", data = true)
+        @org.simpleframework.xml.Path("book")
+        public String description;
+
+        @Element(name = "average_rating")
+        @org.simpleframework.xml.Path("book")
+        public float rating;
+
+        @Element(name = "url", data = true)
+        @org.simpleframework.xml.Path("book")
+        public String grLinkUrl;
+
+        @Element(name = "image_url", data = true)
+        @org.simpleframework.xml.Path("book")
+        public String grImageUrl;
+
     }
 
     @Root(name = "GoodreadsResponse", strict = false)
