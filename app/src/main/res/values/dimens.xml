@@ -26,9 +26,8 @@
     <dimen name="text_padding_16dp">16sp</dimen>
     <dimen name="text_margin_top">16sp</dimen>
     <dimen name="detail_poster_image_width">140dp</dimen>
-    <dimen name="detail_poster_image_height">160dp</dimen>
-    <dimen name="detail_poster_image_margin_left">30dp</dimen>
-    <dimen name="detail_poster_image_margin_bottom">20dp</dimen>
+    <dimen name="detail_poster_image_height">220dp</dimen>
+    <dimen name="detail_poster_image_margin_left">10dp</dimen>
     <dimen name="appBarSize">250dp</dimen>
     <dimen name="detail_card_view_margin_left">16dp</dimen>
     <dimen name="detail_card_view_margin_right">16dp</dimen>
@@ -37,4 +36,8 @@
     <dimen name="fab_margin">10dp</dimen>
     <dimen name="drawer_header_height">200dp</dimen>
     <dimen name="card_margin">16dp</dimen>
+    <dimen name="backdrop_height_book_detail">256dp</dimen>
+    <dimen name="video_thumbnail_width">100dp</dimen>
+    <dimen name="video_thumbnail_height">80dp</dimen>
+    <dimen name="spacing_small">4dp</dimen>
 </resources>

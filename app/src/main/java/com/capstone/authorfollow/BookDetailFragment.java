@@ -2,11 +2,14 @@ package com.capstone.authorfollow;
 
 import android.app.Fragment;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.capstone.authorfollow.SimilarBooksAdapter.OnBookClickListener;
+import com.capstone.authorfollow.data.types.DBHelper;
 import com.capstone.authorfollow.data.types.UpcomingBook;
 import com.squareup.picasso.Picasso;
 
@@ -32,7 +37,7 @@ import butterknife.ButterKnife;
  * in two-pane mode (on tablets) or a {@link BookDetailActivity}
  * on handsets.
  */
-public class BookDetailFragment extends Fragment {
+public class BookDetailFragment extends Fragment implements OnBookClickListener {
     public static final String DETAIL_FRAGMENT_TAG = "BKFRAGTAG";
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MMMM dd, yyyy");
     private static final String TAG = "MovieDetailFragment";
@@ -83,9 +88,13 @@ public class BookDetailFragment extends Fragment {
     @Bind(R.id.inc_no_selected_movie)
     View noSelectedView;
 
+    @Bind(R.id.recycler_view_similar_movies_list)
+    RecyclerView similarBooksListView;
+
     private Bitmap mPosterImage;
     private boolean mTwoPane;
     private UpcomingBook upcomingBook;
+    private SimilarBooksAdapter similarBooksAdapter;
 
     public BookDetailFragment() {
     }
@@ -124,7 +133,21 @@ public class BookDetailFragment extends Fragment {
         }
         setupViewElements();
 
+        initSimilarBooks();
+
         return rootView;
+    }
+
+    private void initSimilarBooks() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        similarBooksAdapter = new SimilarBooksAdapter(BookDetailFragment.this);
+        similarBooksListView.setLayoutManager(linearLayoutManager);
+        similarBooksListView.setAdapter(similarBooksAdapter);
+        similarBooksListView.addItemDecoration(new SpacingItemDecoration((int) getResources().getDimension(R.dimen.spacing_small)));
+        if(null!=upcomingBook) {
+            similarBooksAdapter.setSimilarMovies(DBHelper.getBooksFromAuthor(upcomingBook.getAuthor()));
+        }
     }
 
     private void setupViewElements() {
@@ -156,7 +179,7 @@ public class BookDetailFragment extends Fragment {
         isbnTextView.setText(upcomingBook.getIsbn());
 
         //TODO: Build the description
-        mDetailMovieSynopsis.setText(upcomingBook.getDescription());
+        mDetailMovieSynopsis.setText(android.text.Html.fromHtml(upcomingBook.getDescription()));
         mDetailMovieSynopsis.setContentDescription(getString(R.string.a11y_movie_overview, upcomingBook.getDescription()));
 
         if (null != upcomingBook.getPublishedDate()) {
@@ -183,6 +206,33 @@ public class BookDetailFragment extends Fragment {
             }
             mFavoriteFab.setLayoutParams(p);
             mFavoriteFab.setVisibility(showFab ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    @Override
+    public void onClick(UpcomingBook bookData, Bitmap posterBitmap, View view){
+        Bundle args = new Bundle();
+        args.putParcelable(Constants.BOOK_DETAIL, bookData);
+        args.putParcelable(Constants.POSTER_IMAGE_KEY, posterBitmap);
+        BookDetailFragment fragment = new BookDetailFragment();
+        fragment.setArguments(args);
+        getFragmentManager().beginTransaction().replace(R.id.book_detail_container, fragment, BookDetailFragment.DETAIL_FRAGMENT_TAG).addToBackStack(null).commit();
+    }
+
+    private class SpacingItemDecoration extends RecyclerView.ItemDecoration {
+        private int spacing;
+
+        public SpacingItemDecoration(int spacing) {
+            this.spacing = spacing;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            int position = parent.getChildAdapterPosition(view);
+            if (position == 0) {
+                return;
+            }
+            outRect.left = spacing;
         }
     }
 }

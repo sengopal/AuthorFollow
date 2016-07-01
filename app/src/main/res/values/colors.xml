@@ -9,4 +9,5 @@
     <color name="colorTextWhite">#FFFFFF</color>
     <color name="colorDivider">#B6B6B6</color>
     <color name="titleTextColor">@android:color/white</color>
+    <color name="grey">#9e9e9e</color>
 </resources>

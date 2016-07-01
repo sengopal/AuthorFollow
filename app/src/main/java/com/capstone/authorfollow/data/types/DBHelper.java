@@ -53,4 +53,9 @@ public class DBHelper {
         List<WishlistBook> list = new Select().from(WishlistBook.class).where("gr_api_id = ?", grApiId).execute();
         return (null!=list && !list.isEmpty());
     }
+
+    public static List<UpcomingBook> getBooksFromAuthor(String author) {
+        List<UpcomingBook> list = new Select().from(UpcomingBook.class).where("author = ?", author).execute();
+        return list;
+    }
 }
