@@ -24,4 +24,9 @@
     <string name="find_out_more">Find out more at </string>
     <string name="not_rated">Not Rated</string>
     <string name="similar">Similar books</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="wishlist">Wishlist</string>
+    <string name="remove_from_wishlist_title">Remove from wishlist?</string>
+    <string name="book_added_to_wishlist">Book added to wishlist successfully</string>
+    <string name="book_already_added">Book already added to wishlist</string>
 </resources>

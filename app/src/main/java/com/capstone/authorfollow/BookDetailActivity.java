@@ -1,7 +1,5 @@
 package com.capstone.authorfollow;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -22,11 +20,9 @@ public class BookDetailActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         if (savedInstanceState == null) {
-            FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             Bundle arguments = new Bundle();
             arguments.putParcelable(Constants.BOOK_DETAIL, getIntent().getParcelableExtra(Constants.BOOK_DETAIL));
-            fragmentTransaction.add(R.id.book_detail_container, BookDetailFragment.newInstance(arguments)).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.book_detail_container, BookDetailFragment.newInstance(arguments)).commit();
         }
     }
 

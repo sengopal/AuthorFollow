@@ -95,6 +95,22 @@ public class UpcomingBook extends Model implements Parcelable {
         publishedDate = new Date(in.readLong());
     }
 
+    public UpcomingBook(UpcomingBook upcomingBook) {
+        this.grApiId = upcomingBook.grApiId;
+        this.title = upcomingBook.title;
+        this.author = upcomingBook.author;
+        this.isbn = upcomingBook.isbn;
+        this.smallImageUrl = upcomingBook.smallImageUrl;
+        this.bigImageUrl = upcomingBook.bigImageUrl;
+        this.amazonLink = upcomingBook.amazonLink;
+        this.publishedDate = upcomingBook.publishedDate;
+        this.rating = upcomingBook.rating;
+        this.grLink = upcomingBook.grLink;
+        this.description = upcomingBook.description;
+        //this.noOfPages = grBookInfo.noOfPages;
+        this.publisher = upcomingBook.publisher;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(grApiId);

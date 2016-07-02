@@ -8,9 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DBHelper {
-    public static List<WishlistBook> wishlist() {
+    public static List<UpcomingBook> wishlist() {
         List<WishlistBook> list = new Select().from(WishlistBook.class).execute();
-        return (null != list ? list : new ArrayList<WishlistBook>());
+        if(null!=list){
+            ArrayList<UpcomingBook> booksList= new ArrayList<>();
+            for(WishlistBook wishlistBook : list){
+                booksList.add((UpcomingBook) wishlistBook);
+            }
+            return booksList;
+        }
+        return new ArrayList<UpcomingBook>();
     }
 
     public static List<UpcomingBook> upcoming() {
@@ -57,5 +64,10 @@ public class DBHelper {
     public static List<UpcomingBook> getBooksFromAuthor(String author) {
         List<UpcomingBook> list = new Select().from(UpcomingBook.class).where("author = ?", author).execute();
         return list;
+    }
+
+    public static void addToWishlist(UpcomingBook upcomingBook) {
+        WishlistBook wishlistBook = new WishlistBook(upcomingBook);
+        wishlistBook.save();
     }
 }

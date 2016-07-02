@@ -1,6 +1,5 @@
 package com.capstone.authorfollow;
 
-import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -8,6 +7,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -94,9 +96,11 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener 
     private Bitmap mPosterImage;
     private boolean mTwoPane;
     private UpcomingBook upcomingBook;
+    private boolean isAddedToWishlist;
     private SimilarBooksAdapter similarBooksAdapter;
 
     public BookDetailFragment() {
+
     }
 
     public static Fragment newInstance(Bundle bundle) {
@@ -135,7 +139,27 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener 
 
         initSimilarBooks();
 
+        setupFabButton();
+
         return rootView;
+    }
+
+    private void setupFabButton() {
+        if (null!=upcomingBook && DBHelper.checkInWishlist(upcomingBook.getGrApiId())) {
+            isAddedToWishlist = true;
+            mFavoriteFab.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_favorite_white_36px));
+        }
+        mFavoriteFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isAddedToWishlist) {
+                    DBHelper.addToWishlist(upcomingBook);
+                    mFavoriteFab.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_favorite_white_36px));
+                }
+                String message = isAddedToWishlist ? getString(R.string.book_already_added) : getString(R.string.book_added_to_wishlist);
+                Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void initSimilarBooks() {
@@ -145,7 +169,7 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener 
         similarBooksListView.setLayoutManager(linearLayoutManager);
         similarBooksListView.setAdapter(similarBooksAdapter);
         similarBooksListView.addItemDecoration(new SpacingItemDecoration((int) getResources().getDimension(R.dimen.spacing_small)));
-        if(null!=upcomingBook) {
+        if (null != upcomingBook) {
             similarBooksAdapter.setSimilarMovies(DBHelper.getBooksFromAuthor(upcomingBook.getAuthor()));
         }
     }
@@ -210,7 +234,7 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener 
     }
 
     @Override
-    public void onClick(UpcomingBook bookData, Bitmap posterBitmap, View view){
+    public void onClick(UpcomingBook bookData, Bitmap posterBitmap, View view) {
         Bundle args = new Bundle();
         args.putParcelable(Constants.BOOK_DETAIL, bookData);
         args.putParcelable(Constants.POSTER_IMAGE_KEY, posterBitmap);

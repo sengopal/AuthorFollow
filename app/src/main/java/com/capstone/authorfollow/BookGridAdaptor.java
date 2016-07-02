@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.capstone.authorfollow.data.types.DBHelper;
 import com.capstone.authorfollow.data.types.UpcomingBook;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -25,16 +24,19 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class BookGridAdaptor extends RecyclerView.Adapter<BookGridAdaptor.ViewHolder> {
-
+    private final BookSelectionListener callback;
     private List<UpcomingBook> bookList = new ArrayList<>();
     private int mDefaultColor;
-    private BookListFragment.Callback mCallback;
     private int mSelectedPosition;
 
-    public BookGridAdaptor(List<UpcomingBook> bookList, int mDefaultColor, BookListFragment.Callback mCallback) {
+    public interface BookSelectionListener {
+        void onItemSelected(UpcomingBook bookData, Bitmap posterBitmap, View view);
+    }
+
+    public BookGridAdaptor(BookSelectionListener callback, List<UpcomingBook> bookList, int mDefaultColor) {
+        this.callback = callback;
         this.bookList = bookList;
         this.mDefaultColor = mDefaultColor;
-        this.mCallback = mCallback;
     }
 
     @Override
@@ -50,7 +52,7 @@ public class BookGridAdaptor extends RecyclerView.Adapter<BookGridAdaptor.ViewHo
         holder.mGridItemContainer.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Bitmap posterBitmap = ((BitmapDrawable) holder.mMovieImageView.getDrawable()).getBitmap();
-                mCallback.onItemSelected(bookData, posterBitmap, holder.mMovieImageView);
+                callback.onItemSelected(bookData, posterBitmap, holder.mMovieImageView);
             }
         });
 
@@ -58,7 +60,6 @@ public class BookGridAdaptor extends RecyclerView.Adapter<BookGridAdaptor.ViewHo
 
         holder.authorTextView.setText(bookData.getAuthor());
         holder.authorTextView.setContentDescription(holder.authorTextView.getContext().getString(R.string.a11y_book_author, bookData.getAuthor()));
-        checkIfPresentInWishlist(holder, bookData);
         /*
         if (Constants.SORT_BY_POPULARITY_DESC.equals(sortType)) {
             setIconForType(holder, sortType, bookData.popularity);
@@ -69,7 +70,7 @@ public class BookGridAdaptor extends RecyclerView.Adapter<BookGridAdaptor.ViewHo
         }*/
 
         final RelativeLayout container = holder.mMovieTitleContainer;
-        String imageUrl = (null!=bookData.getSmallImageUrl()) ? bookData.getSmallImageUrl() : bookData.getBigImageUrl();
+        String imageUrl = (null != bookData.getSmallImageUrl()) ? bookData.getSmallImageUrl() : bookData.getBigImageUrl();
         Picasso.with(holder.mMovieImageView.getContext()).load(imageUrl).placeholder(R.drawable.ic_movie_placeholder).
                 into(holder.mMovieImageView, new Callback() {
                     @Override
@@ -88,12 +89,6 @@ public class BookGridAdaptor extends RecyclerView.Adapter<BookGridAdaptor.ViewHo
                     }
                 });
 
-    }
-
-    private void checkIfPresentInWishlist(ViewHolder holder, UpcomingBook book) {
-        if (DBHelper.checkInWishlist(book.getGrApiId())) {
-            holder.mSortTypeIconImageView.setImageResource(R.drawable.ic_star_dark);
-        }
     }
 
     @Override

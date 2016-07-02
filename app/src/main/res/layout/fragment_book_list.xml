@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/fragment_main">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/main_movie_sw_refresh_layout"
@@ -11,23 +12,20 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/book_list_recycle_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:clipToPadding="false"
-                android:paddingTop="?attr/actionBarSize"
-                android:visibility="visible"
-                tools:context="com.capstone.authorfollow.BookListActivity"
-                tools:listitem="@layout/book_list_content" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/book_list_recycle_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:clipToPadding="false"
+            android:paddingTop="?attr/actionBarSize"
+            android:visibility="visible"
+            tools:context="com.capstone.authorfollow.BookListActivity"
+            tools:listitem="@layout/book_list_content" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <include layout="@layout/inc_no_connection"/>
+    <include layout="@layout/inc_no_connection" />
 
 </FrameLayout>
-
-
-

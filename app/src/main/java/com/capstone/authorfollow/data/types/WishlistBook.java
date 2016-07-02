@@ -1,11 +1,10 @@
 package com.capstone.authorfollow.data.types;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.BaseColumns;
 
-import com.activeandroid.Model;
-import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
 /**
@@ -13,67 +12,24 @@ import com.activeandroid.annotation.Table;
  */
 
 @Table(name = "WishlistBook", id = BaseColumns._ID)
-public class WishlistBook extends Model implements Parcelable {
-    @Column(name = "gr_api_id", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
-    private String grApiId;
+public class WishlistBook extends UpcomingBook implements Parcelable {
+    public static final String CONTENT_AUTHORITY = "com.capstone.authorfollow/wishlistbook";
+    public static final Uri CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
-    @Column(name = "title")
-    private String title;
-
-    @Column(name = "image")
-    private String image;
-
-    @Column(name = "author")
-    private String author;
-
-    @Column(name = "gr_author_key")
-    private String grAuthorKey;
-
-    @Column(name = "isbn")
-    private String isbn;
-
-    @Column(name = "smallImageUrl")
-    private String smallImageUrl;
-
-    @Column(name = "bigImageUrl")
-    private String bigImageUrl;
-
-    @Column(name = "rating")
-    private int rating;
-
-    @Column(name = "grLink")
-    private String grLink;
-
-    @Column(name = "publishedDate")
-    private String publishedDate;
+    public WishlistBook() {
+    }
 
     protected WishlistBook(Parcel in) {
-        grApiId = in.readString();
-        title = in.readString();
-        image = in.readString();
-        author = in.readString();
-        grAuthorKey = in.readString();
-        isbn = in.readString();
-        smallImageUrl = in.readString();
-        bigImageUrl = in.readString();
-        rating = in.readInt();
-        grLink = in.readString();
-        publishedDate = in.readString();
+        super(in);
+    }
+
+    public WishlistBook(UpcomingBook upcomingBook) {
+        super(upcomingBook);
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(grApiId);
-        dest.writeString(title);
-        dest.writeString(image);
-        dest.writeString(author);
-        dest.writeString(grAuthorKey);
-        dest.writeString(isbn);
-        dest.writeString(smallImageUrl);
-        dest.writeString(bigImageUrl);
-        dest.writeInt(rating);
-        dest.writeString(grLink);
-        dest.writeString(publishedDate);
+        super.writeToParcel(dest, flags);
     }
 
     @Override
@@ -92,7 +48,4 @@ public class WishlistBook extends Model implements Parcelable {
             return new WishlistBook[size];
         }
     };
-
-    public WishlistBook() {
-    }
 }

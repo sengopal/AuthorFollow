@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import butterknife.Bind;
 
 public abstract class BaseActivity extends AppCompatActivity {
+
     @Nullable
     @Bind(R.id.toolbar)
     Toolbar mToolbar;

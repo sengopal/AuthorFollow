@@ -1,10 +1,12 @@
 package com.capstone.authorfollow;
 
+import android.database.ContentObserver;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -24,18 +26,14 @@ import com.capstone.authorfollow.BookGridAdaptor.BookSelectionListener;
 import com.capstone.authorfollow.data.types.DBHelper;
 import com.capstone.authorfollow.data.types.NetworkResponse;
 import com.capstone.authorfollow.data.types.UpcomingBook;
-import com.capstone.authorfollow.service.BooksDataLoader;
-import com.capstone.authorfollow.service.Services;
-import com.capstone.authorfollow.service.Services.AmazonService;
+import com.capstone.authorfollow.data.types.WishlistBook;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit2.Retrofit;
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
-public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, LoaderManager.LoaderCallbacks<NetworkResponse<List<UpcomingBook>>> {
+public class WishlistFragment extends Fragment {
 
     public void setSelectedPosition(int selectedPosition) {
         this.selectedPosition = selectedPosition;
@@ -44,26 +42,24 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Bind(R.id.book_list_recycle_view)
     RecyclerView mPopularGridView;
 
-    @Bind(R.id.main_movie_sw_refresh_layout)
-    SwipeRefreshLayout mSwipeRefreshLayout;
-
     @Bind(R.id.main_grid_empty_container)
     LinearLayout mNoMovieContainer;
 
+    @Bind(R.id.main_movie_sw_refresh_layout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
     private List<UpcomingBook> bookList;
     private BookGridAdaptor bookGridAdaptor;
-    private AmazonService mService;
 
     private int selectedPosition;
 
-    public static BookListFragment newInstance() {
-        BookListFragment fragment = new BookListFragment();
-        return fragment;
-    }
+    private Handler handler;
 
-    private void initRetrofit() {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Services.AMAZON_URL).addConverterFactory(SimpleXmlConverterFactory.create()).build();
-        mService = retrofit.create(AmazonService.class);
+    private ContentObserver contentObserver;
+
+    public static WishlistFragment newInstance() {
+        WishlistFragment fragment = new WishlistFragment();
+        return fragment;
     }
 
     @Override
@@ -74,8 +70,6 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        initRetrofit();
-        getLoaderManager().initLoader(0, null, this);
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -86,18 +80,42 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
         //outState.putInt(Constants.POSITION_KEY, bookGridAdaptor.getSelectedPosition());
     }
 
+    private void registerObserver() {
+        handler = new Handler();
+        contentObserver = new ContentObserver(handler) {
+            @Override
+            public void onChange(boolean selfChange) {
+                bookList.clear();
+                bookList.addAll(DBHelper.wishlist());
+                bookGridAdaptor.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChange(boolean selfChange, Uri uri) {
+                onChange(selfChange);
+            }
+        };
+        getContext().getContentResolver().registerContentObserver(WishlistBook.CONTENT_URI, true, contentObserver);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unregisterObserver();
+    }
+
+    private void unregisterObserver() {
+        getContext().getContentResolver().unregisterContentObserver(contentObserver);
+        contentObserver = null;
+        handler = null;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_book_list, container, false);
         ButterKnife.bind(this, view);
 
         int gridColumns = getResources().getInteger(R.integer.grid_columns);
-        int progressViewOffsetStart = getResources().getInteger(R.integer.progress_view_offset_start);
-        int progressViewOffsetEnd = getResources().getInteger(R.integer.progress_view_offset_end);
-
-        mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimaryDark);
-        mSwipeRefreshLayout.setProgressViewOffset(true, progressViewOffsetStart, progressViewOffsetEnd);
-
         final GridLayoutManager mLayoutManager = new GridLayoutManager(getActivity(), gridColumns);
 
         mPopularGridView.setLayoutManager(mLayoutManager);
@@ -107,18 +125,12 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
         int colorPrimaryLight = ContextCompat.getColor(getActivity(), (R.color.colorPrimaryTransparent));
         mPopularGridView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
 
-        bookList = DBHelper.upcoming();
+        bookList = DBHelper.wishlist();
 
         bookGridAdaptor = new BookGridAdaptor((BookSelectionListener) getActivity(), bookList, colorPrimaryLight);
-        //TODO Mladen stage 2
-//        if (savedInstanceState != null && savedInstanceState.containsKey(Constants.POSITION_KEY)) {
-//            bookGridAdaptor.setSelectedPosition(savedInstanceState.getInt(Constants.POSITION_KEY));
-//        }
-
         mPopularGridView.setAdapter(bookGridAdaptor);
-        //bookGridAdaptor.addBooks(DBHelper.upcoming());
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-        mSwipeRefreshLayout.setRefreshing(true);
+        mSwipeRefreshLayout.setRefreshing(false);
+        registerObserver();
         return view;
     }
 
@@ -176,54 +188,15 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
         });
     }
 
-
-    private void restartLoader() {
-        getLoaderManager().restartLoader(0, null, this);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
     }
 
-    @Override
-    public Loader<NetworkResponse<List<UpcomingBook>>> onCreateLoader(int id, Bundle args) {
-        List<String> followList = DBHelper.getFollowList();
-        return new BooksDataLoader(getActivity(), mService, followList);
-    }
-
-    @Override
     public void onLoadFinished(Loader<NetworkResponse<List<UpcomingBook>>> loader, NetworkResponse<List<UpcomingBook>> response) {
-        mSwipeRefreshLayout.setRefreshing(false);
-        if(response.isSuccess()) {
-            bookList = response.getResponse();
-            bookGridAdaptor.addBooks(bookList);
-            Snackbar.make(getView(), R.string.movies_data_loaded, Snackbar.LENGTH_LONG).show();
-        }else{
-            Snackbar.make(getView(), response.getErrorMessage(), Snackbar.LENGTH_LONG).show();
-            if (!CommonUtil.isConnected(getActivity())) {
-                //toggleShowEmptyMovie(false);
-            }
-        }
-        //If there are no upcoming books for selected Authors
-        mNoMovieContainer.setVisibility((bookList == null || bookList.isEmpty()) ? View.VISIBLE : View.GONE);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<NetworkResponse<List<UpcomingBook>>> loader) {
-        mSwipeRefreshLayout.setRefreshing(false);
-        bookGridAdaptor.addBooks(null);
-    }
-
-    @Override
-    public void onRefresh() {
-        restartLoader();
+        bookGridAdaptor.addBooks(bookList);
+        Snackbar.make(getView(), R.string.movies_data_loaded, Snackbar.LENGTH_LONG).show();
     }
 
     static class SpacesItemDecoration extends RecyclerView.ItemDecoration {
