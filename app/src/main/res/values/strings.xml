@@ -29,4 +29,6 @@
     <string name="remove_from_wishlist_title">Remove from wishlist?</string>
     <string name="book_added_to_wishlist">Book added to wishlist successfully</string>
     <string name="book_already_added">Book already added to wishlist</string>
+    <string name="search_in_wishlist">Search in wishlist ...</string>
+    <string name="search_in_upcoming">Search in upcoming books</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.capstone.authorfollow;
 
+import android.content.Context;
 import android.database.ContentObserver;
 import android.graphics.Rect;
 import android.net.Uri;
@@ -12,12 +13,14 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 
 import com.capstone.authorfollow.BookGridAdaptor.BookSelectionListener;
@@ -170,22 +173,29 @@ public class WishlistFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.list_menu, menu);
         MenuItem searchMenuItem = menu.findItem(R.id.action_search);
-        /*
-        SearchView mSearchView = (SearchView) searchMenuItem.getActionView();
+        final SearchView mSearchView = (SearchView) searchMenuItem.getActionView();
+        mSearchView.setQueryHint(getString(R.string.search_in_wishlist));
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(getActivity().getApplicationContext(), "Submitted:" + query, Toast.LENGTH_LONG).show();
+                bookGridAdaptor.addBooks(DBHelper.filterWishlist(query));
+                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(mSearchView.getWindowToken(), 0);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Toast.makeText(getActivity().getApplicationContext(), newText, Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
+        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                bookGridAdaptor.addBooks(DBHelper.wishlist());
                 return false;
             }
         });
-        */
     }
 
     @Override

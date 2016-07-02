@@ -173,6 +173,7 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
         inflater.inflate(R.menu.list_menu, menu);
         MenuItem searchMenuItem = menu.findItem(R.id.action_search);
         final SearchView mSearchView = (SearchView) searchMenuItem.getActionView();
+        mSearchView.setQueryHint(getString(R.string.search_in_upcoming));
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
