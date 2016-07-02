@@ -12,7 +12,6 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.capstone.authorfollow.BookGridAdaptor.BookSelectionListener;
 import com.capstone.authorfollow.data.types.DBHelper;
@@ -172,6 +170,7 @@ public class WishlistFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.list_menu, menu);
         MenuItem searchMenuItem = menu.findItem(R.id.action_search);
+        /*
         SearchView mSearchView = (SearchView) searchMenuItem.getActionView();
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -186,6 +185,7 @@ public class WishlistFragment extends Fragment {
                 return false;
             }
         });
+        */
     }
 
     @Override

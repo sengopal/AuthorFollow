@@ -70,4 +70,13 @@ public class DBHelper {
         WishlistBook wishlistBook = new WishlistBook(upcomingBook);
         wishlistBook.save();
     }
+
+    public static List<UpcomingBook> filterUpcoming(String query) {
+        List<UpcomingBook> list = new ArrayList<>();
+        List<UpcomingBook> booksByAuthor = new Select().from(UpcomingBook.class).where("author like ?", "%" + query + "%").execute();
+        list.addAll(booksByAuthor);
+        List<UpcomingBook> booksByTitle = new Select().from(UpcomingBook.class).where("title like ?", "%" + query + "%").execute();
+        list.addAll(booksByTitle);
+        return (null!=list ? list : new ArrayList<UpcomingBook>());
+    }
 }

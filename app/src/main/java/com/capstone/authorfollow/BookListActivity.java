@@ -4,6 +4,7 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,18 +46,15 @@ public class BookListActivity extends BaseActivity implements BookGridAdaptor.Bo
     @Bind(R.id.nav_view)
     NavigationView navigationView;
 
+    @Nullable
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_list);
         ButterKnife.bind(this);
-        setToolbar(false, true);
-
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
-
-        setupDrawerContent(navigationView);
 
         if (findViewById(R.id.book_detail_container) != null) {
             // The detail container view will be present only in the large-screen layouts (res/values-w900dp).
@@ -72,7 +71,8 @@ public class BookListActivity extends BaseActivity implements BookGridAdaptor.Bo
         initFragments(savedInstanceState);
         setupViewPager();
         tabLayout.setupWithViewPager(viewPager);
-
+        setToolbar(mToolbar, false, true);
+        setupDrawerContent(navigationView);
     }
 
     private void initFragments(Bundle savedInstanceState) {
