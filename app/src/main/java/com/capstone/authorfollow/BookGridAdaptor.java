@@ -120,8 +120,8 @@ public class BookGridAdaptor extends RecyclerView.Adapter<BookGridAdaptor.ViewHo
         @Bind(R.id.grid_item_poster_image_view)
         ImageView mMovieImageView;
 
-        @Bind(R.id.grid_item_sort_type_image_view)
-        ImageView mSortTypeIconImageView;
+//        @Bind(R.id.grid_item_sort_type_image_view)
+//        ImageView mSortTypeIconImageView;
 
         @Bind(R.id.grid_item_title_container)
         RelativeLayout mMovieTitleContainer;

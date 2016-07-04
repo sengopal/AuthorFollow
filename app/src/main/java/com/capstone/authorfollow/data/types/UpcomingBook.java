@@ -3,14 +3,20 @@ package com.capstone.authorfollow.data.types;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.capstone.authorfollow.service.Services;
+import com.capstone.authorfollow.service.Services.BrowseNode;
 import com.capstone.authorfollow.service.Services.Item;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import static com.capstone.authorfollow.CommonUtil.isEmpty;
 
@@ -20,6 +26,7 @@ import static com.capstone.authorfollow.CommonUtil.isEmpty;
 
 @Table(name = "UpcomingBook", id = BaseColumns._ID)
 public class UpcomingBook extends Model implements Parcelable {
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     @Column(name = "gr_api_id", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private String grApiId;
 
@@ -59,6 +66,9 @@ public class UpcomingBook extends Model implements Parcelable {
     @Column(name = "publisher")
     private String publisher;
 
+    @Column(name = "aspects")
+    private String genres;
+
     public UpcomingBook(){
 
     }
@@ -77,6 +87,7 @@ public class UpcomingBook extends Model implements Parcelable {
         this.description = grBookInfo.description;
         //this.noOfPages = grBookInfo.noOfPages;
         this.publisher = grBookInfo.publisher;
+        this.genres = extractCSGenres(item.browseNodeList);
     }
 
     protected UpcomingBook(Parcel in) {
@@ -92,23 +103,12 @@ public class UpcomingBook extends Model implements Parcelable {
         description = in.readString();
         noOfPages = in.readInt();
         publisher = in.readString();
-        publishedDate = new Date(in.readLong());
-    }
-
-    public UpcomingBook(UpcomingBook upcomingBook) {
-        this.grApiId = upcomingBook.grApiId;
-        this.title = upcomingBook.title;
-        this.author = upcomingBook.author;
-        this.isbn = upcomingBook.isbn;
-        this.smallImageUrl = upcomingBook.smallImageUrl;
-        this.bigImageUrl = upcomingBook.bigImageUrl;
-        this.amazonLink = upcomingBook.amazonLink;
-        this.publishedDate = upcomingBook.publishedDate;
-        this.rating = upcomingBook.rating;
-        this.grLink = upcomingBook.grLink;
-        this.description = upcomingBook.description;
-        //this.noOfPages = grBookInfo.noOfPages;
-        this.publisher = upcomingBook.publisher;
+        genres = in.readString();
+        try {
+            publishedDate = DATE_FORMAT.parse(in.readString());
+        } catch (ParseException e) {
+            Log.e(UpcomingBook.class.getSimpleName(),"ParseException", e);
+        }
     }
 
     @Override
@@ -125,7 +125,8 @@ public class UpcomingBook extends Model implements Parcelable {
         dest.writeString(description);
         dest.writeInt(noOfPages);
         dest.writeString(publisher);
-        dest.writeLong(publishedDate.getTime());
+        dest.writeString(genres);
+        dest.writeString(DATE_FORMAT.format(publishedDate));
     }
 
     @Override
@@ -144,6 +145,37 @@ public class UpcomingBook extends Model implements Parcelable {
             return new UpcomingBook[size];
         }
     };
+
+    private String extractCSGenres(List<BrowseNode> browseNodeList) {
+        StringBuilder sb = new StringBuilder();
+        if(null!=browseNodeList){
+            for(BrowseNode node : browseNodeList){
+                sb.append(node.name).append(",");
+            }
+        }
+        return sb.toString();
+    }
+
+    public UpcomingBook(UpcomingBook upcomingBook) {
+        this.grApiId = upcomingBook.grApiId;
+        this.title = upcomingBook.title;
+        this.author = upcomingBook.author;
+        this.isbn = upcomingBook.isbn;
+        this.smallImageUrl = upcomingBook.smallImageUrl;
+        this.bigImageUrl = upcomingBook.bigImageUrl;
+        this.amazonLink = upcomingBook.amazonLink;
+        this.publishedDate = upcomingBook.publishedDate;
+        this.rating = upcomingBook.rating;
+        this.grLink = upcomingBook.grLink;
+        this.description = upcomingBook.description;
+        //this.noOfPages = grBookInfo.noOfPages;
+        this.publisher = upcomingBook.publisher;
+        this.genres = upcomingBook.genres;
+    }
+
+    public String getGenres() {
+        return genres;
+    }
 
     public String getGrApiId() {
         return grApiId;
@@ -213,6 +245,7 @@ public class UpcomingBook extends Model implements Parcelable {
         sb.append(", description='").append(description).append('\'');
         sb.append(", noOfPages=").append(noOfPages);
         sb.append(", publisher='").append(publisher).append('\'');
+        sb.append(", genres='").append(genres).append('\'');
         sb.append('}');
         return sb.toString();
     }

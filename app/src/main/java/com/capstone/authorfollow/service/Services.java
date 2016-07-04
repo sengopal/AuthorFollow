@@ -92,6 +92,16 @@ public interface Services {
         @Element(name="PublicationDate")
         @org.simpleframework.xml.Path("ItemAttributes")
         public Date pubDate;
+
+        @ElementList(name="BrowseNodes", inline = true)
+        @org.simpleframework.xml.Path("BrowseNodes")
+        public List<BrowseNode> browseNodeList;
+    }
+
+    @Root(name="BrowseNode", strict = false)
+    public static class BrowseNode{
+        @Element(name="Name")
+        public String name;
     }
 
     @Root(name = "GoodreadsResponse", strict = false)
@@ -111,7 +121,7 @@ public interface Services {
         @org.simpleframework.xml.Path("book")
         public String publisher;
 
-        @Element(name = "description", data = true)
+        @Element(name = "description", data = true, required = false)
         @org.simpleframework.xml.Path("book")
         public String description;
 

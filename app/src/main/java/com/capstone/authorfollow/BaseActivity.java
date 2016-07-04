@@ -17,9 +17,8 @@ public abstract class BaseActivity extends AppCompatActivity {
             mToolbar.setTitle(getTitle());
             setSupportActionBar(mToolbar);
             final ActionBar ab = getSupportActionBar();
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(showHomeUp);
             getSupportActionBar().setDisplayShowTitleEnabled(showTitle);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
         }
     }
 }

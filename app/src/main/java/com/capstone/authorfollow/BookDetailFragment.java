@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.capstone.authorfollow.GenresListAdapter.OnGenreClickListener;
 import com.capstone.authorfollow.SimilarBooksAdapter.OnBookClickListener;
 import com.capstone.authorfollow.data.types.DBHelper;
 import com.capstone.authorfollow.data.types.UpcomingBook;
@@ -39,7 +40,7 @@ import butterknife.ButterKnife;
  * in two-pane mode (on tablets) or a {@link BookDetailActivity}
  * on handsets.
  */
-public class BookDetailFragment extends Fragment implements OnBookClickListener {
+public class BookDetailFragment extends Fragment implements OnBookClickListener, OnGenreClickListener {
     public static final String DETAIL_FRAGMENT_TAG = "BKFRAGTAG";
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MMMM dd, yyyy");
     private static final String TAG = "MovieDetailFragment";
@@ -93,11 +94,15 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener 
     @Bind(R.id.recycler_view_similar_movies_list)
     RecyclerView similarBooksListView;
 
+    @Bind(R.id.recycler_view_genres_list)
+    RecyclerView genresListView;
+
     private Bitmap mPosterImage;
     private boolean mTwoPane;
     private UpcomingBook upcomingBook;
     private boolean isAddedToWishlist;
     private SimilarBooksAdapter similarBooksAdapter;
+    private GenresListAdapter genresListAdapter;
 
     public BookDetailFragment() {
 
@@ -135,13 +140,26 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener 
             BookDetailActivity detailActivity = (BookDetailActivity) getActivity();
             detailActivity.setToolbar(mToolbar, true, true);
         }
+
         setupViewElements();
-
+        initGenresList();
         initSimilarBooks();
-
         setupFabButton();
 
         return rootView;
+    }
+
+    private void initGenresList() {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        genresListAdapter = new GenresListAdapter(BookDetailFragment.this);
+        genresListView.setLayoutManager(linearLayoutManager);
+        genresListView.setAdapter(genresListAdapter);
+        genresListView.addItemDecoration(new SpacingItemDecoration((int) getResources().getDimension(R.dimen.spacing_small)));
+        genresListView.setHasFixedSize(true);
+        if(null!=upcomingBook){
+            genresListAdapter.setGenres(upcomingBook.getGenres());
+        }
     }
 
     private void setupFabButton() {
@@ -155,6 +173,7 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener 
                 if (!isAddedToWishlist) {
                     DBHelper.addToWishlist(upcomingBook);
                     mFavoriteFab.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_favorite_white_36px));
+                    isAddedToWishlist = true;
                 }
                 String message = isAddedToWishlist ? getString(R.string.book_already_added) : getString(R.string.book_added_to_wishlist);
                 Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
@@ -241,6 +260,11 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener 
         BookDetailFragment fragment = new BookDetailFragment();
         fragment.setArguments(args);
         getFragmentManager().beginTransaction().replace(R.id.book_detail_container, fragment, BookDetailFragment.DETAIL_FRAGMENT_TAG).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void onGenreClick(String genre) {
+
     }
 
     private class SpacingItemDecoration extends RecyclerView.ItemDecoration {

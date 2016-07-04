@@ -71,7 +71,8 @@ public class BookListActivity extends BaseActivity implements BookGridAdaptor.Bo
         initFragments(savedInstanceState);
         setupViewPager();
         tabLayout.setupWithViewPager(viewPager);
-        setToolbar(mToolbar, false, true);
+        setToolbar(mToolbar, true, true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
         setupDrawerContent(navigationView);
     }
 

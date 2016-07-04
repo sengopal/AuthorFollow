@@ -124,7 +124,7 @@ public class BooksDataLoader extends AsyncTaskLoader<NetworkResponse<List<Upcomi
         params.put("AssociateTag", "sengopalme-20");
         params.put("Service", "AWSECommerceService");
         params.put("Operation", "ItemSearch");
-        params.put("ResponseGroup", "ItemAttributes,Images");
+        params.put("ResponseGroup", "BrowseNodes,ItemAttributes,Images");
         params.put("SearchIndex", "Books");
         params.put("ItemPage", String.valueOf(pageNum));
         //params.put("BrowseNode", "154606011");

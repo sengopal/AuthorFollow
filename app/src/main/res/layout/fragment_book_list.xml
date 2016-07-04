@@ -19,7 +19,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:clipToPadding="false"
-            android:paddingTop="?attr/actionBarSize"
+            android:paddingTop="@dimen/grid_top_padding"
             android:visibility="visible"
             tools:context="com.capstone.authorfollow.BookListActivity"
             tools:listitem="@layout/book_list_content" />
