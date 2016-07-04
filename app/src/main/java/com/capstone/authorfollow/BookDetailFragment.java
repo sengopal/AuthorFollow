@@ -117,7 +117,7 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(false);
+        setHasOptionsMenu(true);
         if (null != getArguments() && getArguments().containsKey(Constants.BOOK_DETAIL)) {
             //TODO: use a Loader to load content from a content provider.
             upcomingBook = getArguments().getParcelable(Constants.BOOK_DETAIL);
