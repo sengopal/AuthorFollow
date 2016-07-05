@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="40dp"
         android:clickable="true"
-        android:src="@drawable/ic_favorite_border_white_24px"
+        android:src="@drawable/ic_check_white_36px"
         app:elevation="4dp"
         app:layout_anchor="@id/appbar"
         app:layout_anchorGravity="bottom|right|end" />

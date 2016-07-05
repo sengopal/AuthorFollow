@@ -168,14 +168,14 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
     private void setupFabButton() {
         if (null != upcomingBook && DBHelper.checkInWishlist(upcomingBook.getGrApiId())) {
             isAddedToWishlist = true;
-            mFavoriteFab.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_favorite_white_36px));
         }
+        syncFabButtonState();
+
         mFavoriteFab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!isAddedToWishlist) {
                     DBHelper.addToWishlist(upcomingBook);
-                    mFavoriteFab.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_favorite_white_36px));
                     isAddedToWishlist = true;
                     Snackbar.make(getView(), getString(R.string.book_added_to_wishlist), Snackbar.LENGTH_LONG).show();
                 } else {
@@ -187,13 +187,20 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
                         public void onClick(DialogInterface dialog, int which) {
                             DBHelper.removeFromWishlist(upcomingBook.getGrApiId());
                             Snackbar.make(getView(), getString(R.string.book_removed_from_wishlist), Snackbar.LENGTH_LONG).show();
+                            isAddedToWishlist = false;
+                            syncFabButtonState();
                         }
                     });
                     builder.setNegativeButton(getString(R.string.confirmation_cancel), null);
                     builder.show();
                 }
+                syncFabButtonState();
             }
         });
+    }
+
+    private void syncFabButtonState() {
+        mFavoriteFab.setImageDrawable(ContextCompat.getDrawable(getContext(), isAddedToWishlist ? R.drawable.ic_close_white_36px : R.drawable.ic_check_white_36px));
     }
 
     private void initSimilarBooks() {
