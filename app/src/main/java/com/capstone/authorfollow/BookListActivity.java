@@ -2,6 +2,7 @@ package com.capstone.authorfollow;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -27,7 +30,7 @@ import butterknife.ButterKnife;
 
 import static com.capstone.authorfollow.BookDetailFragment.newInstance;
 
-public class BookListActivity extends BaseActivity implements BookGridAdaptor.BookSelectionListener {
+public class BookListActivity extends AppCompatActivity implements BookGridAdaptor.BookSelectionListener {
     private static final String TAG = "MainActivity";
 
     private boolean mTwoPane;
@@ -42,6 +45,7 @@ public class BookListActivity extends BaseActivity implements BookGridAdaptor.Bo
 
     @Bind(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle drawerToggle;
 
     @Bind(R.id.nav_view)
     NavigationView navigationView;
@@ -71,9 +75,19 @@ public class BookListActivity extends BaseActivity implements BookGridAdaptor.Bo
         initFragments(savedInstanceState);
         setupViewPager();
         tabLayout.setupWithViewPager(viewPager);
-        setToolbar(mToolbar, true, true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
         setupDrawerContent(navigationView);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        drawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
     }
 
     private void initFragments(Bundle savedInstanceState) {
@@ -90,6 +104,9 @@ public class BookListActivity extends BaseActivity implements BookGridAdaptor.Bo
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
+        mToolbar.setTitle(getTitle());
+        setSupportActionBar(mToolbar);
+        drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override

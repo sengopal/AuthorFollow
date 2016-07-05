@@ -1,5 +1,6 @@
 package com.capstone.authorfollow;
 
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -10,12 +11,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -157,26 +160,38 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
         genresListView.setAdapter(genresListAdapter);
         genresListView.addItemDecoration(new SpacingItemDecoration((int) getResources().getDimension(R.dimen.spacing_small)));
         genresListView.setHasFixedSize(true);
-        if(null!=upcomingBook){
+        if (null != upcomingBook) {
             genresListAdapter.setGenres(upcomingBook.getGenres());
         }
     }
 
     private void setupFabButton() {
-        if (null!=upcomingBook && DBHelper.checkInWishlist(upcomingBook.getGrApiId())) {
+        if (null != upcomingBook && DBHelper.checkInWishlist(upcomingBook.getGrApiId())) {
             isAddedToWishlist = true;
             mFavoriteFab.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_favorite_white_36px));
         }
-        mFavoriteFab.setOnClickListener(new View.OnClickListener() {
+        mFavoriteFab.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!isAddedToWishlist) {
                     DBHelper.addToWishlist(upcomingBook);
                     mFavoriteFab.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_favorite_white_36px));
                     isAddedToWishlist = true;
+                    Snackbar.make(getView(), getString(R.string.book_added_to_wishlist), Snackbar.LENGTH_LONG).show();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AppCompatAlertDialogStyle);
+                    builder.setTitle(getString(R.string.wishlist_remove_confirm_title));
+                    builder.setMessage(getString(R.string.wishlist_remove_confirm_msg));
+                    builder.setPositiveButton(getString(R.string.confirmation_yes), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            DBHelper.removeFromWishlist(upcomingBook.getGrApiId());
+                            Snackbar.make(getView(), getString(R.string.book_removed_from_wishlist), Snackbar.LENGTH_LONG).show();
+                        }
+                    });
+                    builder.setNegativeButton(getString(R.string.confirmation_cancel), null);
+                    builder.show();
                 }
-                String message = isAddedToWishlist ? getString(R.string.book_already_added) : getString(R.string.book_added_to_wishlist);
-                Snackbar.make(getView(), message, Snackbar.LENGTH_LONG).show();
             }
         });
     }

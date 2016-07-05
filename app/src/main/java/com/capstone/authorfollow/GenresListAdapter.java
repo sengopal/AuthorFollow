@@ -8,9 +8,10 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class GenresListAdapter extends RecyclerView.Adapter<GenresListAdapter.ViewHolder> {
-    private ArrayList<String> genres;
+    private List<String> genres;
     private OnGenreClickListener listener;
 
     public GenresListAdapter(BookDetailFragment fragment) {
@@ -19,7 +20,7 @@ public class GenresListAdapter extends RecyclerView.Adapter<GenresListAdapter.Vi
     }
 
     public void setGenres(String csGenres) {
-        this.genres.addAll(Arrays.asList(csGenres.split(",")));
+        this.genres = Arrays.asList(csGenres.split(","));
     }
 
     @Override

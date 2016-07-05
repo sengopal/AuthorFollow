@@ -94,4 +94,8 @@ public class DBHelper {
 
         return booksList;
     }
+
+    public static void removeFromWishlist(String grApiId) {
+        new Delete().from(WishlistBook.class).where("gr_api_id = ?", grApiId).execute();
+    }
 }

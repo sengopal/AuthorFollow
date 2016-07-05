@@ -28,7 +28,13 @@
     <string name="wishlist">Wishlist</string>
     <string name="remove_from_wishlist_title">Remove from wishlist?</string>
     <string name="book_added_to_wishlist">Book added to wishlist successfully</string>
-    <string name="book_already_added">Book already added to wishlist</string>
     <string name="search_in_wishlist">Search in wishlist ...</string>
     <string name="search_in_upcoming">Search in upcoming books</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="wishlist_remove_confirm_title">Wishlist</string>
+    <string name="wishlist_remove_confirm_msg">Do you really want to remove this book from the wishlist?</string>
+    <string name="confirmation_yes">Confirm</string>
+    <string name="confirmation_cancel">Cancel</string>
+    <string name="book_removed_from_wishlist">Book removed from wishlist</string>
 </resources>
