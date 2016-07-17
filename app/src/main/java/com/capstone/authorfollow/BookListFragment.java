@@ -92,9 +92,9 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
         super.onResume();
         String preLoadedSearch = getActivity().getIntent().getStringExtra(Constants.GENRE_SEARCH);
         if (null != mSearchView) {
-            mSearchView.setQuery(preLoadedSearch, true);
             //To ensure that the search text is shown
             mSearchView.setIconified(false);
+            mSearchView.setQuery(preLoadedSearch, true);
         }
     }
 
@@ -203,6 +203,7 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
             @Override
             public boolean onClose() {
                 bookGridAdaptor.addBooks(DBHelper.upcoming());
+                mSearchView.clearFocus();
                 return false;
             }
         });
