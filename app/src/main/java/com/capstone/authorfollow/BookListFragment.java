@@ -261,7 +261,9 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     public void resetSearchBar() {
         //Calls Close on search
-        mSearchView.setIconified(true);
+        if(null!=mSearchView) {
+            mSearchView.setIconified(true);
+        }
     }
 
     static class SpacesItemDecoration extends RecyclerView.ItemDecoration {

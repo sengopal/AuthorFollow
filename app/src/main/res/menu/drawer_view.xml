@@ -4,10 +4,23 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_dashboard"
-            android:title="Home" />
+            android:icon="@drawable/home_icon"
+            android:title="@string/nav_home" />
+        <item
+            android:id="@+id/nav_author"
+            android:icon="@drawable/quill"
+            android:title="@string/nav_author" />
+        <item
+            android:id="@+id/nav_goodread"
+            android:icon="@drawable/goodreads_logo"
+            android:title="@string/nav_goodread" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/settings"
+            android:title="@string/nav_settings" />
     </group>
 
+    <!--
     <item android:title="Sub items">
         <menu>
             <item
@@ -15,5 +28,6 @@
                 android:title="Sub item 1" />
         </menu>
     </item>
+    -->
 
 </menu>
