@@ -25,4 +25,5 @@ public class Constants {
     public static final String POSTER_IMAGE_VIEW_KEY = "posterImageView";
 
     public static final DateFormat STD_DATE_FORMAT = new SimpleDateFormat("MMMM dd, yyyy");
+    public static final String GENRE_SEARCH = "genre";
 }

@@ -1,3 +1,12 @@
+deleting Author - Just delete books for Author_id = ? in DB
+add author - do refresh for that author only
+
+
+    Firebase
+    make search with genre
+    Add share provider for detail page
+
+
 == TODO
 Step 1: Search Author using author alerts
 Step 2: When a author is being added
@@ -6,6 +15,11 @@ Step 2: When a author is being added
     Gives ID
   https://www.goodreads.com/author/show/1077326?format=xml&key=We96lMbi0gpn6i9oHKd0dA
   Store: AuthorFollow as Name, Image Url
+
+
+Change icon in Book Detail Page
+Color palatte for detail page
+Add Author image to book detail
 
 
 Replace Goodreads and Amazon links on the detail page
@@ -29,12 +43,6 @@ Request has expired. Timestamp date is 2016-06-23T02:21:41Z.
 </Error>
 <RequestId>ed2d30d6-e075-47b8-9cf2-8bfd5df0d42f</RequestId>
 </ItemSearchErrorResponse>
-
-5. <de.hdodenhof.circleimageview.CircleImageView
-       android:id="@+id/avatar"
-       android:layout_width="@dimen/list_item_avatar_size"
-       android:layout_height="@dimen/list_item_avatar_size"
-       android:layout_marginRight="16dp"/>
 
 Firebase - Login and Save Data for user
 

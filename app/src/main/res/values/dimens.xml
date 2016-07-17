@@ -42,4 +42,5 @@
     <dimen name="spacing_small">4dp</dimen>
     <dimen name="radius_corner">16dp</dimen>
     <dimen name="grid_top_padding">2dp</dimen>
+    <dimen name="author_img_avatar_size">96dp</dimen>
 </resources>

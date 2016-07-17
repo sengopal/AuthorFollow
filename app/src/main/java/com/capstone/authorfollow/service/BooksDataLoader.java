@@ -59,6 +59,9 @@ public class BooksDataLoader extends AsyncTaskLoader<NetworkResponse<List<Upcomi
             AuthorDetailHelper.addAuthorToFollowList("James Rollins");
             AuthorDetailHelper.addAuthorToFollowList("J.K.Rowling");
             this.authors = DBHelper.getFollowList();
+        }else{
+            //Refresh the Author Info
+            AuthorDetailHelper.refreshAuthorData(this.authors);
         }
 
         try {
@@ -66,7 +69,7 @@ public class BooksDataLoader extends AsyncTaskLoader<NetworkResponse<List<Upcomi
                 booksList.addAll(getBookInfoForAuthor(author));
             }
             DBHelper.updateUpcoming(booksList);
-            return new NetworkResponse<List<UpcomingBook>>(null, booksList);
+            return new NetworkResponse<>(null, booksList);
         } catch (Exception e) {
             Log.e(TAG, "IOException occurred in loadInBackground()", e);
             return new NetworkResponse<List<UpcomingBook>>(e.getMessage(), booksList);

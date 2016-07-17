@@ -14,8 +14,8 @@ public class GenresListAdapter extends RecyclerView.Adapter<GenresListAdapter.Vi
     private List<String> genres;
     private OnGenreClickListener listener;
 
-    public GenresListAdapter(BookDetailFragment fragment) {
-        this.listener = (OnGenreClickListener) fragment;
+    public GenresListAdapter(OnGenreClickListener listener) {
+        this.listener = listener;
         this.genres = new ArrayList<>();
     }
 

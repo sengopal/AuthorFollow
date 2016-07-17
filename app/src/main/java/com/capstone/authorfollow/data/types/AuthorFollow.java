@@ -45,14 +45,24 @@ public class AuthorFollow extends Model implements Parcelable {
         imageUrl = in.readString();
     }
 
-    public AuthorFollow(String grAuthorKey, AuthorDetail detail) {
-        this.grAuthorKey = grAuthorKey;
+    public AuthorFollow(AuthorDetail detail) {
+        this.grAuthorKey = detail.id;
         this.name = detail.name;
         this.imageUrl = detail.imageUrl;
         this.grPageLink = detail.grPageLink;
         this.homeTown = detail.homeTown;
         this.fanCount = detail.fanCount;
         this.desc = detail.desc;
+    }
+
+    public void refresh(AuthorDetail detail) {
+        if(null!=detail) {
+            this.imageUrl = detail.imageUrl;
+            this.grPageLink = detail.grPageLink;
+            this.homeTown = detail.homeTown;
+            this.fanCount = detail.fanCount;
+            this.desc = detail.desc;
+        }
     }
 
     @Override
@@ -102,4 +112,5 @@ public class AuthorFollow extends Model implements Parcelable {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
 }

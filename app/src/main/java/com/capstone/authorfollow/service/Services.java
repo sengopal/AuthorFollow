@@ -141,6 +141,10 @@ public interface Services {
 
     @Root(name = "GoodreadsResponse", strict = false)
     public static class AuthorDetail{
+        @Element(name = "id")
+        @org.simpleframework.xml.Path("author")
+        public String id;
+
         @Element(name = "name")
         @org.simpleframework.xml.Path("author")
         public String name;

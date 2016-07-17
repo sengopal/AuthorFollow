@@ -1,9 +1,12 @@
 package com.capstone.authorfollow;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.ContentObserver;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -24,8 +27,8 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.capstone.authorfollow.GenresListAdapter.OnGenreClickListener;
 import com.capstone.authorfollow.SimilarBooksAdapter.OnBookClickListener;
+import com.capstone.authorfollow.data.types.AuthorFollow;
 import com.capstone.authorfollow.data.types.DBHelper;
 import com.capstone.authorfollow.data.types.UpcomingBook;
 import com.squareup.picasso.Picasso;
@@ -36,6 +39,8 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 /**
  * A fragment representing a single UpcomingBook detail screen.
@@ -43,7 +48,7 @@ import butterknife.ButterKnife;
  * in two-pane mode (on tablets) or a {@link BookDetailActivity}
  * on handsets.
  */
-public class BookDetailFragment extends Fragment implements OnBookClickListener, OnGenreClickListener {
+public class BookDetailFragment extends Fragment implements OnBookClickListener, GenresListAdapter.OnGenreClickListener {
     public static final String DETAIL_FRAGMENT_TAG = "BKFRAGTAG";
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MMMM dd, yyyy");
     private static final String TAG = "MovieDetailFragment";
@@ -100,12 +105,20 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
     @Bind(R.id.recycler_view_genres_list)
     RecyclerView genresListView;
 
+    @Bind(R.id.author_avatar)
+    CircleImageView authorAvatarImgView;
+    ;
+
     private Bitmap mPosterImage;
     private boolean mTwoPane;
     private UpcomingBook upcomingBook;
     private boolean isAddedToWishlist;
     private SimilarBooksAdapter similarBooksAdapter;
     private GenresListAdapter genresListAdapter;
+
+    private Handler handler;
+    private ContentObserver contentObserver;
+    private String authorUri;
 
     public BookDetailFragment() {
 
@@ -148,7 +161,6 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
         initGenresList();
         initSimilarBooks();
         setupFabButton();
-
         return rootView;
     }
 
@@ -229,6 +241,11 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
         String imageUrl = upcomingBook.getBigImageUrl();
         Picasso.with(getActivity()).load(imageUrl).into(mBackdropMovie);
         Picasso.with(getActivity()).load(upcomingBook.getSmallImageUrl()).placeholder(R.drawable.ic_movie_placeholder).into(mPosterMovie);
+        AuthorFollow authorInfo = DBHelper.getAuthorInfo(upcomingBook.getAuthor());
+        if (null != authorInfo) {
+            Picasso.with(getActivity()).load(authorInfo.getImageUrl()).placeholder(R.drawable.ic_movie_placeholder).into(authorAvatarImgView);
+        }
+
 
         String rating = upcomingBook.getRating() > 0 ? String.format("%2.1f", upcomingBook.getRating()) : getString(R.string.not_rated);
 
@@ -286,7 +303,10 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
 
     @Override
     public void onGenreClick(String genre) {
-
+        Intent intent = new Intent(getContext(), BookListActivity.class);
+        intent.putExtra(Constants.GENRE_SEARCH, genre);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 
     private class SpacingItemDecoration extends RecyclerView.ItemDecoration {

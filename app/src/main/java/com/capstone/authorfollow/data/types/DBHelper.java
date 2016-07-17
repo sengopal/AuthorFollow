@@ -10,14 +10,14 @@ import java.util.List;
 public class DBHelper {
     public static List<UpcomingBook> wishlist() {
         List<WishlistBook> list = new Select().from(WishlistBook.class).execute();
-        if(null!=list){
-            ArrayList<UpcomingBook> booksList= new ArrayList<>();
-            for(WishlistBook wishlistBook : list){
-                booksList.add((UpcomingBook) wishlistBook);
+        if (null != list) {
+            ArrayList<UpcomingBook> booksList = new ArrayList<>();
+            for (WishlistBook wishlistBook : list) {
+                booksList.add(wishlistBook);
             }
             return booksList;
         }
-        return new ArrayList<UpcomingBook>();
+        return new ArrayList<>();
     }
 
     public static List<UpcomingBook> upcoming() {
@@ -25,8 +25,8 @@ public class DBHelper {
         return (null != list ? list : new ArrayList<UpcomingBook>());
     }
 
-    public static AuthorFollow getAuthorInfo(long authorId) {
-        List<AuthorFollow> list = new Select().from(AuthorFollow.class).where("_Id = ?", authorId).execute();
+    public static AuthorFollow getAuthorInfo(String author) {
+        List<AuthorFollow> list = new Select().from(AuthorFollow.class).where("name = ?", author).execute();
         return (null != list && !list.isEmpty()) ? list.get(0) : null;
     }
 
@@ -58,7 +58,7 @@ public class DBHelper {
 
     public static boolean checkInWishlist(String grApiId) {
         List<WishlistBook> list = new Select().from(WishlistBook.class).where("gr_api_id = ?", grApiId).execute();
-        return (null!=list && !list.isEmpty());
+        return (null != list && !list.isEmpty());
     }
 
     public static List<UpcomingBook> getBooksFromAuthor(String author) {
@@ -77,7 +77,9 @@ public class DBHelper {
         list.addAll(booksByAuthor);
         List<UpcomingBook> booksByTitle = new Select().from(UpcomingBook.class).where("title like ?", "%" + query + "%").execute();
         list.addAll(booksByTitle);
-        return (null!=list ? list : new ArrayList<UpcomingBook>());
+        List<UpcomingBook> booksByGenre = new Select().from(UpcomingBook.class).where("aspects like ?", "%" + query + "%").execute();
+        list.addAll(booksByGenre);
+        return (null != list ? list : new ArrayList<UpcomingBook>());
     }
 
     public static List<UpcomingBook> filterWishlist(String query) {
@@ -87,8 +89,8 @@ public class DBHelper {
         List<WishlistBook> booksByTitle = new Select().from(WishlistBook.class).where("title like ?", "%" + query + "%").execute();
         list.addAll(booksByTitle);
 
-        ArrayList<UpcomingBook> booksList= new ArrayList<>();
-        for(WishlistBook wishlistBook : list){
+        ArrayList<UpcomingBook> booksList = new ArrayList<>();
+        for (WishlistBook wishlistBook : list) {
             booksList.add((UpcomingBook) wishlistBook);
         }
 

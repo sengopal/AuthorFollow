@@ -60,6 +60,7 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
     private List<UpcomingBook> bookList;
     private BookGridAdaptor bookGridAdaptor;
     private AmazonService mService;
+    private SearchView mSearchView;
 
     private int selectedPosition;
 
@@ -84,6 +85,17 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
         initRetrofit();
         getLoaderManager().initLoader(0, null, this);
         super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        String preLoadedSearch = getActivity().getIntent().getStringExtra(Constants.GENRE_SEARCH);
+        if (null != mSearchView) {
+            mSearchView.setQuery(preLoadedSearch, true);
+            //To ensure that the search text is shown
+            mSearchView.setIconified(false);
+        }
     }
 
     @Override
@@ -128,7 +140,6 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
 //        }
 
         mPopularGridView.setAdapter(bookGridAdaptor);
-        //bookGridAdaptor.addBooks(DBHelper.upcoming());
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setRefreshing(true);
         return view;
@@ -172,15 +183,15 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.list_menu, menu);
         MenuItem searchMenuItem = menu.findItem(R.id.action_search);
-        final SearchView mSearchView = (SearchView) searchMenuItem.getActionView();
+        mSearchView = (SearchView) searchMenuItem.getActionView();
         mSearchView.setQueryHint(getString(R.string.search_in_upcoming));
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 bookGridAdaptor.addBooks(DBHelper.filterUpcoming(query));
-                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(mSearchView.getWindowToken(), 0);
-                return false;
+                return true;
             }
 
             @Override
@@ -222,11 +233,11 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public void onLoadFinished(Loader<NetworkResponse<List<UpcomingBook>>> loader, NetworkResponse<List<UpcomingBook>> response) {
         mSwipeRefreshLayout.setRefreshing(false);
-        if(response.isSuccess()) {
+        if (response.isSuccess()) {
             bookList = response.getResponse();
             bookGridAdaptor.addBooks(bookList);
             Snackbar.make(getView(), R.string.movies_data_loaded, Snackbar.LENGTH_LONG).show();
-        }else{
+        } else {
             Snackbar.make(getView(), response.getErrorMessage(), Snackbar.LENGTH_LONG).show();
             if (!CommonUtil.isConnected(getActivity())) {
                 //toggleShowEmptyMovie(false);
