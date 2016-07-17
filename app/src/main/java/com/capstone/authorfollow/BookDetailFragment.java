@@ -170,7 +170,7 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
         genresListAdapter = new GenresListAdapter(BookDetailFragment.this);
         genresListView.setLayoutManager(linearLayoutManager);
         genresListView.setAdapter(genresListAdapter);
-        genresListView.addItemDecoration(new SpacingItemDecoration((int) getResources().getDimension(R.dimen.spacing_small)));
+        genresListView.addItemDecoration(new CloseSpacingItemDecoration((int) getResources().getDimension(R.dimen.spacing_small)));
         genresListView.setHasFixedSize(true);
         if (null != upcomingBook) {
             genresListAdapter.setGenres(upcomingBook.getGenres());
@@ -323,6 +323,24 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
                 return;
             }
             outRect.left = spacing;
+        }
+    }
+
+    private class CloseSpacingItemDecoration extends RecyclerView.ItemDecoration {
+        private int spacing;
+
+        public CloseSpacingItemDecoration(int spacing) {
+            this.spacing = spacing;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            int position = parent.getChildAdapterPosition(view);
+            if (position == 0) {
+                return;
+            }
+            outRect.left = 0;
+            outRect.right = 0;
         }
     }
 }

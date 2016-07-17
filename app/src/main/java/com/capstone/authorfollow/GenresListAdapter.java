@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.capstone.authorfollow.CommonUtil.isEmpty;
+
 public class GenresListAdapter extends RecyclerView.Adapter<GenresListAdapter.ViewHolder> {
     private List<String> genres;
     private OnGenreClickListener listener;
@@ -20,7 +22,9 @@ public class GenresListAdapter extends RecyclerView.Adapter<GenresListAdapter.Vi
     }
 
     public void setGenres(String csGenres) {
-        this.genres = Arrays.asList(csGenres.split(","));
+        if(!isEmpty(csGenres)) {
+            this.genres = Arrays.asList(csGenres.split(","));
+        }
     }
 
     @Override

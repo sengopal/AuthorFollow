@@ -1,31 +1,23 @@
 package com.capstone.authorfollow;
 
-import android.content.Context;
 import android.database.ContentObserver;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 
 import com.capstone.authorfollow.BookGridAdaptor.BookSelectionListener;
 import com.capstone.authorfollow.data.types.DBHelper;
-import com.capstone.authorfollow.data.types.NetworkResponse;
 import com.capstone.authorfollow.data.types.UpcomingBook;
 import com.capstone.authorfollow.data.types.WishlistBook;
 
@@ -169,6 +161,7 @@ public class WishlistFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
+    /*
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.list_menu, menu);
@@ -197,6 +190,7 @@ public class WishlistFragment extends Fragment {
             }
         });
     }
+    */
 
     @Override
     public void onDestroy() {
@@ -204,10 +198,11 @@ public class WishlistFragment extends Fragment {
         ButterKnife.unbind(this);
     }
 
+    /*
     public void onLoadFinished(Loader<NetworkResponse<List<UpcomingBook>>> loader, NetworkResponse<List<UpcomingBook>> response) {
         bookGridAdaptor.addBooks(bookList);
         Snackbar.make(getView(), R.string.movies_data_loaded, Snackbar.LENGTH_LONG).show();
-    }
+    }*/
 
     static class SpacesItemDecoration extends RecyclerView.ItemDecoration {
         private int space;

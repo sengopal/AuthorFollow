@@ -259,6 +259,11 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
         restartLoader();
     }
 
+    public void resetSearchBar() {
+        //Calls Close on search
+        mSearchView.setIconified(true);
+    }
+
     static class SpacesItemDecoration extends RecyclerView.ItemDecoration {
         private int space;
 

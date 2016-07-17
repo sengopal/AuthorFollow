@@ -8,7 +8,7 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:textSize="12dp"
-    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginLeft="@dimen/spacing_small"
     android:background="@drawable/round_background"
     android:textColor="@color/colorTextWhite"
-    tools:text="humorous" />
+    tools:text="Humorous" />

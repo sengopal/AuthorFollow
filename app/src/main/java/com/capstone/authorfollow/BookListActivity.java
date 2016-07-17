@@ -107,6 +107,12 @@ public class BookListActivity extends AppCompatActivity implements BookGridAdapt
         adapter.addFragment(wishlistFragment, getString(R.string.wishlist));
         viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
+            @Override
+            public void onPageSelected(int position) {
+                upcomingListFragment.resetSearchBar();
+            }
+        });
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
