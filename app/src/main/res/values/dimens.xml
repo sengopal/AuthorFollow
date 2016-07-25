@@ -42,6 +42,7 @@
     <dimen name="spacing_small">4dp</dimen>
     <dimen name="radius_corner">16dp</dimen>
     <dimen name="grid_top_padding">2dp</dimen>
-    <dimen name="author_img_avatar_size">96dp</dimen>
+    <dimen name="author_img_avatar_size">60dp</dimen>
     <dimen name="genres_left_margin">8dp</dimen>
+    <dimen name="author_list_left_margin">20dp</dimen>
 </resources>

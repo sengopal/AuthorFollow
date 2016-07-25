@@ -91,7 +91,7 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
     public void onResume() {
         super.onResume();
         String preLoadedSearch = getActivity().getIntent().getStringExtra(Constants.GENRE_SEARCH);
-        if (null != mSearchView) {
+        if (null != mSearchView && !CommonUtil.isEmpty(preLoadedSearch)) {
             //To ensure that the search text is shown
             mSearchView.setIconified(false);
             mSearchView.setQuery(preLoadedSearch, true);
@@ -227,7 +227,7 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     @Override
     public Loader<NetworkResponse<List<UpcomingBook>>> onCreateLoader(int id, Bundle args) {
-        List<String> followList = DBHelper.getFollowList();
+        List<String> followList = DBHelper.getFollowListNames();
         return new BooksDataLoader(getActivity(), mService, followList);
     }
 
@@ -261,7 +261,7 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     public void resetSearchBar() {
         //Calls Close on search
-        if(null!=mSearchView) {
+        if (null != mSearchView) {
             mSearchView.setIconified(true);
         }
     }

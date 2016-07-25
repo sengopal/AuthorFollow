@@ -58,7 +58,7 @@ public class BooksDataLoader extends AsyncTaskLoader<NetworkResponse<List<Upcomi
             AuthorDetailHelper.addAuthorToFollowList("James Patterson");
             AuthorDetailHelper.addAuthorToFollowList("James Rollins");
             AuthorDetailHelper.addAuthorToFollowList("J.K.Rowling");
-            this.authors = DBHelper.getFollowList();
+            this.authors = DBHelper.getFollowListNames();
         }else{
             //Refresh the Author Info
             AuthorDetailHelper.refreshAuthorData(this.authors);

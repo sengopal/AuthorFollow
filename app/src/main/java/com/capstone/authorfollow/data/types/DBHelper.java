@@ -30,8 +30,13 @@ public class DBHelper {
         return (null != list && !list.isEmpty()) ? list.get(0) : null;
     }
 
-    public static List<String> getFollowList() {
+    public static List<AuthorFollow> getAuthorsList(){
         List<AuthorFollow> authorList = new Select().from(AuthorFollow.class).execute();
+        return authorList;
+    }
+
+    public static List<String> getFollowListNames() {
+        List<AuthorFollow> authorList = getAuthorsList();
         List<String> nameList = new ArrayList<>();
         if (null != authorList && !authorList.isEmpty()) {
             for (AuthorFollow author : authorList) {
@@ -99,5 +104,9 @@ public class DBHelper {
 
     public static void removeFromWishlist(String grApiId) {
         new Delete().from(WishlistBook.class).where("gr_api_id = ?", grApiId).execute();
+    }
+
+    public static List<AuthorFollow> filterAuthors(String query) {
+        return null;
     }
 }

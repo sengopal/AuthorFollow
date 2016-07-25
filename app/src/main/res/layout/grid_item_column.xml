@@ -18,7 +18,7 @@
         android:layout_height="@dimen/year_height_tag_size"
         android:background="@color/colorPrimaryTransparent"
         android:layout_marginBottom="1dp"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:layout_gravity="center_horizontal|bottom">
 
         <TextView

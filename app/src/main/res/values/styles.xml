@@ -40,10 +40,21 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-
     <style name="MovieDetailContainerTitle" parent="TextAppearance.AppCompat.Headline">
         <item name="android:textColor">@color/colorPrimaryText</item>
         <item name="android:padding">@dimen/text_padding_8dp</item>
+    </style>
+
+    <style name="AuthorListTitle" parent="TextAppearance.AppCompat.Headline">
+        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="android:paddingTop">@dimen/text_padding_8dp</item>
+        <item name="android:paddingBottom">@dimen/text_padding_8dp</item>
+    </style>
+
+    <style name="AuthorListSubTitle" parent="TextAppearance.AppCompat.Subhead">
+        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="MovieDetailContent" parent="TextAppearance.AppCompat.Body2">

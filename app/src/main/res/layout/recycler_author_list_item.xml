@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/author_list_avatar"
+        android:layout_width="@dimen/author_img_avatar_size"
+        android:layout_height="@dimen/author_img_avatar_size"
+        android:layout_gravity="bottom"
+        tools:src="@drawable/ic_movie_placeholder" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_marginLeft="@dimen/author_list_left_margin"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/author_name"
+            style="@style/AuthorListTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_vertical"
+            android:ellipsize="end"
+            android:maxLines="1"
+            tools:text="Author Name" />
+
+        <TextView
+            android:id="@+id/book_count"
+            style="@style/AuthorListSubTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_vertical"
+            android:ellipsize="end"
+            android:maxLines="1"
+            tools:text="3 books" />
+    </LinearLayout>
+</LinearLayout>

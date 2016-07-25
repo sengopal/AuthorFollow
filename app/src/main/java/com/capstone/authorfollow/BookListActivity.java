@@ -2,20 +2,13 @@ package com.capstone.authorfollow;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,10 +21,8 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-import static com.capstone.authorfollow.BookDetailFragment.newInstance;
-
-public class BookListActivity extends AppCompatActivity implements BookGridAdaptor.BookSelectionListener {
-    private static final String TAG = "MainActivity";
+public class BookListActivity extends BaseListActivity implements BookGridAdaptor.BookSelectionListener {
+    private static final String TAG = "BookListActivity";
 
     private boolean mTwoPane;
     private BookListFragment upcomingListFragment;
@@ -42,17 +33,6 @@ public class BookListActivity extends AppCompatActivity implements BookGridAdapt
 
     @Bind(R.id.tab_layout)
     TabLayout tabLayout;
-
-    @Bind(R.id.drawer_layout)
-    DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle drawerToggle;
-
-    @Bind(R.id.nav_view)
-    NavigationView navigationView;
-
-    @Nullable
-    @Bind(R.id.toolbar)
-    Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +46,7 @@ public class BookListActivity extends AppCompatActivity implements BookGridAdapt
             mTwoPane = true;
             if (savedInstanceState == null) {
                 Bundle bundle = new Bundle();
-                getSupportFragmentManager().beginTransaction().add(R.id.book_detail_container, newInstance(bundle), BookDetailFragment.DETAIL_FRAGMENT_TAG).commit();
+                getSupportFragmentManager().beginTransaction().add(R.id.book_detail_container, BookDetailFragment.newInstance(bundle), BookDetailFragment.DETAIL_FRAGMENT_TAG).commit();
             }
         } else {
             mTwoPane = false;
@@ -75,7 +55,14 @@ public class BookListActivity extends AppCompatActivity implements BookGridAdapt
         initFragments(savedInstanceState);
         setupViewPager();
         tabLayout.setupWithViewPager(viewPager);
-        setupDrawerContent(navigationView);
+        setupDrawerContent();
+        syncDrawerState(R.id.nav_home);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        syncDrawerState(R.id.nav_home);
     }
 
     @Override
@@ -84,6 +71,7 @@ public class BookListActivity extends AppCompatActivity implements BookGridAdapt
         setIntent(intent);
     }
 
+    /*
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -95,9 +83,10 @@ public class BookListActivity extends AppCompatActivity implements BookGridAdapt
         super.onConfigurationChanged(newConfig);
         drawerToggle.onConfigurationChanged(newConfig);
     }
-
+*/
     private void initFragments(Bundle savedInstanceState) {
         upcomingListFragment = new BookListFragment();
+        upcomingListFragment.resetSearchBar();
         wishlistFragment = new WishlistFragment();
     }
 
@@ -107,7 +96,7 @@ public class BookListActivity extends AppCompatActivity implements BookGridAdapt
         adapter.addFragment(wishlistFragment, getString(R.string.wishlist));
         viewPager.setOffscreenPageLimit(2);
         viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
+        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
                 upcomingListFragment.resetSearchBar();
@@ -115,6 +104,7 @@ public class BookListActivity extends AppCompatActivity implements BookGridAdapt
         });
     }
 
+    /*
     private void setupDrawerContent(NavigationView navigationView) {
         mToolbar.setTitle(getTitle());
         setSupportActionBar(mToolbar);
@@ -129,7 +119,7 @@ public class BookListActivity extends AppCompatActivity implements BookGridAdapt
                     }
                 });
     }
-
+*/
     @Override
     public void onItemSelected(UpcomingBook bookData, Bitmap posterBitmap, View view) {
         Log.d(TAG, "onItemSelected() returned: " + bookData);

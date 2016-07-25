@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="activity_book_list" type="layout">@layout/activity_book_list_wide</item>
+    <item name="activity_author_list" type="layout">@layout/activity_author_list_wide</item>
     <item name="fragment_book_list" type="layout">@layout/fragment_book_list_wide</item>
 </resources>
