@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
+import com.capstone.authorfollow.BuildConfig;
 import com.capstone.authorfollow.PreferenceUtil;
 import com.capstone.authorfollow.data.types.DBHelper;
 import com.capstone.authorfollow.data.types.NetworkResponse;
@@ -117,12 +118,12 @@ public class BooksDataLoader extends AsyncTaskLoader<NetworkResponse<List<Upcomi
     private GRBookResponse getBookInfoFromGR(String uniqueId) throws IOException {
         Retrofit retrofit = new Retrofit.Builder().baseUrl(Services.GR_URL).addConverterFactory(SimpleXmlConverterFactory.create()).build();
         Services.GoodReadsService goodReadsService = retrofit.create(Services.GoodReadsService.class);
-        GRBookResponse grBookInfo = goodReadsService.getBookInfo(uniqueId,"We96lMbi0gpn6i9oHKd0dA").execute().body();
+        GRBookResponse grBookInfo = goodReadsService.getBookInfo(uniqueId, BuildConfig.GR_API_KEY).execute().body();
         return grBookInfo;
     }
 
     private Map<String, String> buildParams(String author, int noOfForwardDays, int pageNum) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
-        SignedRequestsHelper helper = SignedRequestsHelper.getInstance("webservices.amazon.com", "AKIAIV32PE3ER4WKYHOA", "Flxr9aHgX82CfH/W+yKeWsPWW5m6DMMJegDmAIWB");
+        SignedRequestsHelper helper = SignedRequestsHelper.getInstance("webservices.amazon.com", BuildConfig.AWS_CUST_KEY, BuildConfig.AWS_API_KEY);
         Map<String, String> params = new HashMap<>();
         params.put("AssociateTag", "sengopalme-20");
         params.put("Service", "AWSECommerceService");

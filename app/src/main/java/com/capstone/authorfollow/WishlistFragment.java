@@ -69,7 +69,6 @@ public class WishlistFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //TODO Mladen stage 2
         //outState.putInt(Constants.POSITION_KEY, bookGridAdaptor.getSelectedPosition());
     }
 

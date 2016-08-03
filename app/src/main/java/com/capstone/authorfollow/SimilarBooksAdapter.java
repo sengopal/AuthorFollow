@@ -16,17 +16,12 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by darshan on 21/6/16.
- */
 public class SimilarBooksAdapter extends RecyclerView.Adapter<SimilarBooksAdapter.ViewHolder> {
     private List<UpcomingBook> books;
     private OnBookClickListener listener;
 
-    private final String BASE_URL = "http://image.tmdb.org/t/p/w185";
-
-    public SimilarBooksAdapter(BookDetailFragment fragment) {
-        this.listener = (OnBookClickListener) fragment;
+    public SimilarBooksAdapter(OnBookClickListener listener) {
+        this.listener = listener;
         this.books = new ArrayList<>();
     }
 

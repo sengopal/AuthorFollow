@@ -7,10 +7,6 @@ import android.provider.BaseColumns;
 
 import com.activeandroid.annotation.Table;
 
-/**
- * Created by sengopal on 6/13/16.
- */
-
 @Table(name = "WishlistBook", id = BaseColumns._ID)
 public class WishlistBook extends UpcomingBook implements Parcelable {
     public static final String CONTENT_AUTHORITY = "com.capstone.authorfollow/wishlistbook";

@@ -20,10 +20,6 @@ import java.util.List;
 
 import static com.capstone.authorfollow.CommonUtil.isEmpty;
 
-/**
- * This is the Homescreen list - the upcoming Booklist
- */
-
 @Table(name = "UpcomingBook", id = BaseColumns._ID)
 public class UpcomingBook extends Model implements Parcelable {
     private static final String TAG = UpcomingBook.class.getSimpleName();

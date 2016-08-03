@@ -1,8 +1,5 @@
 package com.capstone.authorfollow.data.types;
 
-/**
- * Created by sengopal on 6/24/16.
- */
 public class NetworkResponse<T> {
     private boolean success;
     private String errorMessage;

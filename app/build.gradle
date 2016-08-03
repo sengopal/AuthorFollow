@@ -17,6 +17,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    buildTypes.each {
+        it.buildConfigField 'String', 'AWS_CUST_KEY', AwsCustKey
+        it.buildConfigField 'String', 'AWS_API_KEY', AwsApiKey
+        it.buildConfigField 'String', 'GR_API_KEY', GrApiKey
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7

@@ -4,9 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-/**
- * Created by Mladen Babic <email>info@mladenbabic.com</email> on 11/1/2015.
- */
 public class PreferenceUtil {
     public static final String PREF_UPCOMING_FWD_DAYS = "prefUpcomingFwdDays";
 

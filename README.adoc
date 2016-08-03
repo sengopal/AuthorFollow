@@ -11,9 +11,9 @@ add author - do refresh for that author only
 Step 1: Search Author using author alerts
 Step 2: When a author is being added
   https://www.goodreads.com/api/index#search.authors
-  https://www.goodreads.com/api/author_url/J.K.Rowling?key=We96lMbi0gpn6i9oHKd0dA
+  https://www.goodreads.com/api/author_url/J.K.Rowling?key=
     Gives ID
-  https://www.goodreads.com/author/show/1077326?format=xml&key=We96lMbi0gpn6i9oHKd0dA
+  https://www.goodreads.com/author/show/1077326?format=xml&key=
   Store: AuthorFollow as Name, Image Url
 
 
@@ -33,7 +33,7 @@ Detail - LargeImage, isbn, author, Goodreads Link, Released on, Description, rat
 2. Add pubdate check to DB.upcoming() query
 3. Change pub date to Date and use Locale for publication date
 4. Add check for system time off value amazon
-http://webservices.amazon.com/onca/xml?AWSAccessKeyId=AKIAIV32PE3ER4WKYHOA&AssociateTag=sengopalme-20&ItemPage=1&Operation=ItemSearch&Power=language%3Aenglish%20and%20not%20keywords-begin%3Akindle%20and%20pubdate%3A%20after%2006-2016%20and%20pubdate%3A%20before%2010-2016%20and%20author%3AJames%20Patterson&ResponseGroup=ItemAttributes%2CImages&SearchIndex=Books&Service=AWSECommerceService&Sort=-publication_date&Timestamp=2016-06-23T02%3A21%3A41Z&Signature=O07Ka4d5ehqZ%2BZBs1qf2s040%2Fqt98X67vtAz4dfgUI8%3D
+
 <ItemSearchErrorResponse xmlns="http://ecs.amazonaws.com/doc/2005-10-05/">
 <Error>
 <Code>RequestExpired</Code>
@@ -142,12 +142,6 @@ alternative - author + id static api cache
 
 
 == AMAZON
-Amazon Associate ID: sengopalme-20
-https://affiliate-program.amazon.com/gp/associates/network/main.html
-https://console.aws.amazon.com/iam/home?rw_useCurrentProtocol=1#security_credential
-AWSAccessKeyId=AKIAIV32PE3ER4WKYHOA
-AWSSecretKey=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
-
 http://docs.aws.amazon.com/AWSECommerceService/latest/DG/EX_SearchingbyAuthor.html
 http://docs.aws.amazon.com/AWSECommerceService/latest/DG/NewReleases.html
 http://docs.aws.amazon.com/AWSECommerceService/latest/DG/rest-signature.html

@@ -14,12 +14,9 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
-/**
- * Created by sengopal on 6/16/16.
- */
 public interface Services {
-    public static final String AMAZON_URL = "http://webservices.amazon.com";
-    public static final String GR_URL = "http://www.goodreads.com";
+    String AMAZON_URL = "http://webservices.amazon.com";
+    String GR_URL = "http://www.goodreads.com";
 
     public interface AmazonService {
         @GET("/onca/xml")
@@ -27,83 +24,74 @@ public interface Services {
     }
 
     public interface GoodReadsService {
-        //https://www.goodreads.com/author/show/1077326?format=xml&key=We96lMbi0gpn6i9oHKd0dA
         @GET("/author/show/{authorId}")
         Call<AuthorDetail> getAuthorDetailById(@Path("authorId") String authorId, @QueryMap Map<String, String> params);
 
-        //https://www.goodreads.com/api/author_url/Orson%20Scott%20Card?key=We96lMbi0gpn6i9oHKd0dA
         @GET("/api/author_url/{name}")
         Call<AuthorInfo> getAuthorId(@Path("name") String name, @Query("key") String key);
 
-        //https://www.goodreads.com/api/author_url/Orson%20Scott%20Card?key=We96lMbi0gpn6i9oHKd0dA
         @GET("/book/isbn/{isbn}")
         Call<GRBookResponse> getBookInfo(@Path("isbn") String isbn, @Query("key") String key);
     }
 
-    public interface AuthorAlertService {
-        //http://authoralerts.com?q=
-        @GET("/autocomplete.jsp")
-        Call<List<String>> getAuthorDetailById(@Query("q") String query);
-    }
-
-    @Root(name="ItemSearchResponse", strict = false)
+    @Root(name = "ItemSearchResponse", strict = false)
     public static class ItemSearchResponse {
         @Element(name = "Items")
         public Items resultItems;
     }
 
-    @Root(name="Items", strict = false)
-    public static class Items{
-        @Element(name="TotalResults", required = false)
+    @Root(name = "Items", strict = false)
+    public static class Items {
+        @Element(name = "TotalResults", required = false)
         public int totalResults;
 
-        @Element(name="TotalPages", required = false)
+        @Element(name = "TotalPages", required = false)
         public int totalPages;
 
         @ElementList(inline = true, required = false)
         public List<Item> itemList;
     }
 
-    @Root(name="Item", strict = false)
+    @Root(name = "Item", strict = false)
     public static class Item {
-        @Element(name="ASIN")
+        @Element(name = "ASIN")
         public String asin;
 
-        @Element(name="DetailPageURL")
+        @Element(name = "DetailPageURL")
         public String amazonUrl;
 
-        @Element(name="URL")
+        @Element(name = "URL")
         @org.simpleframework.xml.Path("MediumImage")
         public String mediumImageUrl;
 
-        @Element(name="URL")
+        @Element(name = "URL")
         @org.simpleframework.xml.Path("LargeImage")
         public String largeImageUrl;
 
-        @ElementList(entry="Author", inline = true, required = false)
+        @ElementList(entry = "Author", inline = true, required = false)
         @org.simpleframework.xml.Path("ItemAttributes")
         public List<String> authorNameList;
 
-        @Element(name="ISBN", required = false)
+        @Element(name = "ISBN", required = false)
         @org.simpleframework.xml.Path("ItemAttributes")
         public String isbn;
 
-        @Element(name="Title")
+        @Element(name = "Title")
         @org.simpleframework.xml.Path("ItemAttributes")
         public String title;
 
-        @Element(name="PublicationDate")
+        @Element(name = "PublicationDate")
         @org.simpleframework.xml.Path("ItemAttributes")
         public String pubDate;
 
-        @ElementList(name="BrowseNodes", inline = true)
+        @ElementList(name = "BrowseNodes", inline = true)
         @org.simpleframework.xml.Path("BrowseNodes")
         public List<BrowseNode> browseNodeList;
     }
 
-    @Root(name="BrowseNode", strict = false)
-    public static class BrowseNode{
-        @Element(name="Name")
+    @Root(name = "BrowseNode", strict = false)
+    public static class BrowseNode {
+        @Element(name = "Name")
         public String name;
     }
 
@@ -143,7 +131,7 @@ public interface Services {
     }
 
     @Root(name = "GoodreadsResponse", strict = false)
-    public static class AuthorDetail{
+    public static class AuthorDetail {
         @Element(name = "id")
         @org.simpleframework.xml.Path("author")
         public String id;
