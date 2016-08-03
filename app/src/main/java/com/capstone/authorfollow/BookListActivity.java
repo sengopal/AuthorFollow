@@ -12,7 +12,6 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.capstone.authorfollow.data.types.UpcomingBook;
 
@@ -151,9 +150,6 @@ public class BookListActivity extends BaseListActivity implements BookGridAdapto
         switch (item.getItemId()) {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
-            case R.id.action_author_add:
-                Toast.makeText(getApplicationContext(), "Add Author", Toast.LENGTH_LONG);
                 return true;
         }
         return super.onOptionsItemSelected(item);

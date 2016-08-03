@@ -45,4 +45,7 @@
     <string name="book_count_text_none">No upcoming books</string>
     <string name="book_count_text_single">book</string>
     <string name="book_count_text">books</string>
+    <string name="author_search_hint">Search for new authors...</string>
+    <string name="author_not_followed_yet">Add author to follow list</string>
+    <string name="author_not_found">Author not found. Try searching with exact name.</string>
 </resources>

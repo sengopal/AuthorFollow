@@ -7,11 +7,8 @@ import android.provider.BaseColumns;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
-import com.capstone.authorfollow.service.Services.AuthorDetail;
+import com.capstone.authorfollow.service.Services;
 
-/**
- * Created by sengopal on 5/8/16.
- */
 @Table(name = "AuthorFollow", id = BaseColumns._ID)
 public class AuthorFollow extends Model implements Parcelable {
     @Column(name = "gr_author_key", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
@@ -35,17 +32,10 @@ public class AuthorFollow extends Model implements Parcelable {
     @Column(name = "desc")
     public String desc;
 
+    @Column(name = "follow_status")
+    public boolean followStatus;
 
-    public AuthorFollow() {
-    }
-
-    protected AuthorFollow(Parcel in) {
-        grAuthorKey = in.readString();
-        name = in.readString();
-        imageUrl = in.readString();
-    }
-
-    public AuthorFollow(AuthorDetail detail) {
+    public AuthorFollow(Services.AuthorDetail detail, boolean followStatus) {
         this.grAuthorKey = detail.id;
         this.name = detail.name;
         this.imageUrl = detail.imageUrl;
@@ -53,9 +43,14 @@ public class AuthorFollow extends Model implements Parcelable {
         this.homeTown = detail.homeTown;
         this.fanCount = detail.fanCount;
         this.desc = detail.desc;
+        this.followStatus = followStatus;
     }
 
-    public void refresh(AuthorDetail detail) {
+    public AuthorFollow() {
+
+    }
+
+    public void refresh(Services.AuthorDetail detail) {
         if(null!=detail) {
             this.imageUrl = detail.imageUrl;
             this.grPageLink = detail.grPageLink;
@@ -65,11 +60,27 @@ public class AuthorFollow extends Model implements Parcelable {
         }
     }
 
+    protected AuthorFollow(Parcel in) {
+        grAuthorKey = in.readString();
+        name = in.readString();
+        imageUrl = in.readString();
+        grPageLink = in.readString();
+        homeTown = in.readString();
+        fanCount = in.readString();
+        desc = in.readString();
+        followStatus = in.readByte() != 0;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(grAuthorKey);
         dest.writeString(name);
         dest.writeString(imageUrl);
+        dest.writeString(grPageLink);
+        dest.writeString(homeTown);
+        dest.writeString(fanCount);
+        dest.writeString(desc);
+        dest.writeByte((byte) (followStatus ? 1 : 0));
     }
 
     @Override
@@ -113,4 +124,43 @@ public class AuthorFollow extends Model implements Parcelable {
         this.imageUrl = imageUrl;
     }
 
+    public String getGrPageLink() {
+        return grPageLink;
+    }
+
+    public void setGrPageLink(String grPageLink) {
+        this.grPageLink = grPageLink;
+    }
+
+    public String getHomeTown() {
+        return homeTown;
+    }
+
+    public void setHomeTown(String homeTown) {
+        this.homeTown = homeTown;
+    }
+
+    public String getFanCount() {
+        return fanCount;
+    }
+
+    public void setFanCount(String fanCount) {
+        this.fanCount = fanCount;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public boolean isFollowStatus() {
+        return followStatus;
+    }
+
+    public void setFollowStatus(boolean followStatus) {
+        this.followStatus = followStatus;
+    }
 }

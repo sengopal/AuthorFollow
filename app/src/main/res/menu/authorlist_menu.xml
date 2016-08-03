@@ -5,13 +5,8 @@
     tools:context=".BookListActivity">
     <item
         android:id="@+id/action_search"
-        android:title="Search"
-        android:icon="@drawable/ic_search_white_48dp"
+        android:title="Search and Add Author"
+        style="@style/AuthorSearchView"
         app:showAsAction="always"
         app:actionViewClass="android.support.v7.widget.SearchView" />
-    <item
-        android:id="@+id/action_author_add"
-        android:title="Add Author"
-        android:icon="@drawable/ic_person_add_white_36px"
-        app:showAsAction="always" />
 </menu>

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,11 +17,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.capstone.authorfollow.BaseActivity;
 import com.capstone.authorfollow.R;
 import com.capstone.authorfollow.data.types.AuthorFollow;
 import com.capstone.authorfollow.data.types.DBHelper;
+import com.capstone.authorfollow.service.AuthorDetailHelper.AuthorSearchAsyncTask;
 
 import java.util.List;
 
@@ -39,8 +43,11 @@ public class AuthorListFragment extends Fragment implements AuthorListAdapter.Ca
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
-    private List<AuthorFollow> authorFollowList;
+    @Bind(R.id.progress_bar)
+    ProgressBar progressBar;
+
     private SearchView mSearchView;
+    private List<AuthorFollow> authorFollowList;
     private AuthorListAdapter listAdapter;
 
     @Override
@@ -110,14 +117,23 @@ public class AuthorListFragment extends Fragment implements AuthorListAdapter.Ca
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.list_menu, menu);
+        inflater.inflate(R.menu.authorlist_menu, menu);
         MenuItem searchMenuItem = menu.findItem(R.id.action_search);
         mSearchView = (SearchView) searchMenuItem.getActionView();
+
+        int searchImgId = android.support.v7.appcompat.R.id.search_button; // I used the explicit layout ID of searchview's ImageView
+        ImageView v = (ImageView) mSearchView.findViewById(searchImgId);
+        if(null!=v) {
+            v.setImageResource(R.drawable.ic_person_add_white_36px);
+        }
+
         mSearchView.setQueryHint(getString(R.string.search_in_upcoming));
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                listAdapter.setAuthors(DBHelper.filterAuthors(query));
+                //Set from the already followed authors
+                //listAdapter.setAuthors(DBHelper.getFilteredAuthorsList(query));
+                startSearch(query);
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(mSearchView.getWindowToken(), 0);
                 return true;
@@ -125,7 +141,7 @@ public class AuthorListFragment extends Fragment implements AuthorListAdapter.Ca
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return true;
+                return false;
             }
         });
         mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
@@ -136,6 +152,24 @@ public class AuthorListFragment extends Fragment implements AuthorListAdapter.Ca
                 return false;
             }
         });
+    }
+
+    private void startSearch(String query) {
+        //listAdapter.setAuthors(null);
+        progressBar.setVisibility(View.VISIBLE);
+        new AuthorSearchAsyncTask(query, new AuthorSearchAsyncTask.Callback() {
+            @Override
+            public void searchComplete(AuthorFollow authorFollow) {
+                progressBar.setVisibility(View.GONE);
+                if(null==authorFollow){
+                    Snackbar.make(getView(),getString(R.string.author_not_found),Snackbar.LENGTH_LONG).show();
+                }else {
+                    listAdapter.addToAuthors(authorFollow);
+                    mSearchView.setIconified(true);
+                    mSearchView.clearFocus();
+                }
+            }
+        }).execute();
     }
 
     @Override

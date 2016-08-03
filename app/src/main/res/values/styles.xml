@@ -121,4 +121,12 @@
         <item name="android:background">@color/colorTextWhite</item>
     </style>
 
+    <style name="AuthorSearchView" parent="Base.Widget.AppCompat.SearchView">
+        <item name="searchIcon">@drawable/ic_person_add_white_36px</item>
+    </style>
+
+    <style name="IndetProgressBar" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
 </resources>

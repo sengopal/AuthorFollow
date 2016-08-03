@@ -109,4 +109,9 @@ public class DBHelper {
     public static List<AuthorFollow> filterAuthors(String query) {
         return null;
     }
+
+    public static List<AuthorFollow> getFilteredAuthorsList(String query) {
+        List<AuthorFollow> list = new Select().from(AuthorFollow.class).where("name like ?", "%" + query + "%").execute();
+        return (null != list ? list : new ArrayList<AuthorFollow>());
+    }
 }

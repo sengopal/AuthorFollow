@@ -5,7 +5,6 @@ import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -55,10 +54,10 @@ public interface Services {
 
     @Root(name="Items", strict = false)
     public static class Items{
-        @Element(name="TotalResults")
+        @Element(name="TotalResults", required = false)
         public int totalResults;
 
-        @Element(name="TotalPages")
+        @Element(name="TotalPages", required = false)
         public int totalPages;
 
         @ElementList(inline = true, required = false)
@@ -81,6 +80,10 @@ public interface Services {
         @org.simpleframework.xml.Path("LargeImage")
         public String largeImageUrl;
 
+        @ElementList(entry="Author", inline = true, required = false)
+        @org.simpleframework.xml.Path("ItemAttributes")
+        public List<String> authorNameList;
+
         @Element(name="ISBN", required = false)
         @org.simpleframework.xml.Path("ItemAttributes")
         public String isbn;
@@ -91,7 +94,7 @@ public interface Services {
 
         @Element(name="PublicationDate")
         @org.simpleframework.xml.Path("ItemAttributes")
-        public Date pubDate;
+        public String pubDate;
 
         @ElementList(name="BrowseNodes", inline = true)
         @org.simpleframework.xml.Path("BrowseNodes")

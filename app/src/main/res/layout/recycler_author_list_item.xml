@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_small"
         android:layout_marginLeft="@dimen/author_list_left_margin"
+        android:layout_weight="10"
         android:orientation="vertical">
 
         <TextView
@@ -40,4 +41,13 @@
             android:maxLines="1"
             tools:text="3 books" />
     </LinearLayout>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/follow_status_icon"
+        android:layout_width="@dimen/author_follow_status_size"
+        android:layout_marginLeft="@dimen/card_margin"
+        android:layout_height="@dimen/author_follow_status_size"
+        android:layout_gravity="center_vertical"
+        tools:src="@drawable/ic_playlist_add_check_black"/>
+
 </LinearLayout>

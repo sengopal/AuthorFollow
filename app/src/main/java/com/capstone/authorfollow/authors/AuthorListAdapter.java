@@ -1,6 +1,7 @@
 package com.capstone.authorfollow.authors;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +23,7 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AuthorListAdapter extends RecyclerView.Adapter<AuthorListAdapter.ViewHolder> {
-    private List<AuthorFollow> authorFollowList;
+    private ArrayList<AuthorFollow> authorFollowList;
     private Callback listener;
 
     public AuthorListAdapter(Callback listener) {
@@ -30,11 +31,19 @@ public class AuthorListAdapter extends RecyclerView.Adapter<AuthorListAdapter.Vi
         this.authorFollowList = new ArrayList<>();
     }
 
-    public void setAuthors(List<AuthorFollow> authorFollowList) {
+    public void setAuthors(List<AuthorFollow> authorsList) {
         this.authorFollowList.clear();
-        if (null != authorFollowList) {
-            this.authorFollowList.addAll(authorFollowList);
+        if (null != authorsList) {
+            this.authorFollowList.addAll(authorsList);
         }
+        notifyDataSetChanged();
+    }
+
+    public void addToAuthors(AuthorFollow authorFollow) {
+        if (null != authorFollow) {
+            this.authorFollowList.add(0, authorFollow);
+        }
+        notifyDataSetChanged();
     }
 
     @Override
@@ -56,9 +65,15 @@ public class AuthorListAdapter extends RecyclerView.Adapter<AuthorListAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
         AuthorFollow authorFollow = authorFollowList.get(position);
         holder.authorNameView.setText(authorFollow.getName());
-        List<UpcomingBook> booksFromAuthorList = DBHelper.getBooksFromAuthor(authorFollow.getName());
-        holder.bookCountView.setText(generateBookCountText(booksFromAuthorList, holder.bookCountView.getContext()));
         Picasso.with(holder.authorImgView.getContext()).load(authorFollow.getImageUrl()).placeholder(R.drawable.ic_movie_placeholder).into(holder.authorImgView);
+        if (authorFollow.isFollowStatus()) {
+            List<UpcomingBook> booksFromAuthorList = DBHelper.getBooksFromAuthor(authorFollow.getName());
+            holder.bookCountView.setText(generateBookCountText(booksFromAuthorList, holder.bookCountView.getContext()));
+            holder.followStatusImgView.setImageDrawable(holder.followStatusImgView.getResources().getDrawable(R.drawable.ic_playlist_add_check_black));
+        } else {
+            holder.followStatusImgView.setImageDrawable(holder.followStatusImgView.getResources().getDrawable(R.drawable.ic_playlist_add_black));
+            holder.bookCountView.setText(holder.bookCountView.getContext().getString(R.string.author_not_followed_yet));
+        }
     }
 
     private String generateBookCountText(List<UpcomingBook> booksFromAuthorList, Context context) {
@@ -88,6 +103,9 @@ public class AuthorListAdapter extends RecyclerView.Adapter<AuthorListAdapter.Vi
 
         @Bind(R.id.book_count)
         TextView bookCountView;
+
+        @Bind(R.id.follow_status_icon)
+        AppCompatImageView followStatusImgView;
 
         public ViewHolder(View itemView) {
             super(itemView);

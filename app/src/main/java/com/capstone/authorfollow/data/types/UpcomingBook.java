@@ -26,6 +26,8 @@ import static com.capstone.authorfollow.CommonUtil.isEmpty;
 
 @Table(name = "UpcomingBook", id = BaseColumns._ID)
 public class UpcomingBook extends Model implements Parcelable {
+    private static final String TAG = UpcomingBook.class.getSimpleName();
+    private static final DateFormat AWS_ALT_DF = new SimpleDateFormat("yyyy-MM");
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     @Column(name = "gr_api_id", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private String grApiId;
@@ -69,7 +71,7 @@ public class UpcomingBook extends Model implements Parcelable {
     @Column(name = "aspects")
     private String genres;
 
-    public UpcomingBook(){
+    public UpcomingBook() {
 
     }
 
@@ -81,13 +83,30 @@ public class UpcomingBook extends Model implements Parcelable {
         this.smallImageUrl = (!isEmpty(item.mediumImageUrl) ? item.mediumImageUrl : grBookInfo.grImageUrl);
         this.bigImageUrl = (!isEmpty(item.largeImageUrl) ? item.largeImageUrl : grBookInfo.grImageUrl);
         this.amazonLink = item.amazonUrl;
-        this.publishedDate = item.pubDate;
+        this.publishedDate = convertToDate(item.pubDate);
         this.rating = grBookInfo.rating;
         this.grLink = grBookInfo.grLinkUrl;
         this.description = grBookInfo.description;
         //this.noOfPages = grBookInfo.noOfPages;
         this.publisher = grBookInfo.publisher;
         this.genres = extractCSGenres(item.browseNodeList);
+    }
+
+    private Date convertToDate(String s) {
+        Date date = parse(s, DATE_FORMAT);
+        if (null == date) {
+            date = parse(s, AWS_ALT_DF);
+        }
+        return (null == s ? new Date() : date);
+    }
+
+    private Date parse(String s, DateFormat dateFormat) {
+        try {
+            return dateFormat.parse(s);
+        } catch (Exception e) {
+            Log.e(TAG, "Exception in date parsing", e);
+        }
+        return null;
     }
 
     protected UpcomingBook(Parcel in) {
@@ -107,7 +126,7 @@ public class UpcomingBook extends Model implements Parcelable {
         try {
             publishedDate = DATE_FORMAT.parse(in.readString());
         } catch (ParseException e) {
-            Log.e(UpcomingBook.class.getSimpleName(),"ParseException", e);
+            Log.e(UpcomingBook.class.getSimpleName(), "ParseException", e);
         }
     }
 
@@ -148,8 +167,8 @@ public class UpcomingBook extends Model implements Parcelable {
 
     private String extractCSGenres(List<BrowseNode> browseNodeList) {
         StringBuilder sb = new StringBuilder();
-        if(null!=browseNodeList){
-            for(BrowseNode node : browseNodeList){
+        if (null != browseNodeList) {
+            for (BrowseNode node : browseNodeList) {
                 sb.append(node.name).append(",");
             }
         }

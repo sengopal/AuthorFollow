@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.capstone.authorfollow.BaseListActivity;
 import com.capstone.authorfollow.BookDetailActivity;
@@ -90,9 +89,6 @@ public class AuthorListActivity extends BaseListActivity implements BookGridAdap
         switch (item.getItemId()) {
             case android.R.id.home:
                 openDrawer();
-                return true;
-            case R.id.action_author_add:
-                Toast.makeText(getApplicationContext(), "Add Author", Toast.LENGTH_LONG);
                 return true;
         }
         return super.onOptionsItemSelected(item);

@@ -181,7 +181,7 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.list_menu, menu);
+        inflater.inflate(R.menu.booklist_menu, menu);
         MenuItem searchMenuItem = menu.findItem(R.id.action_search);
         mSearchView = (SearchView) searchMenuItem.getActionView();
         mSearchView.setQueryHint(getString(R.string.search_in_upcoming));

@@ -43,6 +43,7 @@
     <dimen name="radius_corner">16dp</dimen>
     <dimen name="grid_top_padding">2dp</dimen>
     <dimen name="author_img_avatar_size">60dp</dimen>
+    <dimen name="author_follow_status_size">40dp</dimen>
     <dimen name="genres_left_margin">8dp</dimen>
     <dimen name="author_list_left_margin">20dp</dimen>
 </resources>

@@ -17,11 +17,12 @@ import java.util.Map;
  */
 public class NetworkHelper {
     private static final DateFormat PUB_DATE_FORMAT = new SimpleDateFormat("MM-yyyy");
-    public static List<String> searchForAuthors(){
+
+    public static List<String> searchForAuthors() {
         return null;
     }
 
-    public static List<UpcomingBook> findBooks(String author, int noOfForwardDays){
+    public static List<UpcomingBook> findBooks(String author, int noOfForwardDays) {
         SignedRequestsHelper instance = null;
         try {
             instance = SignedRequestsHelper.getInstance("webservices.amazon.com", "AKIAIV32PE3ER4WKYHOA", "Flxr9aHgX82CfH/W+yKeWsPWW5m6DMMJegDmAIWB");
@@ -46,10 +47,10 @@ public class NetworkHelper {
         sb.append("language:english");
         sb.append("and pubdate: after ").append(getPubDate(0));
         sb.append("and pubdate: before ").append(getPubDate(noOfForwardDays));
-        params.put("Power",sb.toString());
+        params.put("Power", sb.toString());
         //params.put("Author", "James Patterson");
         params.put("Author", author);
-        params.put("Sort","-publication_date");
+        params.put("Sort", "-publication_date");
         String url = instance.sign(params);
         System.out.println(url);
         //Unirest.get(url).asString().getBody().toString()));
