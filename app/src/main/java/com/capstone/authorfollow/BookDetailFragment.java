@@ -2,11 +2,9 @@ package com.capstone.authorfollow;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.ContentObserver;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -28,6 +26,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.capstone.authorfollow.SimilarBooksAdapter.OnBookClickListener;
+import com.capstone.authorfollow.authors.AuthorDetailFragment;
 import com.capstone.authorfollow.data.types.AuthorFollow;
 import com.capstone.authorfollow.data.types.DBHelper;
 import com.capstone.authorfollow.data.types.UpcomingBook;
@@ -51,7 +50,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class BookDetailFragment extends Fragment implements OnBookClickListener, GenresListAdapter.OnGenreClickListener {
     public static final String DETAIL_FRAGMENT_TAG = "BKFRAGTAG";
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MMMM dd, yyyy");
-    private static final String TAG = "MovieDetailFragment";
+    private static final String TAG = BookDetailFragment.class.getSimpleName();
 
     @Nullable
     @Bind(R.id.collapsing_toolbar)
@@ -109,16 +108,12 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
     CircleImageView authorAvatarImgView;
     ;
 
-    private Bitmap mPosterImage;
-    private boolean mTwoPane;
+    // private Bitmap mPosterImage;
+    //private boolean mTwoPane;
     private UpcomingBook upcomingBook;
     private boolean isAddedToWishlist;
     private SimilarBooksAdapter similarBooksAdapter;
     private GenresListAdapter genresListAdapter;
-
-    private Handler handler;
-    private ContentObserver contentObserver;
-    private String authorUri;
 
     public BookDetailFragment() {
 
@@ -137,12 +132,12 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
         if (null != getArguments() && getArguments().containsKey(Constants.BOOK_DETAIL)) {
             //TODO: use a Loader to load content from a content provider.
             upcomingBook = getArguments().getParcelable(Constants.BOOK_DETAIL);
-            mPosterImage = getArguments().getParcelable(Constants.POSTER_IMAGE_KEY);
-            mTwoPane = getArguments().getBoolean(Constants.TWO_PANE_KEY);
+            // mPosterImage = getArguments().getParcelable(Constants.POSTER_IMAGE_KEY);
+            //mTwoPane = getArguments().getBoolean(Constants.TWO_PANE_KEY);
 
             Log.d(TAG, "onCreate() called with: " + "mMovieData = [" + upcomingBook + "]");
-            Log.d(TAG, "onCreate() called with: " + "mPosterImage = [" + mPosterImage + "]");
-            Log.d(TAG, "onCreate() called with: " + "mTwoPane = [" + mTwoPane + "]");
+            //Log.d(TAG, "onCreate() called with: " + "mPosterImage = [" + mPosterImage + "]");
+            //Log.d(TAG, "onCreate() called with: " + "mTwoPane = [" + mTwoPane + "]");
         }
     }
 
@@ -152,9 +147,9 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
         View rootView = inflater.inflate(R.layout.fragment_book_detail, container, false);
         ButterKnife.bind(this, rootView);
 
-        if (getActivity() instanceof BookDetailActivity) {
-            BookDetailActivity detailActivity = (BookDetailActivity) getActivity();
-            detailActivity.setToolbar(mToolbar, true, true);
+        if (getActivity() instanceof BaseActivity) {
+            BaseActivity baseActivity = (BaseActivity) getActivity();
+            baseActivity.setToolbar(mToolbar, true, true);
         }
 
         setupViewElements();
@@ -241,11 +236,20 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
         String imageUrl = upcomingBook.getBigImageUrl();
         Picasso.with(getActivity()).load(imageUrl).into(mBackdropMovie);
         Picasso.with(getActivity()).load(upcomingBook.getSmallImageUrl()).placeholder(R.drawable.ic_movie_placeholder).into(mPosterMovie);
-        AuthorFollow authorInfo = DBHelper.getAuthorInfo(upcomingBook.getAuthor());
+        final AuthorFollow authorInfo = DBHelper.getAuthorInfo(upcomingBook.getAuthor());
         if (null != authorInfo) {
             Picasso.with(getActivity()).load(authorInfo.getImageUrl()).placeholder(R.drawable.ic_movie_placeholder).into(authorAvatarImgView);
+            authorAvatarImgView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Bundle args = new Bundle();
+                    args.putParcelable(Constants.AUTHOR_DETAIL, authorInfo);
+                    AuthorDetailFragment fragment = new AuthorDetailFragment();
+                    fragment.setArguments(args);
+                    getFragmentManager().beginTransaction().replace(R.id.detail_container, fragment, AuthorDetailFragment.AUTHOR_DETAIL_FRAGMENT_TAG).addToBackStack(null).commit();
+                }
+            });
         }
-
 
         String rating = upcomingBook.getRating() > 0 ? String.format("%2.1f", upcomingBook.getRating()) : getString(R.string.not_rated);
 
@@ -298,7 +302,7 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
         args.putParcelable(Constants.POSTER_IMAGE_KEY, posterBitmap);
         BookDetailFragment fragment = new BookDetailFragment();
         fragment.setArguments(args);
-        getFragmentManager().beginTransaction().replace(R.id.book_detail_container, fragment, BookDetailFragment.DETAIL_FRAGMENT_TAG).addToBackStack(null).commit();
+        getFragmentManager().beginTransaction().replace(R.id.detail_container, fragment, BookDetailFragment.DETAIL_FRAGMENT_TAG).addToBackStack(null).commit();
     }
 
     @Override

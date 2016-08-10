@@ -110,4 +110,19 @@ public class DBHelper {
         List<AuthorFollow> list = new Select().from(AuthorFollow.class).where("name like ?", "%" + query + "%").execute();
         return (null != list ? list : new ArrayList<AuthorFollow>());
     }
+
+    public static boolean checkInFollowList(String grAuthorKey) {
+        List<AuthorFollow> list = new Select().from(AuthorFollow.class).where("gr_author_key = ?", grAuthorKey).execute();
+        return (null != list && !list.isEmpty());
+    }
+
+    public static void addToFollowList(AuthorFollow authorFollow) {
+        authorFollow.setFollowStatus(true);
+        authorFollow.save();
+    }
+
+    public static void removeFromFollowList(AuthorFollow authorFollow) {
+        authorFollow.setFollowStatus(false);
+        authorFollow.save();
+    }
 }

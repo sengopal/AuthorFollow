@@ -48,4 +48,14 @@
     <string name="author_search_hint">Search for new authors...</string>
     <string name="author_not_followed_yet">Add author to follow list</string>
     <string name="author_not_found">Author not found. Try searching with exact name.</string>
+    <string name="author_added_to_wishlist">Author added to follow list successfully.</string>
+    <string name="author_remove_confirm_title">Remove Author?</string>
+    <string name="author_remove_confirm_msg">Do you really want to remove Author from follow list?</string>
+    <string name="author_removed_from_wishlist">Author removed from the follow list</string>
+    <string name="hometown">Hometown</string>
+    <string name="upcoming_books">Upcoming Books</string>
+    <string name="about_the_author">About the Author</string>
+    <string name="count_not_available">Not Available</string>
+    <string name="title_author_detail">Author</string>
+    <string name="born_on">Born on</string>
 </resources>

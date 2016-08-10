@@ -65,7 +65,7 @@
             android:layout_weight="11">
 
             <FrameLayout
-                android:id="@+id/author_detail_container"
+                android:id="@+id/detail_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="2"

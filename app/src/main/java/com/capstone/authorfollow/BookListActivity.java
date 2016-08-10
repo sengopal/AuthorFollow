@@ -39,13 +39,13 @@ public class BookListActivity extends BaseListActivity implements BookGridAdapto
         setContentView(R.layout.activity_book_list);
         ButterKnife.bind(this);
 
-        if (findViewById(R.id.book_detail_container) != null) {
+        if (findViewById(R.id.detail_container) != null) {
             // The detail container view will be present only in the large-screen layouts (res/values-w900dp).
             // If this view is present, then the activity should be in two-pane mode.
             mTwoPane = true;
             if (savedInstanceState == null) {
                 Bundle bundle = new Bundle();
-                getSupportFragmentManager().beginTransaction().add(R.id.book_detail_container, BookDetailFragment.newInstance(bundle), BookDetailFragment.DETAIL_FRAGMENT_TAG).commit();
+                getSupportFragmentManager().beginTransaction().add(R.id.detail_container, BookDetailFragment.newInstance(bundle), BookDetailFragment.DETAIL_FRAGMENT_TAG).commit();
             }
         } else {
             mTwoPane = false;
@@ -128,7 +128,7 @@ public class BookListActivity extends BaseListActivity implements BookGridAdapto
             args.putParcelable(Constants.POSTER_IMAGE_KEY, posterBitmap);
             BookDetailFragment fragment = new BookDetailFragment();
             fragment.setArguments(args);
-            getSupportFragmentManager().beginTransaction().replace(R.id.book_detail_container, fragment, BookDetailFragment.DETAIL_FRAGMENT_TAG).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.detail_container, fragment, BookDetailFragment.DETAIL_FRAGMENT_TAG).commit();
         } else {
             ActivityOptions options = null;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {

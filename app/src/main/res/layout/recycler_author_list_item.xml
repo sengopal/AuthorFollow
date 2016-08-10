@@ -23,7 +23,7 @@
 
         <TextView
             android:id="@+id/author_name"
-            style="@style/AuthorListTitle"
+            style="@style/ListItemTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="fill_vertical"

@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/movie_detail_nested_scroll_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        android:id="@+id/detail_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/Widget.CardContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                style="@style/Widget.CardContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/author_detail_hometown_title_text_view"
+                    style="@style/InfoSubTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:text="@string/hometown" />
+
+                <TextView
+                    android:id="@+id/author_detail_hometown_text_view"
+                    style="@style/DetailSubContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="Yate, England"></TextView>
+
+                <TextView
+                    android:id="@+id/author_detail_bday_title_text_view"
+                    style="@style/InfoSubTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/born_on" />
+
+                <TextView
+                    android:id="@+id/author_detail_bday_text_view"
+                    style="@style/DetailSubContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="31 July, 1965"></TextView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/Widget.CardContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/author_list_left_margin"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/author_detail_poster_image_view"
+                    android:layout_width="@dimen/author_img_avatar_size"
+                    android:layout_height="@dimen/author_img_avatar_size"
+                    android:layout_gravity="center"
+                    android:background="@drawable/image_border"
+                    android:fitsSystemWindows="true"
+                    android:transitionName="posterImageView"
+                    tools:src="@drawable/ic_movie_placeholder" />
+
+                <TextView
+                    android:id="@+id/author_detail_fan_count_text_view"
+                    style="@style/InfoSubTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_weight="1"
+                    tools:text="Not Available" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <include layout="@layout/view_divider" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/card_margin"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/InfoSubTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_margin="@dimen/spacing_small"
+                android:text="@string/upcoming_books" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_similar_movies_list"
+                android:layout_width="match_parent"
+                android:layout_height="140dp" />
+        </LinearLayout>
+
+        <include layout="@layout/view_divider" />
+
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/card_margin">
+
+            <LinearLayout
+                style="@style/Widget.CardContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/author_detail_synopsys_title_text_view"
+                    style="@style/MovieDetailContainerSubTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/about_the_author" />
+
+                <TextView
+                    android:id="@+id/author_detail_about_data_text_view"
+                    style="@style/MovieDetailContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="Test" />
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/detail_movie_trailers_card_view"
+            style="@style/MovieDetailContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/card_margin">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/MovieDetailContainerSubTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingLeft="@dimen/rate_icon_margin_right"
+                    android:paddingRight="@dimen/rate_icon_margin_right"
+                    android:text="@string/find_out_more" />
+
+                <ImageView
+                    android:id="@+id/amazon_icon_image_view"
+                    android:layout_width="@dimen/play_icon_size"
+                    android:layout_height="@dimen/play_icon_size"
+                    android:paddingLeft="@dimen/rate_icon_margin_right"
+                    android:paddingRight="@dimen/rate_icon_margin_right"
+                    android:src="@drawable/amazon_icon" />
+
+                <ImageView
+                    android:id="@+id/gr_icon_image_view"
+                    android:layout_width="@dimen/play_icon_size"
+                    android:layout_height="@dimen/play_icon_size"
+                    android:paddingLeft="@dimen/rate_icon_margin_right"
+                    android:paddingRight="@dimen/rate_icon_margin_right"
+                    android:src="@drawable/goodreads_icon" />
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

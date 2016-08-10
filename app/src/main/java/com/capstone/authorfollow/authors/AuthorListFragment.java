@@ -31,7 +31,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class AuthorListFragment extends Fragment implements AuthorListAdapter.Callback {
+public class AuthorListFragment extends Fragment {
 
     @Bind(R.id.author_list_recycle_view)
     RecyclerView authorListView;
@@ -68,7 +68,7 @@ public class AuthorListFragment extends Fragment implements AuthorListAdapter.Ca
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        listAdapter = new AuthorListAdapter(AuthorListFragment.this);
+        listAdapter = new AuthorListAdapter((AuthorListAdapter.Callback) getActivity());
         authorListView.setLayoutManager(linearLayoutManager);
         authorListView.setAdapter(listAdapter);
         authorListView.addItemDecoration(new SpacesItemDecoration((int) getResources().getDimension(R.dimen.spacing_small)));
@@ -123,7 +123,7 @@ public class AuthorListFragment extends Fragment implements AuthorListAdapter.Ca
 
         int searchImgId = android.support.v7.appcompat.R.id.search_button; // I used the explicit layout ID of searchview's ImageView
         ImageView v = (ImageView) mSearchView.findViewById(searchImgId);
-        if(null!=v) {
+        if (null != v) {
             v.setImageResource(R.drawable.ic_person_add_white_36px);
         }
 
@@ -161,9 +161,9 @@ public class AuthorListFragment extends Fragment implements AuthorListAdapter.Ca
             @Override
             public void searchComplete(AuthorFollow authorFollow) {
                 progressBar.setVisibility(View.GONE);
-                if(null==authorFollow){
-                    Snackbar.make(getView(),getString(R.string.author_not_found),Snackbar.LENGTH_LONG).show();
-                }else {
+                if (null == authorFollow) {
+                    Snackbar.make(getView(), getString(R.string.author_not_found), Snackbar.LENGTH_LONG).show();
+                } else {
                     listAdapter.addToAuthors(authorFollow);
                     mSearchView.setIconified(true);
                     mSearchView.clearFocus();
@@ -188,11 +188,6 @@ public class AuthorListFragment extends Fragment implements AuthorListAdapter.Ca
         if (null != mSearchView) {
             mSearchView.setIconified(true);
         }
-    }
-
-    @Override
-    public void onAuthorClick(AuthorFollow author) {
-
     }
 
     static class SpacesItemDecoration extends RecyclerView.ItemDecoration {

@@ -54,7 +54,7 @@ public class AuthorListAdapter extends RecyclerView.Adapter<AuthorListAdapter.Vi
             @Override
             public void onClick(View v) {
                 if (listener != null) {
-                    listener.onAuthorClick(authorFollowList.get(viewHolder.getAdapterPosition()));
+                    listener.onAuthorClick(authorFollowList.get(viewHolder.getAdapterPosition()), viewHolder.authorImgView);
                 }
             }
         });
@@ -114,6 +114,6 @@ public class AuthorListAdapter extends RecyclerView.Adapter<AuthorListAdapter.Vi
     }
 
     public interface Callback {
-        void onAuthorClick(AuthorFollow author);
+        void onAuthorClick(AuthorFollow author, View view);
     }
 }
