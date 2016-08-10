@@ -132,7 +132,7 @@ public class BookListActivity extends BaseListActivity implements BookGridAdapto
         } else {
             ActivityOptions options = null;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                options = ActivityOptions.makeSceneTransitionAnimation(this, view, Constants.POSTER_IMAGE_VIEW_KEY);
+                options = ActivityOptions.makeSceneTransitionAnimation(this, view, Constants.BOOK_POSTER_IMAGE_VIEW_KEY);
             }
             Intent openDetailIntent = new Intent(this, BookDetailActivity.class);
             openDetailIntent.putExtra(Constants.BOOK_DETAIL, bookData);

@@ -12,6 +12,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -241,12 +242,15 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
             Picasso.with(getActivity()).load(authorInfo.getImageUrl()).placeholder(R.drawable.ic_movie_placeholder).into(authorAvatarImgView);
             authorAvatarImgView.setOnClickListener(new OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
                     Bundle args = new Bundle();
                     args.putParcelable(Constants.AUTHOR_DETAIL, authorInfo);
                     AuthorDetailFragment fragment = new AuthorDetailFragment();
                     fragment.setArguments(args);
-                    getFragmentManager().beginTransaction().replace(R.id.detail_container, fragment, AuthorDetailFragment.AUTHOR_DETAIL_FRAGMENT_TAG).addToBackStack(null).commit();
+                    CommonUtil.setupFragAnimation(fragment);
+                    //to prevent java.lang.IllegalArgumentException: Unique transitionNames are required for all sharedElements
+                    ViewCompat.setTransitionName(view, "3");
+                    getFragmentManager().beginTransaction().addSharedElement(view, Constants.AUTHOR_POSTER_IMAGE_VIEW_KEY).replace(R.id.detail_container, fragment, AuthorDetailFragment.AUTHOR_DETAIL_FRAGMENT_TAG).addToBackStack(null).commit();
                 }
             });
         }
@@ -302,7 +306,12 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
         args.putParcelable(Constants.POSTER_IMAGE_KEY, posterBitmap);
         BookDetailFragment fragment = new BookDetailFragment();
         fragment.setArguments(args);
-        getFragmentManager().beginTransaction().replace(R.id.detail_container, fragment, BookDetailFragment.DETAIL_FRAGMENT_TAG).addToBackStack(null).commit();
+
+        CommonUtil.setupFragAnimation(fragment);
+        //to prevent java.lang.IllegalArgumentException: Unique transitionNames are required for all sharedElements
+        ViewCompat.setTransitionName(view, "2");
+
+        getFragmentManager().beginTransaction().addSharedElement(view, Constants.BOOK_POSTER_IMAGE_VIEW_KEY).replace(R.id.detail_container, fragment, BookDetailFragment.DETAIL_FRAGMENT_TAG).addToBackStack(null).commit();
     }
 
     @Override

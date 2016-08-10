@@ -72,7 +72,7 @@
                     android:layout_gravity="center"
                     android:background="@drawable/image_border"
                     android:fitsSystemWindows="true"
-                    android:transitionName="posterImageView"
+                    android:transitionName="authorPosterImageView"
                     tools:src="@drawable/ic_movie_placeholder" />
 
                 <TextView

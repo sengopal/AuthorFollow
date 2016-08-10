@@ -13,6 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 
 import com.capstone.authorfollow.BaseActivity;
 import com.capstone.authorfollow.BookDetailFragment;
+import com.capstone.authorfollow.CommonUtil;
 import com.capstone.authorfollow.Constants;
 import com.capstone.authorfollow.R;
 import com.capstone.authorfollow.SimilarBooksAdapter;
@@ -266,7 +268,11 @@ public class AuthorDetailFragment extends Fragment implements OnBookClickListene
         args.putParcelable(Constants.POSTER_IMAGE_KEY, posterBitmap);
         BookDetailFragment fragment = new BookDetailFragment();
         fragment.setArguments(args);
-        getFragmentManager().beginTransaction().replace(R.id.detail_container, fragment, BookDetailFragment.DETAIL_FRAGMENT_TAG).addToBackStack(null).commit();
+
+        CommonUtil.setupFragAnimation(fragment);
+        //to prevent java.lang.IllegalArgumentException: Unique transitionNames are required for all sharedElements
+        ViewCompat.setTransitionName(view, "1");
+        getFragmentManager().beginTransaction().addSharedElement(view, Constants.BOOK_POSTER_IMAGE_VIEW_KEY).replace(R.id.detail_container, fragment, BookDetailFragment.DETAIL_FRAGMENT_TAG).addToBackStack(null).commit();
     }
 
     private class SpacingItemDecoration extends RecyclerView.ItemDecoration {
