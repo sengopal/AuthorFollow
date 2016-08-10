@@ -2,9 +2,9 @@
     <string name="app_name">Author Follow</string>
     <string name="sort_by_popularity_desc">Most popular</string>
     <string name="sort_by_rates_desc">Highest rated</string>
-    <string name="movies_data_loaded">Movies are loaded successfully</string>
-    <string name="movies_not_found">Movies are not found :(</string>
-    <string name="movie_detail">Movie detail</string>
+    <string name="books_data_loaded">Books data loaded successfully</string>
+    <string name="movies_not_found">Books not found :(</string>
+    <string name="book_detail">Book detail</string>
     <string name="Description">Description</string>
     <string name="Trailers">Trailers</string>
     <string name="a11y_movie_title">Movie title: <xliff:g id="movie">%1$s</xliff:g></string>
@@ -55,7 +55,9 @@
     <string name="hometown">Hometown</string>
     <string name="upcoming_books">Upcoming Books</string>
     <string name="about_the_author">About the Author</string>
-    <string name="count_not_available">Not Available</string>
+    <string name="not_available">Not Available</string>
     <string name="title_author_detail">Author</string>
     <string name="born_on">Born on</string>
+    <string name="followers">followers</string>
+    <string name="no_upcoming_books">No upcoming books found</string>
 </resources>

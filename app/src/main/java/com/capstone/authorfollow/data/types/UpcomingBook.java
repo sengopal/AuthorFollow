@@ -3,7 +3,6 @@ package com.capstone.authorfollow.data.types;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.BaseColumns;
-import android.util.Log;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
@@ -13,12 +12,12 @@ import com.capstone.authorfollow.service.Services.BrowseNode;
 import com.capstone.authorfollow.service.Services.Item;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import static com.capstone.authorfollow.CommonUtil.isEmpty;
+import static com.capstone.authorfollow.CommonUtil.parse;
 
 @Table(name = "UpcomingBook", id = BaseColumns._ID)
 public class UpcomingBook extends Model implements Parcelable {
@@ -96,15 +95,6 @@ public class UpcomingBook extends Model implements Parcelable {
         return (null == s ? new Date() : date);
     }
 
-    private Date parse(String s, DateFormat dateFormat) {
-        try {
-            return dateFormat.parse(s);
-        } catch (Exception e) {
-            Log.e(TAG, "Exception in date parsing", e);
-        }
-        return null;
-    }
-
     protected UpcomingBook(Parcel in) {
         grApiId = in.readString();
         title = in.readString();
@@ -119,10 +109,9 @@ public class UpcomingBook extends Model implements Parcelable {
         noOfPages = in.readInt();
         publisher = in.readString();
         genres = in.readString();
-        try {
-            publishedDate = DATE_FORMAT.parse(in.readString());
-        } catch (ParseException e) {
-            Log.e(UpcomingBook.class.getSimpleName(), "ParseException", e);
+        long l = in.readLong();
+        if(l > 0) {
+            publishedDate = new Date(l);
         }
     }
 
@@ -141,7 +130,7 @@ public class UpcomingBook extends Model implements Parcelable {
         dest.writeInt(noOfPages);
         dest.writeString(publisher);
         dest.writeString(genres);
-        dest.writeString(DATE_FORMAT.format(publishedDate));
+        dest.writeLong(null!=publishedDate ? publishedDate.getTime() : -1);
     }
 
     @Override

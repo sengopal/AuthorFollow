@@ -21,9 +21,9 @@
 
             <LinearLayout
                 style="@style/Widget.CardContent"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="3"
                 android:orientation="vertical">
 
                 <TextView
@@ -59,10 +59,10 @@
 
             <LinearLayout
                 style="@style/Widget.CardContent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/author_list_left_margin"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:orientation="vertical">
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -73,17 +73,31 @@
                     android:background="@drawable/image_border"
                     android:fitsSystemWindows="true"
                     android:transitionName="authorPosterImageView"
+                    android:layout_weight="2"
                     tools:src="@drawable/ic_movie_placeholder" />
 
                 <TextView
                     android:id="@+id/author_detail_fan_count_text_view"
                     style="@style/InfoSubTitle"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="0dp"
                     android:layout_gravity="left"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:layout_weight="1"
-                    tools:text="Not Available" />
+                    android:textAlignment="center"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    tools:text="161.4" />
+
+                <TextView
+                    android:id="@+id/author_detail_follower_title_text_view"
+                    style="@style/SubTextContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_gravity="left"
+                    android:textAlignment="center"
+                    android:layout_weight="1"
+                    android:text="@string/followers"
+                    tools:text="Followers" />
+
 
             </LinearLayout>
 
@@ -105,6 +119,24 @@
                 android:layout_alignParentStart="true"
                 android:layout_margin="@dimen/spacing_small"
                 android:text="@string/upcoming_books" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:theme="@style/IndetProgressBar"
+                style="@style/Widget.AppCompat.ProgressBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/no_upcoming_books_found_text_view"
+                style="@style/DetailSubContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_upcoming_books"
+                android:visibility="gone"></TextView>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view_similar_movies_list"

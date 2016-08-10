@@ -76,6 +76,11 @@
         <item name="android:paddingLeft">0dp</item>
     </style>
 
+    <style name="SubTextContent" parent="TextAppearance.AppCompat.Body2">
+        <item name="android:textColor">@color/colorSecondaryText</item>
+        <item name="android:padding">0dp</item>
+    </style>
+
     <style name="MovieDetailContainer" parent="android:Widget">
         <item name="android:layout_marginTop">@dimen/detail_card_view_margin</item>
         <item name="android:layout_marginLeft">@dimen/detail_card_view_margin_left</item>

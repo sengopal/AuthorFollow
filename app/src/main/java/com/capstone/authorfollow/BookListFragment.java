@@ -27,16 +27,13 @@ import com.capstone.authorfollow.BookGridAdaptor.BookSelectionListener;
 import com.capstone.authorfollow.data.types.DBHelper;
 import com.capstone.authorfollow.data.types.NetworkResponse;
 import com.capstone.authorfollow.data.types.UpcomingBook;
+import com.capstone.authorfollow.service.AuthorDetailHelper;
 import com.capstone.authorfollow.service.BooksDataLoader;
-import com.capstone.authorfollow.service.Services;
-import com.capstone.authorfollow.service.Services.AmazonService;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit2.Retrofit;
-import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, LoaderManager.LoaderCallbacks<NetworkResponse<List<UpcomingBook>>> {
 
@@ -59,7 +56,6 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private List<UpcomingBook> bookList;
     private BookGridAdaptor bookGridAdaptor;
-    private AmazonService mService;
     private SearchView mSearchView;
 
     private int selectedPosition;
@@ -67,11 +63,6 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
     public static BookListFragment newInstance() {
         BookListFragment fragment = new BookListFragment();
         return fragment;
-    }
-
-    private void initRetrofit() {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(Services.AMAZON_URL).addConverterFactory(SimpleXmlConverterFactory.create()).build();
-        mService = retrofit.create(AmazonService.class);
     }
 
     @Override
@@ -82,8 +73,11 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        initRetrofit();
         getLoaderManager().initLoader(0, null, this);
+        List<String> followListNames = DBHelper.getFollowListNames();
+        if (null != followListNames && !followListNames.isEmpty()) {
+            AuthorDetailHelper.refreshAuthorData(followListNames);
+        }
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -132,44 +126,13 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
         mPopularGridView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
 
         bookList = DBHelper.upcoming();
-
         bookGridAdaptor = new BookGridAdaptor((BookSelectionListener) getActivity(), bookList, colorPrimaryLight);
-        //TODO Mladen stage 2
-//        if (savedInstanceState != null && savedInstanceState.containsKey(Constants.POSITION_KEY)) {
-//            bookGridAdaptor.setSelectedPosition(savedInstanceState.getInt(Constants.POSITION_KEY));
-//        }
 
         mPopularGridView.setAdapter(bookGridAdaptor);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setRefreshing(true);
         return view;
     }
-
-    /*
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        String sortType;
-        boolean result;
-
-        switch (item.getItemId()) {
-            case R.id.sort_by_popularity_desc:
-                sortType = Constants.SORT_BY_POPULARITY_DESC;
-                result = true;
-                break;
-            case R.id.sort_by_rates_desc:
-                sortType = Constants.SORT_BY_RATING_DESC;
-                result = true;
-                break;
-            default:
-                sortType = Constants.SORT_BY_POPULARITY_DESC;
-                result = super.onOptionsItemSelected(item);
-                break;
-        }
-        PreferenceUtil.savePrefs(getActivity(), Constants.SORT_BY_KEY, sortType);
-        restartLoader();
-        return result;
-    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -228,7 +191,7 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public Loader<NetworkResponse<List<UpcomingBook>>> onCreateLoader(int id, Bundle args) {
         List<String> followList = DBHelper.getFollowListNames();
-        return new BooksDataLoader(getActivity(), mService, followList);
+        return new BooksDataLoader(getActivity(), followList);
     }
 
     @Override
@@ -237,7 +200,9 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
         if (response.isSuccess()) {
             bookList = response.getResponse();
             bookGridAdaptor.addBooks(bookList);
-            Snackbar.make(getView(), R.string.movies_data_loaded, Snackbar.LENGTH_LONG).show();
+            if (null != bookList && !bookList.isEmpty()) {
+                Snackbar.make(getView(), R.string.books_data_loaded, Snackbar.LENGTH_LONG).show();
+            }
         } else {
             Snackbar.make(getView(), response.getErrorMessage(), Snackbar.LENGTH_LONG).show();
             if (!CommonUtil.isConnected(getActivity())) {

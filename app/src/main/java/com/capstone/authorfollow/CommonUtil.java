@@ -10,6 +10,10 @@ import android.transition.ChangeImageTransform;
 import android.transition.ChangeTransform;
 import android.transition.Fade;
 import android.transition.TransitionSet;
+import android.util.Log;
+
+import java.text.DateFormat;
+import java.util.Date;
 
 public class CommonUtil {
 
@@ -19,8 +23,8 @@ public class CommonUtil {
                 && cm.getActiveNetworkInfo().isConnected());
     }
 
-    public static boolean isEmpty(String s){
-        return (null==s || s.length()==0);
+    public static boolean isEmpty(String s) {
+        return (null == s || s.length() == 0);
     }
 
     public static class DetailsTransition extends TransitionSet {
@@ -41,5 +45,16 @@ public class CommonUtil {
             fragment.setExitTransition(new Fade());
             fragment.setSharedElementReturnTransition(new CommonUtil.DetailsTransition());
         }
+    }
+
+    public static Date parse(String s, DateFormat dateFormat) {
+        try {
+            if (s != null) {
+                return dateFormat.parse(s);
+            }
+        } catch (Exception e) {
+            Log.e("CommonUtil", "Exception in date parsing", e);
+        }
+        return null;
     }
 }

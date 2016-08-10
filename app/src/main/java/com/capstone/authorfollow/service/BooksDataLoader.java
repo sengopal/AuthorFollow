@@ -39,9 +39,10 @@ public class BooksDataLoader extends AsyncTaskLoader<NetworkResponse<List<Upcomi
     private NetworkResponse<List<UpcomingBook>> bookSvcInfoList;
     private AmazonService service;
 
-    public BooksDataLoader(Context context, AmazonService service, List<String> authors) {
+    public BooksDataLoader(Context context, List<String> authors) {
         super(context);
-        this.service = service;
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(Services.AMAZON_URL).addConverterFactory(SimpleXmlConverterFactory.create()).build();
+        this.service = retrofit.create(AmazonService.class);
         this.authors = authors;
     }
 
@@ -54,17 +55,6 @@ public class BooksDataLoader extends AsyncTaskLoader<NetworkResponse<List<Upcomi
     @Override
     public NetworkResponse<List<UpcomingBook>> loadInBackground() {
         List<UpcomingBook> booksList = new ArrayList<>();
-        //TODO: Temp code for bootstrap
-        if (null == this.authors || this.authors.isEmpty()) {
-            AuthorDetailHelper.addAuthorToFollowList("James Patterson");
-            AuthorDetailHelper.addAuthorToFollowList("James Rollins");
-            AuthorDetailHelper.addAuthorToFollowList("J.K.Rowling");
-            this.authors = DBHelper.getFollowListNames();
-        }else{
-            //Refresh the Author Info
-            AuthorDetailHelper.refreshAuthorData(this.authors);
-        }
-
         try {
             for (String author : this.authors) {
                 booksList.addAll(getBookInfoForAuthor(author));
@@ -83,8 +73,8 @@ public class BooksDataLoader extends AsyncTaskLoader<NetworkResponse<List<Upcomi
         Call<ItemSearchResponse> bookSvcInfoCall = service.findBooks(buildParams(author, upcomingFwdDays, 1));
         ItemSearchResponse searchResponse = bookSvcInfoCall.execute().body();
         booksList.addAll(convertToDBData(author, searchResponse));
-        if(searchResponse.resultItems.totalPages > 1){
-            for(int i = 2; i <= searchResponse.resultItems.totalPages; i++){
+        if (searchResponse.resultItems.totalPages > 1) {
+            for (int i = 2; i <= searchResponse.resultItems.totalPages; i++) {
                 bookSvcInfoCall = service.findBooks(buildParams(author, upcomingFwdDays, i));
                 searchResponse = bookSvcInfoCall.execute().body();
                 booksList.addAll(convertToDBData(author, searchResponse));
@@ -95,12 +85,12 @@ public class BooksDataLoader extends AsyncTaskLoader<NetworkResponse<List<Upcomi
 
     private List<UpcomingBook> convertToDBData(String author, ItemSearchResponse searchResponse) throws IOException {
         List<UpcomingBook> bookList = new ArrayList<>();
-        if(null!=searchResponse && null!=searchResponse.resultItems && null!=searchResponse.resultItems.itemList){
-            for(Item item : searchResponse.resultItems.itemList) {
-                String uniqueId = (null!=item.isbn ? item.isbn : item.asin);
-                if(!isEmpty(uniqueId)) {
+        if (null != searchResponse && null != searchResponse.resultItems && null != searchResponse.resultItems.itemList) {
+            for (Item item : searchResponse.resultItems.itemList) {
+                String uniqueId = (null != item.isbn ? item.isbn : item.asin);
+                if (!isEmpty(uniqueId)) {
                     GRBookResponse grBookResponse = getBookInfoFromGR(uniqueId);
-                    if(null!=grBookResponse && isImgAvailable(item, grBookResponse)) {
+                    if (null != grBookResponse && isImgAvailable(item, grBookResponse)) {
                         bookList.add(new UpcomingBook(author, item, grBookResponse));
                     }
                 }
@@ -141,8 +131,8 @@ public class BooksDataLoader extends AsyncTaskLoader<NetworkResponse<List<Upcomi
         sb.append(" and pubdate: after ").append(getPubDate(0));
         sb.append(" and pubdate: before ").append(getPubDate(noOfForwardDays));
         sb.append(" and author:").append(author);
-        params.put("Power",sb.toString());
-        params.put("Sort","-publication_date");
+        params.put("Power", sb.toString());
+        params.put("Sort", "-publication_date");
 
         String testUrl = helper.sign(params);
         return helper.getSignedParams(params);

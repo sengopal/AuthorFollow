@@ -40,7 +40,9 @@ public class DBHelper {
         List<String> nameList = new ArrayList<>();
         if (null != authorList && !authorList.isEmpty()) {
             for (AuthorFollow author : authorList) {
-                nameList.add(author.getName());
+                if (author.isFollowStatus()) {
+                    nameList.add(author.getName());
+                }
             }
         }
         return nameList;

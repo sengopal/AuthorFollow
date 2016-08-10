@@ -12,7 +12,9 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.Loader;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,6 +26,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.capstone.authorfollow.BaseActivity;
@@ -35,11 +38,15 @@ import com.capstone.authorfollow.SimilarBooksAdapter;
 import com.capstone.authorfollow.SimilarBooksAdapter.OnBookClickListener;
 import com.capstone.authorfollow.data.types.AuthorFollow;
 import com.capstone.authorfollow.data.types.DBHelper;
+import com.capstone.authorfollow.data.types.NetworkResponse;
 import com.capstone.authorfollow.data.types.UpcomingBook;
+import com.capstone.authorfollow.service.BooksDataLoader;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -53,7 +60,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * in two-pane mode (on tablets) or a {@link AuthorDetailActivity}
  * on handsets.
  */
-public class AuthorDetailFragment extends Fragment implements OnBookClickListener {
+public class AuthorDetailFragment extends Fragment implements OnBookClickListener, LoaderManager.LoaderCallbacks<NetworkResponse<List<UpcomingBook>>> {
     public static final String AUTHOR_DETAIL_FRAGMENT_TAG = "ATFRAGTAG";
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MMMM dd, yyyy");
     private static final String TAG = AuthorDetailFragment.class.getSimpleName();
@@ -96,6 +103,12 @@ public class AuthorDetailFragment extends Fragment implements OnBookClickListene
 
     @Bind(R.id.recycler_view_similar_movies_list)
     RecyclerView similarBooksListView;
+
+    @Bind(R.id.progress_bar)
+    ProgressBar progressBar;
+
+    @Bind(R.id.no_upcoming_books_found_text_view)
+    TextView noUpcomingBooksTextView;
 
     private Bitmap mPosterImage;
     private boolean mTwoPane;
@@ -190,8 +203,51 @@ public class AuthorDetailFragment extends Fragment implements OnBookClickListene
         similarBooksListView.setAdapter(similarBooksAdapter);
         similarBooksListView.addItemDecoration(new SpacingItemDecoration((int) getResources().getDimension(R.dimen.spacing_small)));
         if (null != authorFollow) {
-            similarBooksAdapter.setSimilarMovies(DBHelper.getBooksFromAuthor(authorFollow.getName()));
+            List<UpcomingBook> booksFromDB = DBHelper.getBooksFromAuthor(authorFollow.getName());
+            if (null != booksFromDB && !booksFromDB.isEmpty()) {
+                similarBooksAdapter.setSimilarMovies(booksFromDB);
+            } else {
+                //load from Network
+                progressBar.setVisibility(View.VISIBLE);
+                getLoaderManager().initLoader(0, null, this);
+            }
         }
+    }
+
+    private void restartLoader() {
+        getLoaderManager().restartLoader(0, null, this);
+    }
+
+    @Override
+    public Loader<NetworkResponse<List<UpcomingBook>>> onCreateLoader(int id, Bundle args) {
+        return new BooksDataLoader(getActivity(), Arrays.asList(new String[]{authorFollow.getName()}));
+    }
+
+    @Override
+    public void onLoadFinished(Loader<NetworkResponse<List<UpcomingBook>>> loader, NetworkResponse<List<UpcomingBook>> response) {
+        progressBar.setVisibility(View.GONE);
+        if (response.isSuccess()) {
+            List<UpcomingBook> bookList = response.getResponse();
+            similarBooksAdapter.setSimilarMovies(bookList);
+            if (null != bookList && !bookList.isEmpty()) {
+                Snackbar.make(getView(), R.string.books_data_loaded, Snackbar.LENGTH_LONG).show();
+            } else {
+                noUpcomingBooksTextView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            Snackbar.make(getView(), response.getErrorMessage(), Snackbar.LENGTH_LONG).show();
+            noUpcomingBooksTextView.setVisibility(View.VISIBLE);
+            if (!CommonUtil.isConnected(getActivity())) {
+
+            }
+        }
+        //If there are no upcoming books for selected Authors
+        //TODO: Set no upcoming books message
+    }
+
+    @Override
+    public void onLoaderReset(Loader<NetworkResponse<List<UpcomingBook>>> loader) {
+
     }
 
     private void setupViewElements() {
@@ -207,32 +263,38 @@ public class AuthorDetailFragment extends Fragment implements OnBookClickListene
 
         String imageUrl = authorFollow.getImageUrl();
         Picasso.with(getActivity()).load(imageUrl).into(backdropImgView);
-        AuthorFollow authorInfo = DBHelper.getAuthorInfo(authorFollow.getName());
-        if (null != authorInfo) {
-            Picasso.with(getActivity()).load(authorInfo.getImageUrl()).placeholder(R.drawable.ic_movie_placeholder).into(authorAvatarImgView);
+        if (null != authorFollow) {
+            Picasso.with(getActivity()).load(authorFollow.getImageUrl()).placeholder(R.drawable.ic_movie_placeholder).into(authorAvatarImgView);
         }
 
-        String fanCount = getFormattedFanCount();
+        String fanCount = getFormattedFanCount(authorFollow.getFanCount());
         fanCountTextView.setText(fanCount);
         fanCountTextView.setContentDescription(getString(R.string.a11y_movie_rate, authorFollow.getFanCount()));
 
-        //TODO: change to Birthday
-        bdayTextView.setText(authorFollow.getName());
+        bdayTextView.setText(getFormattedBday(authorFollow.getDateOfBirth()));
         homeTownTextView.setText(authorFollow.getHomeTown());
 
         aboutDataTextView.setText(android.text.Html.fromHtml(authorFollow.getDesc()));
         aboutDataTextView.setContentDescription(getString(R.string.a11y_movie_overview, authorFollow.getDesc()));
     }
 
-    private String getFormattedFanCount() {
-        String fanCount = getString(R.string.count_not_available);
+    private String getFormattedBday(Date dateOfBirth) {
+        String bday = getString(R.string.not_available);
+        if (null != dateOfBirth) {
+            bday = DATE_FORMAT.format(dateOfBirth);
+        }
+        return bday;
+    }
+
+    private String getFormattedFanCount(String fanCountStr) {
+        String fanCount = getString(R.string.not_available);
         try {
-            int fanCountNum = Integer.parseInt(fanCount);
+            int fanCountNum = Integer.parseInt(fanCountStr);
             if (fanCountNum < 1000) {
-                return fanCount;
+                fanCount = fanCountStr;
             } else {
                 int exp = (int) (Math.log(fanCountNum) / Math.log(1000));
-                return String.format("%.1f %c", fanCountNum / Math.pow(1000, exp), "kMGTPE".charAt(exp - 1));
+                fanCount = String.format("%.1f %c", fanCountNum / Math.pow(1000, exp), "kMGTPE".charAt(exp - 1));
             }
         } catch (Exception e) {
             Log.e("NFE_FAN_CNT", e.getMessage());

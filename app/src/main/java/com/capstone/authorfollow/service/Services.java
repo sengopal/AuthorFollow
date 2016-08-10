@@ -148,11 +148,15 @@ public interface Services {
         @org.simpleframework.xml.Path("author")
         public String imageUrl;
 
-        @Element(name = "hometown")
+        @Element(name = "hometown", required = false)
         @org.simpleframework.xml.Path("author")
         public String homeTown;
 
-        @Element(name = "fans_count")
+        @Element(name = "born_at", required = false)
+        @org.simpleframework.xml.Path("author")
+        public String bornAt;
+
+        @Element(name = "fans_count", required = false)
         @org.simpleframework.xml.Path("author")
         public String fanCount;
 

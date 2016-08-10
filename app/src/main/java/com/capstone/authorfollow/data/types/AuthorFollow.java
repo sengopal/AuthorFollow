@@ -9,8 +9,16 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.capstone.authorfollow.service.Services;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import static com.capstone.authorfollow.CommonUtil.parse;
+
 @Table(name = "AuthorFollow", id = BaseColumns._ID)
 public class AuthorFollow extends Model implements Parcelable {
+    private static final DateFormat GR_DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd");
+
     @Column(name = "gr_author_key", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private String grAuthorKey;
 
@@ -25,6 +33,9 @@ public class AuthorFollow extends Model implements Parcelable {
 
     @Column(name = "home_town")
     public String homeTown;
+
+    @Column(name = "bday")
+    public Date dateOfBirth;
 
     @Column(name = "fan_count")
     public String fanCount;
@@ -44,6 +55,12 @@ public class AuthorFollow extends Model implements Parcelable {
         this.fanCount = detail.fanCount;
         this.desc = detail.desc;
         this.followStatus = followStatus;
+        this.dateOfBirth = convertToDate(detail.bornAt);
+    }
+
+    private Date convertToDate(String s) {
+        Date date = parse(s, GR_DATE_FORMAT);
+        return date;
     }
 
     public AuthorFollow() {
@@ -57,6 +74,7 @@ public class AuthorFollow extends Model implements Parcelable {
             this.homeTown = detail.homeTown;
             this.fanCount = detail.fanCount;
             this.desc = detail.desc;
+            this.dateOfBirth = convertToDate(detail.bornAt);
         }
     }
 
@@ -69,6 +87,10 @@ public class AuthorFollow extends Model implements Parcelable {
         fanCount = in.readString();
         desc = in.readString();
         followStatus = in.readByte() != 0;
+        long l = in.readLong();
+        if(l > 0) {
+            dateOfBirth = new Date(l);
+        }
     }
 
     @Override
@@ -81,6 +103,7 @@ public class AuthorFollow extends Model implements Parcelable {
         dest.writeString(fanCount);
         dest.writeString(desc);
         dest.writeByte((byte) (followStatus ? 1 : 0));
+        dest.writeLong(null!=dateOfBirth ? dateOfBirth.getTime() : -1);
     }
 
     @Override
@@ -158,6 +181,10 @@ public class AuthorFollow extends Model implements Parcelable {
 
     public boolean isFollowStatus() {
         return followStatus;
+    }
+
+    public Date getDateOfBirth() {
+        return dateOfBirth;
     }
 
     public void setFollowStatus(boolean followStatus) {
