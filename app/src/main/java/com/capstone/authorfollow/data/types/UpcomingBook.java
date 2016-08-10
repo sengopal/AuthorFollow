@@ -3,6 +3,7 @@ package com.capstone.authorfollow.data.types;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
@@ -12,6 +13,7 @@ import com.capstone.authorfollow.service.Services.BrowseNode;
 import com.capstone.authorfollow.service.Services.Item;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -109,9 +111,10 @@ public class UpcomingBook extends Model implements Parcelable {
         noOfPages = in.readInt();
         publisher = in.readString();
         genres = in.readString();
-        long l = in.readLong();
-        if(l > 0) {
-            publishedDate = new Date(l);
+        try {
+            publishedDate = DATE_FORMAT.parse(in.readString());
+        } catch (ParseException e) {
+            Log.e(UpcomingBook.class.getSimpleName(), "ParseException", e);
         }
     }
 
@@ -130,7 +133,7 @@ public class UpcomingBook extends Model implements Parcelable {
         dest.writeInt(noOfPages);
         dest.writeString(publisher);
         dest.writeString(genres);
-        dest.writeLong(null!=publishedDate ? publishedDate.getTime() : -1);
+        dest.writeString(DATE_FORMAT.format(publishedDate));
     }
 
     @Override

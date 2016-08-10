@@ -68,7 +68,7 @@ public class AuthorFollow extends Model implements Parcelable {
     }
 
     public void refresh(Services.AuthorDetail detail) {
-        if(null!=detail) {
+        if (null != detail) {
             this.imageUrl = detail.imageUrl;
             this.grPageLink = detail.grPageLink;
             this.homeTown = detail.homeTown;
@@ -87,9 +87,11 @@ public class AuthorFollow extends Model implements Parcelable {
         fanCount = in.readString();
         desc = in.readString();
         followStatus = in.readByte() != 0;
-        long l = in.readLong();
-        if(l > 0) {
-            dateOfBirth = new Date(l);
+        String d = in.readString();
+        try{
+            dateOfBirth = GR_DATE_FORMAT.parse(d);
+        }catch (Exception e){
+            //For null dob ignore the error
         }
     }
 
@@ -103,7 +105,9 @@ public class AuthorFollow extends Model implements Parcelable {
         dest.writeString(fanCount);
         dest.writeString(desc);
         dest.writeByte((byte) (followStatus ? 1 : 0));
-        dest.writeLong(null!=dateOfBirth ? dateOfBirth.getTime() : -1);
+        if (null != dateOfBirth) {
+            dest.writeString(GR_DATE_FORMAT.format(dateOfBirth));
+        }
     }
 
     @Override
@@ -189,5 +193,9 @@ public class AuthorFollow extends Model implements Parcelable {
 
     public void setFollowStatus(boolean followStatus) {
         this.followStatus = followStatus;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 }
