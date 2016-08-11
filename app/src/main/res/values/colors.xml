@@ -10,4 +10,9 @@
     <color name="colorDivider">#B6B6B6</color>
     <color name="titleTextColor">@android:color/white</color>
     <color name="grey">#9e9e9e</color>
+    <color name="blue_grey_500">#607D8B</color>
+    <color name="blue_grey_600">#546E7A</color>
+    <color name="blue_grey_700">#455A64</color>
+    <color name="blue_grey_800">#37474F</color>
+    <color name="blue_grey_900">#263238</color>
 </resources>

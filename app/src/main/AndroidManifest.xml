@@ -26,7 +26,12 @@
         <activity
             android:name=".BookListActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity
+            android:name="com.capstone.authorfollow.SignInActivity"
+            android:label="@string/app_name"
+            android:theme="@style/ThemeFullScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -52,12 +57,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.capstone.authorfollow.authors.AuthorListActivity" />
         </activity>
-        
+
         <provider
             android:name="com.activeandroid.content.ContentProvider"
             android:authorities="com.capstone.authorfollow"
             android:exported="false" />
-
     </application>
 
 </manifest>

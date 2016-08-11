@@ -93,6 +93,7 @@
     <style name="ViewText">
         <item name="android:textColor">@color/titleTextColor</item>
     </style>
+
     <style name="DrawerNameText" parent="ViewText">
         <item name="android:textStyle">bold</item>
     </style>
@@ -126,6 +127,7 @@
         <item name="tabTextAppearance">@style/TabTextAppearance</item>
         <item name="tabSelectedTextColor">@color/grey</item>
     </style>
+
     <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">16dp</item>
         <item name="android:textColor">@color/colorTextWhite</item>
@@ -145,5 +147,17 @@
     <style name="IndetProgressBar" parent="Theme.AppCompat.Light">
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
+
+    <style name="ThemeOverlay.MyDarkButton" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="colorButtonNormal">@color/blue_grey_500</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="ThemeFullScreen" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
 
 </resources>

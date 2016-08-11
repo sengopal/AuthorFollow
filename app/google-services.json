@@ -1,0 +1,51 @@
+{
+  "project_info": {
+    "project_number": "971994860410",
+    "project_id": "authorfollow"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:971994860410:android:bc671a60af0917a6",
+        "android_client_info": {
+          "package_name": "com.capstone.authorfollow"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "971994860410-nn3trr053is1hr6tur1d40al7k2aelj1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.capstone.authorfollow",
+            "certificate_hash": "9A2484BF6572F2A917926B9718E8102FE4B76330"
+          }
+        },
+        {
+          "client_id": "971994860410-3s01j1s5nvftjuvn1uq72vm9rmgd9aqd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmJU8EEGZq5BauE_jFy2dgtaaE1n0V4V4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-82323929-1"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
