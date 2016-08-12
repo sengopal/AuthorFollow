@@ -1,5 +1,6 @@
 package com.capstone.authorfollow.data.types;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.BaseColumns;
@@ -18,6 +19,8 @@ import static com.capstone.authorfollow.CommonUtil.parse;
 @Table(name = "AuthorFollow", id = BaseColumns._ID)
 public class AuthorFollow extends Model implements Parcelable {
     private static final DateFormat GR_DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd");
+    public static final String CONTENT_AUTHORITY = "com.capstone.authorfollow/authorfollow";
+    public static final Uri CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     @Column(name = "gr_author_key", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private String grAuthorKey;

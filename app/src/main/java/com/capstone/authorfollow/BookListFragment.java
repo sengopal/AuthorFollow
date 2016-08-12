@@ -1,8 +1,11 @@
 package com.capstone.authorfollow;
 
 import android.content.Context;
+import android.database.ContentObserver;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -37,10 +40,6 @@ import butterknife.ButterKnife;
 
 public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, LoaderManager.LoaderCallbacks<NetworkResponse<List<UpcomingBook>>> {
 
-    public void setSelectedPosition(int selectedPosition) {
-        this.selectedPosition = selectedPosition;
-    }
-
     @Bind(R.id.book_list_recycle_view)
     RecyclerView mPopularGridView;
 
@@ -54,11 +53,11 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
-    private List<UpcomingBook> bookList;
     private BookGridAdaptor bookGridAdaptor;
     private SearchView mSearchView;
 
-    private int selectedPosition;
+    private Handler handler;
+    private ContentObserver contentObserver;
 
     public static BookListFragment newInstance() {
         BookListFragment fragment = new BookListFragment();
@@ -95,8 +94,6 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //TODO Mladen stage 2
-        //outState.putInt(Constants.POSITION_KEY, bookGridAdaptor.getSelectedPosition());
     }
 
     @Override
@@ -125,14 +122,47 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
         int colorPrimaryLight = ContextCompat.getColor(getActivity(), (R.color.colorPrimaryTransparent));
         mPopularGridView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
 
-        bookList = DBHelper.upcoming();
-        bookGridAdaptor = new BookGridAdaptor((BookSelectionListener) getActivity(), bookList, colorPrimaryLight);
+        bookGridAdaptor = new BookGridAdaptor((BookSelectionListener) getActivity(), DBHelper.upcoming(), colorPrimaryLight);
 
         mPopularGridView.setAdapter(bookGridAdaptor);
         mSwipeRefreshLayout.setOnRefreshListener(this);
         mSwipeRefreshLayout.setRefreshing(true);
+
+        registerObserver();
+
         return view;
     }
+
+    private void registerObserver() {
+        handler = new Handler();
+        contentObserver = new ContentObserver(handler) {
+            @Override
+            public void onChange(boolean selfChange) {
+                List<UpcomingBook> upcomingBookList = DBHelper.upcoming();
+                bookGridAdaptor.addBooks(upcomingBookList);
+                mNoMovieContainer.setVisibility((upcomingBookList == null || upcomingBookList.isEmpty()) ? View.VISIBLE : View.GONE);
+            }
+
+            @Override
+            public void onChange(boolean selfChange, Uri uri) {
+                onChange(selfChange);
+            }
+        };
+        getContext().getContentResolver().registerContentObserver(UpcomingBook.CONTENT_URI, true, contentObserver);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unregisterObserver();
+    }
+
+    private void unregisterObserver() {
+        getContext().getContentResolver().unregisterContentObserver(contentObserver);
+        contentObserver = null;
+        handler = null;
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -178,11 +208,6 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
@@ -198,19 +223,18 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
     public void onLoadFinished(Loader<NetworkResponse<List<UpcomingBook>>> loader, NetworkResponse<List<UpcomingBook>> response) {
         mSwipeRefreshLayout.setRefreshing(false);
         if (response.isSuccess()) {
-            bookList = response.getResponse();
-            bookGridAdaptor.addBooks(bookList);
-            if (null != bookList && !bookList.isEmpty()) {
+            List<UpcomingBook> booksList = response.getResponse();
+            bookGridAdaptor.addBooks(booksList);
+            if (null != booksList && !booksList.isEmpty()) {
                 Snackbar.make(getView(), R.string.books_data_loaded, Snackbar.LENGTH_LONG).show();
             }
+            mNoMovieContainer.setVisibility((booksList == null || booksList.isEmpty()) ? View.VISIBLE : View.GONE);
         } else {
             Snackbar.make(getView(), response.getErrorMessage(), Snackbar.LENGTH_LONG).show();
             if (!CommonUtil.isConnected(getActivity())) {
                 //toggleShowEmptyMovie(false);
             }
         }
-        //If there are no upcoming books for selected Authors
-        mNoMovieContainer.setVisibility((bookList == null || bookList.isEmpty()) ? View.VISIBLE : View.GONE);
     }
 
     @Override

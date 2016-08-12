@@ -28,10 +28,6 @@ import butterknife.ButterKnife;
 
 public class WishlistFragment extends Fragment {
 
-    public void setSelectedPosition(int selectedPosition) {
-        this.selectedPosition = selectedPosition;
-    }
-
     @Bind(R.id.book_list_recycle_view)
     RecyclerView mPopularGridView;
 
@@ -44,10 +40,7 @@ public class WishlistFragment extends Fragment {
     private List<UpcomingBook> bookList;
     private BookGridAdaptor bookGridAdaptor;
 
-    private int selectedPosition;
-
     private Handler handler;
-
     private ContentObserver contentObserver;
 
     public static WishlistFragment newInstance() {
@@ -69,7 +62,6 @@ public class WishlistFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //outState.putInt(Constants.POSITION_KEY, bookGridAdaptor.getSelectedPosition());
     }
 
     private void registerObserver() {

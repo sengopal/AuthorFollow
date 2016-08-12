@@ -57,9 +57,10 @@ public class BooksDataLoader extends AsyncTaskLoader<NetworkResponse<List<Upcomi
         List<UpcomingBook> booksList = new ArrayList<>();
         try {
             for (String author : this.authors) {
-                booksList.addAll(getBookInfoForAuthor(author));
+                List<UpcomingBook> bookListForAuthor = getBookInfoForAuthor(author);
+                booksList.addAll(bookListForAuthor);
+                DBHelper.updateUpcoming(bookListForAuthor, author);
             }
-            DBHelper.updateUpcoming(booksList);
             return new NetworkResponse<>(null, booksList);
         } catch (Exception e) {
             Log.e(TAG, "IOException occurred in loadInBackground()", e);

@@ -10,24 +10,18 @@
             android:id="@+id/nav_author"
             android:icon="@drawable/quill"
             android:title="@string/nav_author" />
+        <!--
         <item
             android:id="@+id/nav_goodread"
             android:icon="@drawable/goodreads_logo"
             android:title="@string/nav_goodread" />
+         -->
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/settings"
             android:title="@string/nav_settings" />
+        <item
+            android:icon="@drawable/signout"
+            android:title="Signout" />
     </group>
-
-    <!--
-    <item android:title="Sub items">
-        <menu>
-            <item
-                android:icon="@drawable/ic_dashboard"
-                android:title="Sub item 1" />
-        </menu>
-    </item>
-    -->
-
 </menu>

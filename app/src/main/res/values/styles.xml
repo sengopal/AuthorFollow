@@ -96,6 +96,7 @@
 
     <style name="DrawerNameText" parent="ViewText">
         <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorTextWhite</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

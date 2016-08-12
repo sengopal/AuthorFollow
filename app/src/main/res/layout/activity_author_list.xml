@@ -36,9 +36,9 @@
             </android.support.design.widget.AppBarLayout>
 
             <fragment
-                android:id="@+id/fragment_main"
+                android:id="@+id/fragment_author_list"
                 class="com.capstone.authorfollow.authors.AuthorListFragment"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:layout="@layout/fragment_author_list"></fragment>
 

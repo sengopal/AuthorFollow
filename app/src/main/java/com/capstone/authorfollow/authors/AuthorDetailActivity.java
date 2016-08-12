@@ -25,7 +25,7 @@ public class AuthorDetailActivity extends BaseActivity {
 
         if (savedInstanceState == null) {
             Bundle arguments = new Bundle();
-            arguments.putParcelable(Constants.AUTHOR_DETAIL, getIntent().getParcelableExtra(Constants.AUTHOR_DETAIL));
+                arguments.putParcelable(Constants.AUTHOR_DETAIL, getIntent().getParcelableExtra(Constants.AUTHOR_DETAIL));
             getSupportFragmentManager().beginTransaction().add(R.id.detail_container, AuthorDetailFragment.newInstance(arguments)).commit();
         }
     }

@@ -1,5 +1,6 @@
 package com.capstone.authorfollow.data.types;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.provider.BaseColumns;
@@ -26,6 +27,9 @@ public class UpcomingBook extends Model implements Parcelable {
     private static final String TAG = UpcomingBook.class.getSimpleName();
     private static final DateFormat AWS_ALT_DF = new SimpleDateFormat("yyyy-MM");
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    public static final String CONTENT_AUTHORITY = "com.capstone.authorfollow/upcomingbook";
+    public static final Uri CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+
     @Column(name = "gr_api_id", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     private String grApiId;
 

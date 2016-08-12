@@ -31,7 +31,7 @@ public class DBHelper {
     }
 
     public static List<AuthorFollow> getAuthorsList() {
-        List<AuthorFollow> authorList = new Select().from(AuthorFollow.class).execute();
+        List<AuthorFollow> authorList = new Select().from(AuthorFollow.class).where("follow_status = '1'").execute();
         return authorList;
     }
 
@@ -53,14 +53,18 @@ public class DBHelper {
         return new Select().from(WishlistBook.class).where("author_id = ?", authorId).execute();
     }
 
-    public static void updateUpcoming(List<UpcomingBook> booksList) {
+    public static void updateUpcoming(List<UpcomingBook> booksList, String author) {
         ActiveAndroid.beginTransaction();
-        new Delete().from(UpcomingBook.class).execute();
+        removeBooksForAuthor(author);
         for (UpcomingBook book : booksList) {
             book.save();
         }
         ActiveAndroid.setTransactionSuccessful();
         ActiveAndroid.endTransaction();
+    }
+
+    public static void removeBooksForAuthor(String author){
+        new Delete().from(UpcomingBook.class).where("author = ?", author).execute();
     }
 
     public static boolean checkInWishlist(String grApiId) {
@@ -114,7 +118,7 @@ public class DBHelper {
     }
 
     public static boolean checkInFollowList(String grAuthorKey) {
-        List<AuthorFollow> list = new Select().from(AuthorFollow.class).where("gr_author_key = ?", grAuthorKey).execute();
+        List<AuthorFollow> list = new Select().from(AuthorFollow.class).where("gr_author_key = ? and follow_status = '1'", grAuthorKey).execute();
         return (null != list && !list.isEmpty());
     }
 
@@ -124,6 +128,7 @@ public class DBHelper {
     }
 
     public static void removeFromFollowList(AuthorFollow authorFollow) {
+        removeBooksForAuthor(authorFollow.getName());
         authorFollow.setFollowStatus(false);
         authorFollow.save();
     }

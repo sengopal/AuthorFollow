@@ -1,8 +1,11 @@
 package com.capstone.authorfollow.authors;
 
 import android.content.Context;
+import android.database.ContentObserver;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -24,9 +27,8 @@ import com.capstone.authorfollow.BaseActivity;
 import com.capstone.authorfollow.R;
 import com.capstone.authorfollow.data.types.AuthorFollow;
 import com.capstone.authorfollow.data.types.DBHelper;
+import com.capstone.authorfollow.data.types.UpcomingBook;
 import com.capstone.authorfollow.service.AuthorDetailHelper.AuthorSearchAsyncTask;
-
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,8 +49,10 @@ public class AuthorListFragment extends Fragment {
     ProgressBar progressBar;
 
     private SearchView mSearchView;
-    private List<AuthorFollow> authorFollowList;
     private AuthorListAdapter listAdapter;
+
+    private Handler handler;
+    private ContentObserver contentObserver;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,37 +79,41 @@ public class AuthorListFragment extends Fragment {
         authorListView.setHasFixedSize(true);
         authorListView.setAdapter(listAdapter);
 
-        authorFollowList = DBHelper.getAuthorsList();
-        listAdapter.setAuthors(authorFollowList);
+        listAdapter.setAuthors(DBHelper.getAuthorsList());
+
+        registerObserver();
 
         return view;
     }
 
-    /*
+    private void registerObserver() {
+        handler = new Handler();
+        contentObserver = new ContentObserver(handler) {
+            @Override
+            public void onChange(boolean selfChange) {
+                listAdapter.setAuthors(DBHelper.getAuthorsList());
+            }
+
+            @Override
+            public void onChange(boolean selfChange, Uri uri) {
+                onChange(selfChange);
+            }
+        };
+        getContext().getContentResolver().registerContentObserver(AuthorFollow.CONTENT_URI, true, contentObserver);
+        getContext().getContentResolver().registerContentObserver(UpcomingBook.CONTENT_URI, true, contentObserver);
+    }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public void onDestroyView() {
+        super.onDestroyView();
+        unregisterObserver();
+    }
 
-        String sortType;
-        boolean result;
-
-        switch (item.getItemId()) {
-            case R.id.sort_by_popularity_desc:
-                sortType = Constants.SORT_BY_POPULARITY_DESC;
-                result = true;
-                break;
-            case R.id.sort_by_rates_desc:
-                sortType = Constants.SORT_BY_RATING_DESC;
-                result = true;
-                break;
-            default:
-                sortType = Constants.SORT_BY_POPULARITY_DESC;
-                result = super.onOptionsItemSelected(item);
-                break;
-        }
-        PreferenceUtil.savePrefs(getActivity(), Constants.SORT_BY_KEY, sortType);
-        restartLoader();
-        return result;
-    }*/
+    private void unregisterObserver() {
+        getContext().getContentResolver().unregisterContentObserver(contentObserver);
+        contentObserver = null;
+        handler = null;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -165,16 +173,9 @@ public class AuthorListFragment extends Fragment {
                     Snackbar.make(getView(), getString(R.string.author_not_found), Snackbar.LENGTH_LONG).show();
                 } else {
                     listAdapter.addToAuthors(authorFollow);
-                    mSearchView.setIconified(true);
-                    mSearchView.clearFocus();
                 }
             }
         }).execute();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
     }
 
     @Override
@@ -186,7 +187,9 @@ public class AuthorListFragment extends Fragment {
     public void resetSearchBar() {
         //Calls Close on search
         if (null != mSearchView) {
+            mSearchView.setQuery("", false);
             mSearchView.setIconified(true);
+            mSearchView.clearFocus();
         }
     }
 

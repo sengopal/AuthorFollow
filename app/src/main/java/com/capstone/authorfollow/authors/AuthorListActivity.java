@@ -3,19 +3,17 @@ package com.capstone.authorfollow.authors;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.capstone.authorfollow.BaseListActivity;
-import com.capstone.authorfollow.BookDetailFragment;
 import com.capstone.authorfollow.Constants;
 import com.capstone.authorfollow.R;
 import com.capstone.authorfollow.data.types.AuthorFollow;
 
 import butterknife.ButterKnife;
-
-import static com.capstone.authorfollow.BookDetailFragment.newInstance;
 
 public class AuthorListActivity extends BaseListActivity implements AuthorListAdapter.Callback {
     private static final String TAG = "MainActivity";
@@ -34,7 +32,8 @@ public class AuthorListActivity extends BaseListActivity implements AuthorListAd
             mTwoPane = true;
             if (savedInstanceState == null) {
                 Bundle bundle = new Bundle();
-                getSupportFragmentManager().beginTransaction().add(R.id.detail_container, newInstance(bundle), BookDetailFragment.DETAIL_FRAGMENT_TAG).commit();
+                Fragment fragment = AuthorDetailFragment.newInstance(bundle);
+                getSupportFragmentManager().beginTransaction().add(R.id.detail_container, fragment, AuthorDetailFragment.AUTHOR_DETAIL_FRAGMENT_TAG).commit();
             }
         } else {
             mTwoPane = false;
@@ -68,6 +67,11 @@ public class AuthorListActivity extends BaseListActivity implements AuthorListAd
     @Override
     public void onAuthorClick(AuthorFollow author, View view) {
         Log.d(TAG, "onAuthorClick() returned: " + author);
+        Fragment listFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_author_list);
+        if(null!=listFragment && listFragment instanceof AuthorListFragment){
+            ((AuthorListFragment) listFragment).resetSearchBar();
+        }
+
         if (mTwoPane) {
             Bundle args = new Bundle();
             args.putParcelable(Constants.AUTHOR_DETAIL, author);

@@ -8,4 +8,7 @@ public class Constants {
     public static final String BOOK_POSTER_IMAGE_VIEW_KEY = "bookPosterImageView";
     public static final String AUTHOR_POSTER_IMAGE_VIEW_KEY = "authorPosterImageView";
     public static final String GENRE_SEARCH = "genre";
+    public static final String PREF_USERNAME = "pref.username";
+    public static final String PREF_EMAIL = "pref.useremail";
+    public static final String PREF_USER_PIC = "pref.userpic";
 }

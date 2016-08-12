@@ -69,9 +69,9 @@ public class AuthorListAdapter extends RecyclerView.Adapter<AuthorListAdapter.Vi
         if (authorFollow.isFollowStatus()) {
             List<UpcomingBook> booksFromAuthorList = DBHelper.getBooksFromAuthor(authorFollow.getName());
             holder.bookCountView.setText(generateBookCountText(booksFromAuthorList, holder.bookCountView.getContext()));
-            holder.followStatusImgView.setImageDrawable(holder.followStatusImgView.getResources().getDrawable(R.drawable.ic_playlist_add_check_black));
+            holder.followStatusImgView.setImageDrawable(holder.followStatusImgView.getResources().getDrawable(R.drawable.check_circle));
         } else {
-            holder.followStatusImgView.setImageDrawable(holder.followStatusImgView.getResources().getDrawable(R.drawable.ic_playlist_add_black));
+            holder.followStatusImgView.setImageDrawable(holder.followStatusImgView.getResources().getDrawable(R.drawable.plus_circle));
             holder.bookCountView.setText(holder.bookCountView.getContext().getString(R.string.author_not_followed_yet));
         }
     }
