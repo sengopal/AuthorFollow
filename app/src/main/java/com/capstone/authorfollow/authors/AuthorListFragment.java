@@ -135,7 +135,7 @@ public class AuthorListFragment extends Fragment {
             v.setImageResource(R.drawable.ic_person_add_white_36px);
         }
 
-        mSearchView.setQueryHint(getString(R.string.search_in_upcoming));
+        mSearchView.setQueryHint(getString(R.string.search_for_new_authors));
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {

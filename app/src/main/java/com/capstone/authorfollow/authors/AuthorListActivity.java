@@ -49,6 +49,11 @@ public class AuthorListActivity extends BaseListActivity implements AuthorListAd
     }
 
     @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        syncDrawerState(R.id.nav_author);
+    }
+
+    @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);

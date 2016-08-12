@@ -27,6 +27,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 
 import com.capstone.authorfollow.BookGridAdaptor.BookSelectionListener;
+import com.capstone.authorfollow.data.types.AuthorFollow;
 import com.capstone.authorfollow.data.types.DBHelper;
 import com.capstone.authorfollow.data.types.NetworkResponse;
 import com.capstone.authorfollow.data.types.UpcomingBook;
@@ -149,6 +150,7 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
             }
         };
         getContext().getContentResolver().registerContentObserver(UpcomingBook.CONTENT_URI, true, contentObserver);
+        getContext().getContentResolver().registerContentObserver(AuthorFollow.CONTENT_URI, true, contentObserver);
     }
 
     @Override
@@ -249,8 +251,9 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     public void resetSearchBar() {
-        //Calls Close on search
         if (null != mSearchView) {
+            bookGridAdaptor.addBooks(DBHelper.upcoming());
+            mSearchView.clearFocus();
             mSearchView.setIconified(true);
         }
     }

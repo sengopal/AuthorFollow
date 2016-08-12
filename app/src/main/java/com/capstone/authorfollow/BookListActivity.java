@@ -70,6 +70,11 @@ public class BookListActivity extends BaseListActivity implements BookGridAdapto
         setIntent(intent);
     }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        syncDrawerState(R.id.nav_home);
+    }
+
     /*
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -85,8 +90,8 @@ public class BookListActivity extends BaseListActivity implements BookGridAdapto
 */
     private void initFragments(Bundle savedInstanceState) {
         upcomingListFragment = new BookListFragment();
-        upcomingListFragment.resetSearchBar();
         wishlistFragment = new WishlistFragment();
+        upcomingListFragment.resetSearchBar();
     }
 
     private void setupViewPager() {

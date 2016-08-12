@@ -6,9 +6,6 @@ No data views
 No internet connection message
 Content Description
 "movie" text cleanup
-Change Add button to Fab in Author list page
-Include status bar in detail page image
-Color palatte for detail page
 Replace Goodreads and Amazon links on the detail page
 Books page - Fab button to search for Authors - link to the Authors page ???
 
@@ -32,8 +29,10 @@ Request has expired. Timestamp date is 2016-06-23T02:21:41Z.
 <RequestId>ed2d30d6-e075-47b8-9cf2-8bfd5df0d42f</RequestId>
 </ItemSearchErrorResponse>
 
+=== LATER
 Firebase - Login and Save Data for user
-
+Change Add button to Fab in Author list page - dropped
+Color palatte for detail page
 
 == Reference Apps
 * https://github.com/firebase/firebase-login-demo-android
