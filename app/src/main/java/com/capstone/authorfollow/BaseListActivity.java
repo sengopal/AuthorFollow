@@ -60,6 +60,10 @@ public class BaseListActivity extends AppCompatActivity {
                             case R.id.nav_author:
                                 openActivity(AuthorListActivity.class);
                                 break;
+                            case R.id.nav_signout:
+                                //TODO: Open signin activity with Intent of Sign out
+                                openActivity(AuthorListActivity.class);
+                                break;
 
                         }
                         menuItem.setChecked(true);

@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:contentDescription="@string/no_internet_connection"
-        android:src="@drawable/ic_star_dark" />
+        android:src="@drawable/ic_movie_placeholder" />
 
     <TextView
         android:layout_width="wrap_content"
