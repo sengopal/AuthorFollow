@@ -64,7 +64,7 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
     @Bind(R.id.movie_detail_poster_image_view)
     ImageView mPosterMovie;
 
-    @Bind(R.id.movie_detail_backdrop_image_view)
+    @Bind(R.id.book_detail_backdrop_image_view)
     ImageView mBackdropMovie;
 
     //@Bind(R.id.movie_detail_title_text_view)
@@ -93,7 +93,7 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
     @Bind(R.id.fab)
     FloatingActionButton mFavoriteFab;
 
-    @Bind({R.id.appbar, R.id.inc_movie_detail})
+    @Bind({R.id.appbar, R.id.inc_book_detail})
     List<View> viewContainers;
 
     @Bind(R.id.inc_no_selected_movie)

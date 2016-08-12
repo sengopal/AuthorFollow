@@ -21,8 +21,13 @@ public class DBHelper {
     }
 
     public static List<UpcomingBook> upcoming() {
-        List<UpcomingBook> list = new Select().from(UpcomingBook.class).execute();
-        return (null != list ? list : new ArrayList<UpcomingBook>());
+        List<AuthorFollow> followedAuthorsList = getAuthorsList();
+        ArrayList<UpcomingBook> upcomingBooksList = new ArrayList<>();
+        for (AuthorFollow author : followedAuthorsList) {
+            List<UpcomingBook> list = new Select().from(UpcomingBook.class).where("author = ?", author.getName()).execute();
+            upcomingBooksList.addAll(list);
+        }
+        return upcomingBooksList;
     }
 
     public static AuthorFollow getAuthorInfo(String author) {
@@ -63,7 +68,7 @@ public class DBHelper {
         ActiveAndroid.endTransaction();
     }
 
-    public static void removeBooksForAuthor(String author){
+    public static void removeBooksForAuthor(String author) {
         new Delete().from(UpcomingBook.class).where("author = ?", author).execute();
     }
 

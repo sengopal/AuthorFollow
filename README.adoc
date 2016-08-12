@@ -1,38 +1,26 @@
-deleting Author - Just delete books for Author_id = ? in DB
-add author - do refresh for that author only
-
-
-    Firebase
-    make search with genre
-    Add share provider for detail page
-
-
-== TODO
-Step 1: Search Author using author alerts
-Step 2: When a author is being added
-  https://www.goodreads.com/api/index#search.authors
-  https://www.goodreads.com/api/author_url/J.K.Rowling?key=
-    Gives ID
-  https://www.goodreads.com/author/show/1077326?format=xml&key=
-  Store: AuthorFollow as Name, Image Url
-
-
-Change icon in Book Detail Page
+Add share provider for detail page
+Sign out
+Analytics
+Tablet view
+No data views
+No internet connection message
+Content Description
+"movie" text cleanup
+Change Add button to Fab in Author list page
+Include status bar in detail page image
 Color palatte for detail page
-Add Author image to book detail
-
-
 Replace Goodreads and Amazon links on the detail page
+Books page - Fab button to search for Authors - link to the Authors page ???
 
-List - MediumImage, isbn, author
-Wishlist - Image, isbn, author, Preview link
-Detail - LargeImage, isbn, author, Goodreads Link, Released on, Description, rating, Amazon link - DetailPageURL
+  - Settings
+    - Show Home Page as Authors or Books
+    - Content refresh??
+    - Show recent
+    - upcoming days
 
-
-1. Change DB to use SyncAdaptor and use loader to load from that
-2. Add pubdate check to DB.upcoming() query
-3. Change pub date to Date and use Locale for publication date
-4. Add check for system time off value amazon
+Add pubdate check to DB.upcoming() query
+Change pub date to Date and use Locale for publication date
+Add check for system time off value amazon
 
 <ItemSearchErrorResponse xmlns="http://ecs.amazonaws.com/doc/2005-10-05/">
 <Error>
@@ -47,27 +35,18 @@ Request has expired. Timestamp date is 2016-06-23T02:21:41Z.
 Firebase - Login and Save Data for user
 
 
-== CAPSTONE
-* https://futurestud.io/blog/retrofit-how-to-integrate-xml-converter
-* https://gist.github.com/nahba/fce4531b089323123299
-* http://webservices.amazon.com/scratchpad/index.html#http://webservices.amazon.com/onca/xml?Service=AWSECommerceService&Operation=ItemLookup&SubscriptionId=AKIAIV32PE3ER4WKYHOA&AssociateTag=sengopalme-20&ItemId=0439358078&ResponseGroup=ItemAttributes
-
 == Reference Apps
 * https://github.com/firebase/firebase-login-demo-android
 * https://github.com/chrisbanes/cheesesquare
 * MAIN STARTING POINT: https://github.com/swissonid/android-design-support-lib-sample
-
-== MATERIAL
 * https://codelabs.developers.google.com/codelabs/material-design-style/index.html
-* https://github.com/chrisbanes/cheesesquare
+
 
 == UI ELEMENTS
-* Name of the App: Author Follow - Icon: Book and bell Incoming
 * LOGO - http://mdbootstrap.com/material-design-logo-generator/
 * DIALOGS - https://github.com/afollestad/material-dialogs
 * SUPER RECYCLER View - https://github.com/Malinskiy/SuperRecyclerView
 * CIRCLE IMAGE VIEW - https://github.com/hdodenhof/CircleImageView
-* FAB Button - https://github.com/futuresimple/android-floating-action-button
 * SETTINGS - https://github.com/kenumir/MaterialSettings
 * NAVIGATION DRAWER - https://github.com/mikepenz/MaterialDrawer
 * SWIPE TO ACTION - https://github.com/vcalvello/SwipeToAction
@@ -77,31 +56,15 @@ Firebase - Login and Save Data for user
 == SPLASH Screen / COVER / TUTORIAL / INTRO
 * http://www.materialdoc.com/splash-screens/
 
-
-== FUTURE - Monetization
-1. Recommendations
-2. Affliates
-3. In App purchase for books
-4. Adding a reading challenge
-
 == ANALYTICS (two of Google APIs)
 * which author is tagged more) (for that book perhaps????
 * https://developers.google.com/analytics/devguides/collection/android/v4/mobile-implementation-guide
 
-== EXPORT VIA GOOGLE DRIVE (perhaps)
-
-== App Indexing ????
-
-== AdMob
-
 == SIGNIN WITH GOOGLE
-* Google SignIn -> Identity -> https://www.udacity.com/course/viewer#!/c-ud876-5/l-4331999941
+* https://www.udacity.com/course/viewer#!/c-ud876-5/l-4331999941
 * https://github.com/googlesamples/google-services/tree/master/android/app-indexing
 * https://github.com/udacity/google-play-services/tree/master/Identity_Lessons_Final/UdacityPlus2_1
 * https://github.com/firebase/firebase-login-demo-android
-
-
-== FIREBASE instead of ActiveAndroid???
 
 == LIBRARY REFERENCES
 * http://android-developers.blogspot.jp/2015/05/android-design-support-library.html
@@ -124,29 +87,12 @@ Firebase - Login and Save Data for user
 * https://github.com/googlesamples/android-ActivitySceneTransitionBasic/
 
 
-= APIS
-
-=== AUTHOR DETAIL
-https://www.goodreads.com/author/show/1077326?format=xml&key=We96lMbi0gpn6i9oHKd0dA
-
-=== PREVIEW
-https://developers.google.com/books/docs/overview?csw=1#data_api
-Price and Preview: https://www.googleapis.com/books/v1/volumes?q=isbn:9781429985208
-https://github.com/google/google-api-java-client-samples
-
-
-== AUTHOR NAME SEARCH
-http://isbndb.com/api/v2/docs/authors
-http://authoralerts.com/autocomplete.jsp?q=Eoin
-alternative - author + id static api cache
-
-
 == AMAZON
 http://docs.aws.amazon.com/AWSECommerceService/latest/DG/EX_SearchingbyAuthor.html
 http://docs.aws.amazon.com/AWSECommerceService/latest/DG/NewReleases.html
 http://docs.aws.amazon.com/AWSECommerceService/latest/DG/rest-signature.html
 http://docs.aws.amazon.com/AWSECommerceService/latest/DG/BrowseNodeIDValues.html
-
+http://webservices.amazon.com/scratchpad/index.html
 http://webservices.amazon.com/onca/xml?Service=AWSECommerceService&Operation=ItemSearch&SubscriptionId=AKIAIV32PE3ER4WKYHOA&AssociateTag=sengopalme-20&SearchIndex=Books&Keywords=John Grisham&ResponseGroup=Large&Sort=-publication_date&Author=John+Grisham
 
 http://webservices.amazon.com/onca/xml?
@@ -163,40 +109,17 @@ http://webservices.amazon.com/onca/xml?
   Langage Restriction: http://docs.aws.amazon.com/AWSECommerceService/latest/DG/PowerSearchSyntax.html
 
 
-
-=== ARCHIVE
-  Home
-     - Fab button to search for Authors - link to the Authors page
-     - Search by Author Name
-     - New upcoming releases (book cover grid)
-     - Show recent - pin
-     - click for book detail
-          - book detail - add to GR - want to read
-                        - add to My wish list
-                        - View Author Detail
-                        - Amazon link
-
-   - My Wish list - Activity
-        - List of added books (book cover grid)
-        - Linkt to Book detail
-
-  - Authors
-    - Followed list with count of books (with upcoming/recent releases)
-    - Author detail
-    - FAB Button: Search and add author to follow list
-    -
-
-  - Recommendations
-    - From Amazon or Grs
-    - http://lifehacker.com/5595842/five-best-book-recommendation-services
+=== FUTURE
+1. Recommendations
+2. Affliates
+3. In App purchase for books
+4. Adding a reading challenge
+Recommendations : http://lifehacker.com/5595842/five-best-book-recommendation-services
+5. *PREVIEW*
+ .. https://developers.google.com/books/docs/overview?csw=1#data_api
+ .. Price and Preview: https://www.googleapis.com/books/v1/volumes?q=isbn:9781429985208
+ .. https://github.com/google/google-api-java-client-samples
+6. EXPORT VIA GOOGLE DRIVE
 
 
-  - Settings
-    - Show Home Page as Authors or Books
-    - Content refresh??
-    - GoodReads Link
 
-  -Drawer
-  GoodReads in navigation drawer - use GRs to manage Want to Reads
-  Authors link in drawer
-  My Wish list in drawer

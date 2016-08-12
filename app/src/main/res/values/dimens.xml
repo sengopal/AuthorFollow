@@ -48,4 +48,6 @@
     <dimen name="genres_left_margin">8dp</dimen>
     <dimen name="author_list_left_margin">20dp</dimen>
     <dimen name="g_top_margin">100dp</dimen>
+    <dimen name="article_keylines">72dp</dimen>
+    <dimen name="md_keylines">16dp</dimen>
 </resources>
