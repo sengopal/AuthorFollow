@@ -11,7 +11,7 @@
         android:layout_height="@dimen/author_img_avatar_size"
         android:layout_gravity="bottom"
         android:layout_marginLeft="@dimen/author_img_margin_left"
-        tools:src="@drawable/ic_movie_placeholder" />
+        tools:src="@drawable/author_placeholder" />
 
     <LinearLayout
         android:layout_width="match_parent"

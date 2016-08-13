@@ -45,7 +45,7 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Bind(R.id.book_list_recycle_view)
     RecyclerView mPopularGridView;
 
-    @Bind(R.id.main_movie_sw_refresh_layout)
+    @Bind(R.id.refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Bind(R.id.no_author_container)

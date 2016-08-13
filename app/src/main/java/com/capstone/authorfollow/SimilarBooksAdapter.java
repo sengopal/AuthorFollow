@@ -25,8 +25,8 @@ public class SimilarBooksAdapter extends RecyclerView.Adapter<SimilarBooksAdapte
         this.books = new ArrayList<>();
     }
 
-    public void setSimilarMovies(List<UpcomingBook> similarMovies) {
-        this.books = similarMovies;
+    public void setSimilarBooks(List<UpcomingBook> similarBooks) {
+        this.books = similarBooks;
     }
 
     @Override

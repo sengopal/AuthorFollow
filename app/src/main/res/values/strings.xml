@@ -1,17 +1,13 @@
 <resources xmlns:xliff="http://schemas.android.com/apk/res-auto">
     <string name="app_name">Author Follow</string>
-    <string name="sort_by_popularity_desc">Most popular</string>
-    <string name="sort_by_rates_desc">Highest rated</string>
     <string name="books_data_loaded">Books data loaded successfully</string>
-    <string name="movies_not_found">Books not found :(</string>
     <string name="book_detail">Book detail</string>
     <string name="Description">Description</string>
-    <string name="Trailers">Trailers</string>
-    <string name="a11y_movie_title">Movie title: <xliff:g id="movie">%1$s</xliff:g></string>
-    <string name="a11y_movie_overview">Movie overview: <xliff:g id="overview">%1$s</xliff:g></string>
+    <string name="a11y_book_title">Title: <xliff:g id="book">%1$s</xliff:g></string>
+    <string name="a11y_book_overview">Overview: <xliff:g id="overview">%1$s</xliff:g></string>
     <string name="a11y_book_author">Author of book: <xliff:g id="year">%1$s</xliff:g></string>
     <string name="a11y_book_year">Date of release: <xliff:g id="year">%1$s</xliff:g></string>
-    <string name="a11y_movie_rate">Movie rating: <xliff:g id="rate">%1$s</xliff:g></string>
+    <string name="a11y_book_rate">Rating: <xliff:g id="rate">%1$s</xliff:g></string>
     <string name="no_internet_connection">No network connection available.</string>
     <string name="trailer">Trailer</string>
     <string name="add_authors">Follow authors to view upcoming releases</string>

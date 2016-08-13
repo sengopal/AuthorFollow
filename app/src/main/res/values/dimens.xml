@@ -5,7 +5,7 @@
     <dimen name="image_thumbnail_size">200dp</dimen>
     <dimen name="image_thumbnail_spacing">1dp</dimen>
     <dimen name="grid_column_height">270dp</dimen>
-    <dimen name="no_movies_text_size">24dp</dimen>
+    <dimen name="no_data_text_size">24dp</dimen>
     <dimen name="year_width_tag_size">120dp</dimen>
     <dimen name="year_height_tag_size">48dp</dimen>
     <dimen name="rate_icon_margin_left">16dp</dimen>
@@ -34,7 +34,7 @@
     <dimen name="detail_card_view_margin_left">16dp</dimen>
     <dimen name="detail_card_view_margin_right">16dp</dimen>
     <dimen name="detail_card_view_margin">16dp</dimen>
-    <dimen name="no_movie_selected_text_size">32sp</dimen>
+    <dimen name="no_item_selected_text_size">32sp</dimen>
     <dimen name="fab_margin">10dp</dimen>
     <dimen name="drawer_header_height">220dp</dimen>
     <dimen name="card_margin">16dp</dimen>

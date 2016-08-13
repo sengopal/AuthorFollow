@@ -2,14 +2,14 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/movie_detail_nested_scroll_view"
-    android:fitsSystemWindows="true"
+    android:id="@+id/scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout
-        android:id="@+id/movie_detail_container"
+        android:id="@+id/book_detail_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -25,11 +25,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/movie_detail_poster_image_view"
+                    android:id="@+id/book_detail_poster_image_view"
                     android:layout_width="@dimen/detail_poster_image_width"
                     android:layout_height="@dimen/detail_poster_image_height"
                     android:layout_gravity="left|top"
@@ -39,11 +39,11 @@
                     android:fitsSystemWindows="true"
                     android:scaleType="fitXY"
                     android:transitionName="bookPosterImageView"
-                    tools:src="@drawable/ic_movie_placeholder" />
+                    tools:src="@drawable/book_placeholder" />
 
                 <TextView
-                    android:id="@+id/movie_detail_rate_value_text_view"
-                    style="@style/MovieDetailContainerSubTitle"
+                    android:id="@+id/rate_value_text_view"
+                    style="@style/DetailContainerSubTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -51,7 +51,7 @@
                     tools:text="4.4" />
 
                 <RatingBar
-                    android:id="@+id/movie_detail_rating_value_view"
+                    android:id="@+id/rating_value_view"
                     style="@style/RatingBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -67,44 +67,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/movie_detail_published_title_text_view"
-                    style="@style/MovieDetailContainerSubTitle"
+                    android:id="@+id/published_title_text_view"
+                    style="@style/DetailContainerSubTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:text="@string/PublishedOn" />
 
                 <TextView
-                    android:id="@+id/movie_detail_year_text_view"
-                    style="@style/MovieDetailContent"
+                    android:id="@+id/pub_date_text_view"
+                    style="@style/BookDetailContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="2015"></TextView>
 
                 <TextView
-                    android:id="@+id/movie_detail_isbn_title_text_view"
-                    style="@style/MovieDetailContainerSubTitle"
+                    android:id="@+id/isbn_title_text_view"
+                    style="@style/DetailContainerSubTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/ISBN" />
 
                 <TextView
                     android:id="@+id/book_detail_isbn_text_view"
-                    style="@style/MovieDetailContent"
+                    style="@style/BookDetailContent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="ABCDEFD2015"></TextView>
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/author_avatar"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:layout_width="@dimen/author_img_avatar_size"
                     android:layout_height="@dimen/author_img_avatar_size"
-                    tools:src="@drawable/ic_movie_placeholder" />
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    tools:src="@drawable/book_placeholder" />
 
             </LinearLayout>
         </LinearLayout>
@@ -115,7 +115,7 @@
             android:id="@+id/recycler_view_genres_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/genres_left_margin"/>
+            android:layout_marginLeft="@dimen/genres_left_margin" />
 
         <include layout="@layout/view_divider" />
 
@@ -131,16 +131,16 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/movie_detail_synopsys_title_text_view"
-                    style="@style/MovieDetailContainerSubTitle"
+                    android:id="@+id/desc_title_text_view"
+                    style="@style/DetailContainerSubTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/Description" />
 
                 <TextView
-                    android:id="@+id/movie_detail_synopsys_data_text_view"
-                    style="@style/MovieDetailContent"
+                    android:id="@+id/desc_text_view"
+                    style="@style/BookDetailContent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     tools:text="Test" />
@@ -149,8 +149,8 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:id="@+id/detail_movie_trailers_card_view"
-            style="@style/MovieDetailContainer"
+            android:id="@+id/detail_card_view"
+            style="@style/DetailContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/card_margin">
@@ -161,7 +161,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    style="@style/MovieDetailContainerSubTitle"
+                    style="@style/DetailContainerSubTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -191,7 +191,7 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/detail_similar_books_card_view"
-            style="@style/MovieDetailContainer"
+            style="@style/DetailContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/card_margin">
@@ -211,7 +211,7 @@
                     android:textSize="20sp" />
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_view_similar_movies_list"
+                    android:id="@+id/recycler_view_similar_books_list"
                     android:layout_width="match_parent"
                     android:layout_height="140dp"
                     android:layout_marginTop="4dp" />

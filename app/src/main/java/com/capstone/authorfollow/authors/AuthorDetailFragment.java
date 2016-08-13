@@ -104,10 +104,10 @@ public class AuthorDetailFragment extends Fragment implements OnBookClickListene
     @Bind({R.id.appbar, R.id.inc_author_detail})
     List<View> viewContainers;
 
-    @Bind(R.id.inc_no_selected_movie)
+    @Bind(R.id.inc_no_author_selected)
     View noSelectedView;
 
-    @Bind(R.id.recycler_view_similar_movies_list)
+    @Bind(R.id.recycler_view_similar_books_list)
     RecyclerView similarBooksListView;
 
     @Bind(R.id.progress_bar)
@@ -225,7 +225,7 @@ public class AuthorDetailFragment extends Fragment implements OnBookClickListene
         if (null != authorFollow) {
             List<UpcomingBook> booksFromDB = DBHelper.getBooksFromAuthor(authorFollow.getName());
             if (null != booksFromDB && !booksFromDB.isEmpty()) {
-                similarBooksAdapter.setSimilarMovies(booksFromDB);
+                similarBooksAdapter.setSimilarBooks(booksFromDB);
             } else {
                 //load from Network
                 progressBar.setVisibility(View.VISIBLE);
@@ -248,7 +248,7 @@ public class AuthorDetailFragment extends Fragment implements OnBookClickListene
         progressBar.setVisibility(View.GONE);
         if (response.isSuccess()) {
             List<UpcomingBook> bookList = response.getResponse();
-            similarBooksAdapter.setSimilarMovies(bookList);
+            similarBooksAdapter.setSimilarBooks(bookList);
             if (null != bookList && !bookList.isEmpty()) {
                 Snackbar.make(getView(), R.string.books_data_loaded, Snackbar.LENGTH_LONG).show();
             } else {
@@ -289,13 +289,13 @@ public class AuthorDetailFragment extends Fragment implements OnBookClickListene
 
         String fanCount = getFormattedFanCount(authorFollow.getFanCount());
         fanCountTextView.setText(fanCount);
-        fanCountTextView.setContentDescription(getString(R.string.a11y_movie_rate, authorFollow.getFanCount()));
+        fanCountTextView.setContentDescription(getString(R.string.a11y_book_rate, authorFollow.getFanCount()));
 
         bdayTextView.setText(getFormattedBday(authorFollow.getDateOfBirth()));
         homeTownTextView.setText(authorFollow.getHomeTown());
 
         aboutDataTextView.setText(android.text.Html.fromHtml(authorFollow.getDesc()));
-        aboutDataTextView.setContentDescription(getString(R.string.a11y_movie_overview, authorFollow.getDesc()));
+        aboutDataTextView.setContentDescription(getString(R.string.a11y_book_overview, authorFollow.getDesc()));
 
         grLinkImgView.setOnClickListener(new OnClickListener() {
             @Override
@@ -330,11 +330,11 @@ public class AuthorDetailFragment extends Fragment implements OnBookClickListene
         return fanCount;
     }
 
-    private void toggleNonSelectedView(boolean noMovieData) {
-        toggleVisibleFab(!noMovieData);
-        noSelectedView.setVisibility(noMovieData ? View.VISIBLE : View.GONE);
+    private void toggleNonSelectedView(boolean noAuthorData) {
+        toggleVisibleFab(!noAuthorData);
+        noSelectedView.setVisibility(noAuthorData ? View.VISIBLE : View.GONE);
         for (View view : viewContainers) {
-            view.setVisibility(noMovieData ? View.GONE : View.VISIBLE);
+            view.setVisibility(noAuthorData ? View.GONE : View.VISIBLE);
         }
     }
 

@@ -12,7 +12,7 @@
         <item name="windowActionBar">false</item>
     </style>
 
-    <style name="MovieDetailTitle" parent="TextAppearance.AppCompat.Title">
+    <style name="DetailTitle" parent="TextAppearance.AppCompat.Title">
         <item name="android:textColor">@color/colorTextWhite</item>
         <item name="android:layout_marginLeft">@dimen/text_margin_left</item>
         <item name="android:layout_marginTop">@dimen/text_margin_top</item>
@@ -20,26 +20,26 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="AppScreenTitle" parent="MovieDetailTitle">
+    <style name="AppScreenTitle" parent="DetailTitle">
         <item name="android:textSize">@dimen/big_title_text_size</item>
         <item name="android:textStyle">italic</item>
         <item name="android:textAlignment">center</item>
     </style>
 
-    <style name="MovieDetailSubtitle" parent="TextAppearance.AppCompat.Small">
+    <style name="DetailSubtitle" parent="TextAppearance.AppCompat.Small">
         <item name="android:textColor">@color/colorTextWhite</item>
         <item name="android:paddingLeft">@dimen/text_padding_16dp</item>
         <item name="android:paddingRight">@dimen/text_padding_16dp</item>
         <item name="android:textSize">@dimen/subtitle_text_size</item>
     </style>
 
-    <style name="MovieDetailContainerSubTitle" parent="TextAppearance.AppCompat.Subhead">
+    <style name="DetailContainerSubTitle" parent="TextAppearance.AppCompat.Subhead">
         <item name="android:textColor">@color/colorPrimaryText</item>
         <item name="android:paddingLeft">0dp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="MovieDetailContainerTitle" parent="TextAppearance.AppCompat.Headline">
+    <style name="DetailContainerTitle" parent="TextAppearance.AppCompat.Headline">
         <item name="android:textColor">@color/colorPrimaryText</item>
         <item name="android:padding">@dimen/text_padding_8dp</item>
     </style>
@@ -68,7 +68,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="MovieDetailContent" parent="TextAppearance.AppCompat.Body2">
+    <style name="BookDetailContent" parent="TextAppearance.AppCompat.Body2">
         <item name="android:textColor">@color/colorSecondaryText</item>
         <item name="android:paddingTop">@dimen/text_padding_8dp</item>
         <item name="android:paddingBottom">@dimen/text_padding_8dp</item>
@@ -80,14 +80,13 @@
         <item name="android:padding">0dp</item>
     </style>
 
-    <style name="MovieDetailContainer" parent="android:Widget">
+    <style name="DetailContainer" parent="android:Widget">
         <item name="android:layout_marginTop">@dimen/detail_card_view_margin</item>
         <item name="android:layout_marginLeft">@dimen/detail_card_view_margin_left</item>
         <item name="android:layout_marginRight">@dimen/detail_card_view_margin_right</item>
         <item name="android:paddingRight">16dp</item>
         <item name="android:orientation">vertical</item>
     </style>
-
 
     <style name="ViewText">
         <item name="android:textColor">@color/titleTextColor</item>

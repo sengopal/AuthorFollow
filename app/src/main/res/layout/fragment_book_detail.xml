@@ -33,7 +33,7 @@
                 android:scaleType="centerCrop"
                 android:transitionName="bookPosterImageView"
                 app:layout_collapseMode="parallax"
-                tools:src="@drawable/ic_movie_placeholder" />
+                tools:src="@drawable/book_placeholder" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -50,8 +50,8 @@
         layout="@layout/inc_book_detail" />
 
     <include
-        android:id="@+id/inc_no_selected_movie"
-        layout="@layout/inc_no_author_added" />
+        android:id="@+id/inc_no_book_selected"
+        layout="@layout/inc_no_book_added" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

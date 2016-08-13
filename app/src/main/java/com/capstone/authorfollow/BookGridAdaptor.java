@@ -49,23 +49,23 @@ public class BookGridAdaptor extends RecyclerView.Adapter<BookGridAdaptor.ViewHo
         final UpcomingBook bookData = bookList.get(position);
         holder.mGridItemContainer.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Bitmap posterBitmap = ((BitmapDrawable) holder.mMovieImageView.getDrawable()).getBitmap();
-                callback.onItemSelected(bookData, posterBitmap, holder.mMovieImageView);
+                Bitmap posterBitmap = ((BitmapDrawable) holder.bookImageView.getDrawable()).getBitmap();
+                callback.onItemSelected(bookData, posterBitmap, holder.bookImageView);
             }
         });
 
-        //holder.mGridItemContainer.setContentDescription(holder.mGridItemContainer.getContext().getString(R.string.a11y_movie_title, bookData.originalTitle));
+        holder.mGridItemContainer.setContentDescription(holder.mGridItemContainer.getContext().getString(R.string.a11y_book_title, bookData.getTitle()));
 
         holder.authorTextView.setText(bookData.getAuthor());
         holder.authorTextView.setContentDescription(holder.authorTextView.getContext().getString(R.string.a11y_book_author, bookData.getAuthor()));
 
-        final RelativeLayout container = holder.mMovieTitleContainer;
+        final RelativeLayout container = holder.titleContainer;
         String imageUrl = (null != bookData.getSmallImageUrl()) ? bookData.getSmallImageUrl() : bookData.getBigImageUrl();
-        Picasso.with(holder.mMovieImageView.getContext()).load(imageUrl).placeholder(R.drawable.book_placeholder).
-                into(holder.mMovieImageView, new Callback() {
+        Picasso.with(holder.bookImageView.getContext()).load(imageUrl).placeholder(R.drawable.book_placeholder).
+                into(holder.bookImageView, new Callback() {
                     @Override
                     public void onSuccess() {
-                        Bitmap posterBitmap = ((BitmapDrawable) holder.mMovieImageView.getDrawable()).getBitmap();
+                        Bitmap posterBitmap = ((BitmapDrawable) holder.bookImageView.getDrawable()).getBitmap();
                         Palette.from(posterBitmap).generate(new Palette.PaletteAsyncListener() {
                             @Override
                             public void onGenerated(Palette palette) {
@@ -99,10 +99,10 @@ public class BookGridAdaptor extends RecyclerView.Adapter<BookGridAdaptor.ViewHo
         TextView authorTextView;
 
         @Bind(R.id.grid_item_poster_image_view)
-        ImageView mMovieImageView;
+        ImageView bookImageView;
 
         @Bind(R.id.grid_item_title_container)
-        RelativeLayout mMovieTitleContainer;
+        RelativeLayout titleContainer;
 
         @Bind(R.id.grid_item_container)
         FrameLayout mGridItemContainer;

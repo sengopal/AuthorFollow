@@ -72,33 +72,26 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
-    @Bind(R.id.movie_detail_poster_image_view)
-    ImageView mPosterMovie;
+    @Bind(R.id.book_detail_poster_image_view)
+    ImageView posterImgView;
 
     @Bind(R.id.book_detail_backdrop_image_view)
-    ImageView mBackdropMovie;
+    ImageView backdropImgView;
 
-    //@Bind(R.id.movie_detail_title_text_view)
-    //TextView mDetailMovieTitle;
+    @Bind(R.id.pub_date_text_view)
+    TextView pubDateTextView;
 
-    @Bind(R.id.movie_detail_year_text_view)
-    TextView mDetailMovieYear;
-
-    @Bind(R.id.movie_detail_rating_value_view)
+    @Bind(R.id.rating_value_view)
     RatingBar ratingBar;
-
 
     @Bind(R.id.book_detail_isbn_text_view)
     TextView isbnTextView;
 
-//    @Bind(R.id.playTrailerImageView)
-//    ImageView mPlayTrailerImageView;
-
-    @Bind(R.id.movie_detail_rate_value_text_view)
+    @Bind(R.id.rate_value_text_view)
     TextView mDetailRateTextView;
 
-    @Bind(R.id.movie_detail_synopsys_data_text_view)
-    TextView mDetailMovieSynopsis;
+    @Bind(R.id.desc_text_view)
+    TextView descTextView;
 
     @Nullable
     @Bind(R.id.fab)
@@ -107,10 +100,10 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
     @Bind({R.id.appbar, R.id.inc_book_detail})
     List<View> viewContainers;
 
-    @Bind(R.id.inc_no_selected_movie)
+    @Bind(R.id.inc_no_book_selected)
     View noSelectedView;
 
-    @Bind(R.id.recycler_view_similar_movies_list)
+    @Bind(R.id.recycler_view_similar_books_list)
     RecyclerView similarBooksListView;
 
     @Bind(R.id.recycler_view_genres_list)
@@ -156,7 +149,7 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
 
         if (null != getArguments() && getArguments().containsKey(Constants.BOOK_DETAIL)) {
             upcomingBook = getArguments().getParcelable(Constants.BOOK_DETAIL);
-            Log.d(TAG, "onCreate() called with: " + "mMovieData = [" + upcomingBook + "]");
+            Log.d(TAG, "onCreate() called with: " + "upcomingBook = [" + upcomingBook + "]");
         }
     }
 
@@ -245,7 +238,7 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
         similarBooksListView.setAdapter(similarBooksAdapter);
         similarBooksListView.addItemDecoration(new SpacingItemDecoration((int) getResources().getDimension(R.dimen.spacing_small)));
         if (null != upcomingBook) {
-            similarBooksAdapter.setSimilarMovies(DBHelper.getBooksFromAuthor(upcomingBook.getAuthor()));
+            similarBooksAdapter.setSimilarBooks(DBHelper.getBooksFromAuthor(upcomingBook.getAuthor()));
         }
     }
 
@@ -261,8 +254,8 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
         toggleNonSelectedView(false);
 
         String imageUrl = upcomingBook.getBigImageUrl();
-        Picasso.with(getActivity()).load(imageUrl).into(mBackdropMovie);
-        Picasso.with(getActivity()).load(upcomingBook.getSmallImageUrl()).placeholder(R.drawable.book_placeholder).into(mPosterMovie);
+        Picasso.with(getActivity()).load(imageUrl).into(backdropImgView);
+        Picasso.with(getActivity()).load(upcomingBook.getSmallImageUrl()).placeholder(R.drawable.book_placeholder).into(posterImgView);
         final AuthorFollow authorInfo = DBHelper.getAuthorInfo(upcomingBook.getAuthor());
         if (null != authorInfo) {
             Picasso.with(getActivity()).load(authorInfo.getImageUrl()).placeholder(R.drawable.author_placeholder).into(authorAvatarImgView);
@@ -286,22 +279,22 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
         ratingBar.setRating(upcomingBook.getRating());
 
         mDetailRateTextView.setText(rating);
-        mDetailRateTextView.setContentDescription(getString(R.string.a11y_movie_rate, rating));
+        mDetailRateTextView.setContentDescription(getString(R.string.a11y_book_rate, rating));
 
 
         isbnTextView.setText(upcomingBook.getIsbn());
 
         if (null != upcomingBook.getDescription()) {
-            mDetailMovieSynopsis.setText(android.text.Html.fromHtml(upcomingBook.getDescription()));
-            mDetailMovieSynopsis.setContentDescription(getString(R.string.a11y_movie_overview, upcomingBook.getDescription()));
+            descTextView.setText(android.text.Html.fromHtml(upcomingBook.getDescription()));
+            descTextView.setContentDescription(getString(R.string.a11y_book_overview, upcomingBook.getDescription()));
         } else {
-            mDetailMovieSynopsis.setText(getString(R.string.no_description_available));
-            mDetailMovieSynopsis.setContentDescription(getString(R.string.no_description_available));
+            descTextView.setText(getString(R.string.no_description_available));
+            descTextView.setContentDescription(getString(R.string.no_description_available));
         }
 
         if (null != upcomingBook.getPublishedDate()) {
-            mDetailMovieYear.setText(DATE_FORMAT.format(upcomingBook.getPublishedDate()));
-            mDetailMovieYear.setContentDescription(getString(R.string.a11y_book_year, upcomingBook.getPublishedDate()));
+            pubDateTextView.setText(DATE_FORMAT.format(upcomingBook.getPublishedDate()));
+            pubDateTextView.setContentDescription(getString(R.string.a11y_book_year, upcomingBook.getPublishedDate()));
         }
 
         amazonLinkImgView.setOnClickListener(new OnClickListener() {
@@ -321,11 +314,11 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
         });
     }
 
-    private void toggleNonSelectedView(boolean noMovieData) {
-        toggleVisibleFab(!noMovieData);
-        noSelectedView.setVisibility(noMovieData ? View.VISIBLE : View.GONE);
+    private void toggleNonSelectedView(boolean noBookData) {
+        toggleVisibleFab(!noBookData);
+        noSelectedView.setVisibility(noBookData ? View.VISIBLE : View.GONE);
         for (View view : viewContainers) {
-            view.setVisibility(noMovieData ? View.GONE : View.VISIBLE);
+            view.setVisibility(noBookData ? View.GONE : View.VISIBLE);
         }
     }
 

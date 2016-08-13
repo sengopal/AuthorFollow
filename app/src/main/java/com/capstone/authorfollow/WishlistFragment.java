@@ -34,7 +34,7 @@ public class WishlistFragment extends Fragment {
     @Bind(R.id.no_book_container)
     LinearLayout noBookContainer;
 
-    @Bind(R.id.main_movie_sw_refresh_layout)
+    @Bind(R.id.refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
     private List<UpcomingBook> bookList;
