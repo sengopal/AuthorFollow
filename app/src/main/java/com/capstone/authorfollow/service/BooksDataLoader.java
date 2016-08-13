@@ -70,7 +70,7 @@ public class BooksDataLoader extends AsyncTaskLoader<NetworkResponse<List<Upcomi
 
     private List<UpcomingBook> getBookInfoForAuthor(String author) throws IOException, InvalidKeyException, NoSuchAlgorithmException {
         List<UpcomingBook> booksList = new ArrayList<>();
-        int upcomingFwdDays = PreferenceUtil.getPrefs(getContext(), PreferenceUtil.PREF_UPCOMING_FWD_DAYS, 120);
+        int upcomingFwdDays = PreferenceUtil.getPrefs(getContext(), PreferenceUtil.PREF_SHOW_RESULTS_FOR_DAYS, 120);
         Call<ItemSearchResponse> bookSvcInfoCall = service.findBooks(buildParams(author, upcomingFwdDays, 1));
         ItemSearchResponse searchResponse = bookSvcInfoCall.execute().body();
         booksList.addAll(convertToDBData(author, searchResponse));
@@ -129,7 +129,8 @@ public class BooksDataLoader extends AsyncTaskLoader<NetworkResponse<List<Upcomi
         sb.append("language:english");
         //author:James Patterson and pubdate: after 05-2016
         sb.append(" and not keywords-begin:kindle");
-        sb.append(" and pubdate: after ").append(getPubDate(0));
+        boolean showRecentReleases = PreferenceUtil.getPrefs(getContext(), PreferenceUtil.PREF_SHOW_RECENT, false);
+        sb.append(" and pubdate: after ").append(getPubDate(showRecentReleases ? -30 : 0));
         sb.append(" and pubdate: before ").append(getPubDate(noOfForwardDays));
         sb.append(" and author:").append(author);
         params.put("Power", sb.toString());

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.capstone.authorfollow.authors.AuthorListActivity;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -91,10 +92,11 @@ public class SignInActivity extends AppCompatActivity implements GoogleApiClient
             GoogleSignInAccount acct = result.getSignInAccount();
             PreferenceUtil.savePrefs(getApplicationContext(), Constants.PREF_USERNAME, acct.getDisplayName());
             PreferenceUtil.savePrefs(getApplicationContext(), Constants.PREF_EMAIL, acct.getEmail());
-            if(acct.getPhotoUrl() != null) {
+            if (acct.getPhotoUrl() != null) {
                 PreferenceUtil.savePrefs(getApplicationContext(), Constants.PREF_USER_PIC, acct.getPhotoUrl().toString());
             }
-            Intent openAppIntent = new Intent(this, BookListActivity.class);
+            String homeScreen = PreferenceUtil.getPrefs(getApplicationContext(), PreferenceUtil.PREF_HOME_PAGE_CHOICE, "books");
+            Intent openAppIntent = new Intent(this, homeScreen.equals("authors") ? AuthorListActivity.class : BookListActivity.class);
             startActivity(openAppIntent);
         } else {
             Snackbar.make(findViewById(R.id.main_layout), R.string.error_with_login, Snackbar.LENGTH_LONG).show();

@@ -108,7 +108,7 @@ public interface Services {
         @org.simpleframework.xml.Path("book")
         public String grBookId;
 
-        @Element(name = "publisher")
+        @Element(name = "publisher", required = false)
         @org.simpleframework.xml.Path("book")
         public String publisher;
 
@@ -116,15 +116,15 @@ public interface Services {
         @org.simpleframework.xml.Path("book")
         public String description;
 
-        @Element(name = "average_rating")
+        @Element(name = "average_rating", required = false)
         @org.simpleframework.xml.Path("book")
         public float rating;
 
-        @Element(name = "url", data = true)
+        @Element(name = "url", data = true, required = false)
         @org.simpleframework.xml.Path("book")
         public String grLinkUrl;
 
-        @Element(name = "image_url", data = true)
+        @Element(name = "image_url", data = true, required = false)
         @org.simpleframework.xml.Path("book")
         public String grImageUrl;
 
@@ -140,11 +140,11 @@ public interface Services {
         @org.simpleframework.xml.Path("author")
         public String name;
 
-        @Element(name = "link", data = true)
+        @Element(name = "link", data = true, required = false)
         @org.simpleframework.xml.Path("author")
         public String grPageLink;
 
-        @Element(name = "large_image_url", data = true)
+        @Element(name = "large_image_url", data = true, required = false)
         @org.simpleframework.xml.Path("author")
         public String imageUrl;
 
@@ -160,7 +160,7 @@ public interface Services {
         @org.simpleframework.xml.Path("author")
         public String fanCount;
 
-        @Element(name = "about", data = true)
+        @Element(name = "about", data = true, required = false)
         @org.simpleframework.xml.Path("author")
         public String desc;
     }

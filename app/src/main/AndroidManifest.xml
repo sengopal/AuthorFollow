@@ -54,6 +54,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.capstone.authorfollow.authors.AuthorListActivity" />
         </activity>
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:label="@string/settings_title">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
 
         <provider
             android:name="com.activeandroid.content.ContentProvider"

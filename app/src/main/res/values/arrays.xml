@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="listHomeOptions">
+        <item>Books</item>
+        <item>Authors</item>
+    </string-array>
+    <string-array name="listHomeValues">
+        <item>books</item>
+        <item>authors</item>
+    </string-array>
+    <string-array name="listSearchInDaysOptions">
+        <item>60 days</item>
+        <item>90 days</item>
+        <item>120 days</item>
+        <item>150 days</item>
+        <item>180 days</item>
+    </string-array>
+    <string-array name="listSearchInDayValues">
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+        <item>150</item>
+        <item>180</item>
+    </string-array>
+</resources>

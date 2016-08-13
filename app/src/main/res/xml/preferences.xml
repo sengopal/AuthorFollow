@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:key="homepage"
+        android:summary="This option manages the screen to be displayed on opening the app"
+        android:title="Home Screen"
+        android:defaultValue="books"
+        android:entries="@array/listHomeOptions"
+        android:entryValues="@array/listHomeValues"
+        ></ListPreference>
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="showRecent"
+        android:summary="This option if selected will include recent releases also to be displayed along with Upcoming books"
+        android:title="Include Recent Releases" />
+    <ListPreference
+        android:defaultValue="120"
+        android:entries="@array/listSearchInDaysOptions"
+        android:entryValues="@array/listSearchInDayValues"
+        android:key="searchInDays"
+        android:summary="This option manages the number of days to search for upcoming books"
+        android:title="Search upcoming books for the next" />
+</PreferenceScreen>

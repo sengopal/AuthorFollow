@@ -1,7 +1,6 @@
 Add share provider for detail page
 Sign out
 Analytics
-Tablet view
 No data views
 No internet connection message
 Content Description
@@ -9,11 +8,6 @@ Content Description
 Replace Goodreads and Amazon links on the detail page
 Books page - Fab button to search for Authors - link to the Authors page ???
 
-  - Settings
-    - Show Home Page as Authors or Books
-    - Content refresh??
-    - Show recent
-    - upcoming days
 
 Add pubdate check to DB.upcoming() query
 Change pub date to Date and use Locale for publication date

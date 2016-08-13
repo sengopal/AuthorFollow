@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.capstone.authorfollow.authors.AuthorListActivity;
+import com.capstone.authorfollow.settings.SettingsActivity;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
@@ -62,9 +63,9 @@ public class BaseListActivity extends AppCompatActivity {
                                 break;
                             case R.id.nav_signout:
                                 //TODO: Open signin activity with Intent of Sign out
-                                openActivity(AuthorListActivity.class);
+                            case R.id.nav_settings:
+                                openActivity(SettingsActivity.class);
                                 break;
-
                         }
                         menuItem.setChecked(true);
                         mDrawerLayout.closeDrawers();
