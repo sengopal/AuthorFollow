@@ -24,24 +24,10 @@
         android:id="@+id/title_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
         android:gravity="center"
-        android:text="@string/title_text"
-        android:textColor="@android:color/white"
-        android:textSize="36sp" />
-
-    <TextView
-        android:id="@+id/detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fadeScrollbars="true"
-        android:gravity="center"
-        android:maxLines="5"
-        android:padding="10dp"
-        android:scrollbars="vertical"
-        android:textColor="@android:color/white"
-        android:textSize="14sp" />
-
+        android:text="@string/follow_sub_title"
+        android:layout_marginTop="120dp"
+        style="@style/AppScreenTitle"/>
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"

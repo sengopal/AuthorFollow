@@ -20,6 +20,12 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="AppScreenTitle" parent="MovieDetailTitle">
+        <item name="android:textSize">@dimen/big_title_text_size</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
     <style name="MovieDetailSubtitle" parent="TextAppearance.AppCompat.Small">
         <item name="android:textColor">@color/colorTextWhite</item>
         <item name="android:paddingLeft">@dimen/text_padding_16dp</item>

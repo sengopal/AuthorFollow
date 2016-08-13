@@ -11,4 +11,5 @@ public class Constants {
     public static final String PREF_USERNAME = "pref.username";
     public static final String PREF_EMAIL = "pref.useremail";
     public static final String PREF_USER_PIC = "pref.userpic";
+    public static final String SIGN_OUT_ATTEMPT = "signout";
 }

@@ -61,12 +61,9 @@
     <string name="followers">followers</string>
     <string name="no_upcoming_books">No upcoming books found</string>
     <string name="desc_google_icon">Google logo</string>
-    <string name="title_text">Signin</string>
-    <string name="signed_out">Sign our</string>
-    <string name="sign_out">Sign ou</string>
-    <string name="disconnect">Disconnect</string>
     <string name="loading">Loading...</string>
-    <string name="error_with_login">There was an error with loggin in. Try again!</string>
+    <string name="sign_out_message">Signed out of the app successfully!</string>
     <string name="search_for_new_authors">Search for new Authors</string>
     <string name="settings_title">Settings</string>
+    <string name="follow_sub_title">follow your favorite authors !</string>
 </resources>

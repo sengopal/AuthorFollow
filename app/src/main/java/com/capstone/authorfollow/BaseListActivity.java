@@ -62,7 +62,10 @@ public class BaseListActivity extends AppCompatActivity {
                                 openActivity(AuthorListActivity.class);
                                 break;
                             case R.id.nav_signout:
-                                //TODO: Open signin activity with Intent of Sign out
+                                Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
+                                intent.putExtra(Constants.SIGN_OUT_ATTEMPT, true);
+                                startActivity(intent);
+                                break;
                             case R.id.nav_settings:
                                 openActivity(SettingsActivity.class);
                                 break;
