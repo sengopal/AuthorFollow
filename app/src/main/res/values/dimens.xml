@@ -42,6 +42,7 @@
     <dimen name="video_thumbnail_width">100dp</dimen>
     <dimen name="video_thumbnail_height">80dp</dimen>
     <dimen name="spacing_small">4dp</dimen>
+    <dimen name="spacing_big">24dp</dimen>
     <dimen name="radius_corner">16dp</dimen>
     <dimen name="grid_top_padding">2dp</dimen>
     <dimen name="author_img_avatar_size">60dp</dimen>

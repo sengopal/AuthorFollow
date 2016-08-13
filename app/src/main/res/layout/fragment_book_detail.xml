@@ -51,7 +51,7 @@
 
     <include
         android:id="@+id/inc_no_selected_movie"
-        layout="@layout/inc_no_movie_selected" />
+        layout="@layout/inc_no_author_added" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

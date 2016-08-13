@@ -10,12 +10,12 @@
 
     <ProgressBar
         android:id="@+id/progress_bar"
-        android:theme="@style/IndetProgressBar"
         style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="@dimen/activity_vertical_margin"
+        android:theme="@style/IndetProgressBar"
         android:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
@@ -24,8 +24,17 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:layout_weight="10"
         android:paddingTop="@dimen/grid_top_padding"
         android:visibility="visible"
-        android:layout_weight="10"
         tools:context="com.capstone.authorfollow.AuthorListActivity" />
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/spacing_big" />
+
+    <include layout="@layout/inc_no_connection" />
+
+    <include layout="@layout/inc_no_author_added" />
+
 </LinearLayout>

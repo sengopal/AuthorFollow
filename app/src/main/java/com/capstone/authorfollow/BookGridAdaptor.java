@@ -27,7 +27,6 @@ public class BookGridAdaptor extends RecyclerView.Adapter<BookGridAdaptor.ViewHo
     private final BookSelectionListener callback;
     private List<UpcomingBook> bookList = new ArrayList<>();
     private int mDefaultColor;
-    private int mSelectedPosition;
 
     public interface BookSelectionListener {
         void onItemSelected(UpcomingBook bookData, Bitmap posterBitmap, View view);
@@ -48,7 +47,6 @@ public class BookGridAdaptor extends RecyclerView.Adapter<BookGridAdaptor.ViewHo
     @Override
     public void onBindViewHolder(final BookGridAdaptor.ViewHolder holder, int position) {
         final UpcomingBook bookData = bookList.get(position);
-        mSelectedPosition = position;
         holder.mGridItemContainer.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Bitmap posterBitmap = ((BitmapDrawable) holder.mMovieImageView.getDrawable()).getBitmap();
@@ -60,18 +58,10 @@ public class BookGridAdaptor extends RecyclerView.Adapter<BookGridAdaptor.ViewHo
 
         holder.authorTextView.setText(bookData.getAuthor());
         holder.authorTextView.setContentDescription(holder.authorTextView.getContext().getString(R.string.a11y_book_author, bookData.getAuthor()));
-        /*
-        if (Constants.SORT_BY_POPULARITY_DESC.equals(sortType)) {
-            setIconForType(holder, sortType, bookData.popularity);
-            holder.mSortTypeValueTextView.setText(String.valueOf(Math.round(bookData.popularity)));
-        } else {
-            setIconForType(holder, sortType, bookData.voteAverage);
-            holder.mSortTypeValueTextView.setText(String.valueOf(Math.round(bookData.voteAverage)));
-        }*/
 
         final RelativeLayout container = holder.mMovieTitleContainer;
         String imageUrl = (null != bookData.getSmallImageUrl()) ? bookData.getSmallImageUrl() : bookData.getBigImageUrl();
-        Picasso.with(holder.mMovieImageView.getContext()).load(imageUrl).placeholder(R.drawable.ic_movie_placeholder).
+        Picasso.with(holder.mMovieImageView.getContext()).load(imageUrl).placeholder(R.drawable.book_placeholder).
                 into(holder.mMovieImageView, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -88,7 +78,6 @@ public class BookGridAdaptor extends RecyclerView.Adapter<BookGridAdaptor.ViewHo
                     public void onError() {
                     }
                 });
-
     }
 
     @Override
@@ -104,14 +93,6 @@ public class BookGridAdaptor extends RecyclerView.Adapter<BookGridAdaptor.ViewHo
         notifyDataSetChanged();
     }
 
-    public int getSelectedPosition() {
-        return mSelectedPosition;
-    }
-
-    public void setSelectedPosition(int mSelectedPosition) {
-        this.mSelectedPosition = mSelectedPosition;
-    }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         @Bind(R.id.grid_item_author_text_view)
@@ -119,9 +100,6 @@ public class BookGridAdaptor extends RecyclerView.Adapter<BookGridAdaptor.ViewHo
 
         @Bind(R.id.grid_item_poster_image_view)
         ImageView mMovieImageView;
-
-//        @Bind(R.id.grid_item_sort_type_image_view)
-//        ImageView mSortTypeIconImageView;
 
         @Bind(R.id.grid_item_title_container)
         RelativeLayout mMovieTitleContainer;

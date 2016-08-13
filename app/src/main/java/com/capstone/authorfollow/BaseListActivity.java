@@ -89,14 +89,14 @@ public class BaseListActivity extends AppCompatActivity {
         userNameTextView.setText(PreferenceUtil.getPrefs(getApplicationContext(), Constants.PREF_USERNAME, ""));
         userEmailTextView.setText(PreferenceUtil.getPrefs(getApplicationContext(), Constants.PREF_EMAIL, ""));
         String userPicUrl = PreferenceUtil.getPrefs(getApplicationContext(), Constants.PREF_USER_PIC, "");
-        Picasso.with(userImgView.getContext()).load(userPicUrl).placeholder(R.drawable.ic_movie_placeholder).into(userImgView);
+        Picasso.with(userImgView.getContext()).load(userPicUrl).placeholder(R.drawable.user_image_placeholder).into(userImgView);
     }
 
     protected void syncDrawerState(int checkedItem) {
         navigationView.setCheckedItem(checkedItem);
     }
 
-    private void openActivity(Class<?> activityClz) {
+    protected void openActivity(Class<?> activityClz) {
         Intent intent = new Intent(getApplicationContext(), activityClz);
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);

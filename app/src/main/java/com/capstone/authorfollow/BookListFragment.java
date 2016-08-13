@@ -27,6 +27,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 
 import com.capstone.authorfollow.BookGridAdaptor.BookSelectionListener;
+import com.capstone.authorfollow.authors.AuthorListActivity;
 import com.capstone.authorfollow.data.types.AuthorFollow;
 import com.capstone.authorfollow.data.types.DBHelper;
 import com.capstone.authorfollow.data.types.NetworkResponse;
@@ -47,8 +48,11 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Bind(R.id.main_movie_sw_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-    @Bind(R.id.main_grid_empty_container)
-    LinearLayout mNoMovieContainer;
+    @Bind(R.id.no_author_container)
+    LinearLayout noAuthorContainer;
+
+    @Bind(R.id.no_connection_container)
+    LinearLayout noConnectionContainer;
 
     @Nullable
     @Bind(R.id.toolbar)
@@ -123,7 +127,17 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
         int colorPrimaryLight = ContextCompat.getColor(getActivity(), (R.color.colorPrimaryTransparent));
         mPopularGridView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
 
-        bookGridAdaptor = new BookGridAdaptor((BookSelectionListener) getActivity(), DBHelper.upcoming(), colorPrimaryLight);
+        List<UpcomingBook> upcomingBookList = DBHelper.upcoming();
+        bookGridAdaptor = new BookGridAdaptor((BookSelectionListener) getActivity(), upcomingBookList, colorPrimaryLight);
+
+        setupEmptyContainers(upcomingBookList);
+
+        noAuthorContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((BaseListActivity) getActivity()).openActivity(AuthorListActivity.class);
+            }
+        });
 
         mPopularGridView.setAdapter(bookGridAdaptor);
         mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -134,6 +148,18 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
         return view;
     }
 
+    private void setupEmptyContainers(List<UpcomingBook> upcomingBookList) {
+        noAuthorContainer.setVisibility(View.GONE);
+        noConnectionContainer.setVisibility(View.GONE);
+        if (null == upcomingBookList || upcomingBookList.isEmpty()) {
+            if (!CommonUtil.isConnected(getActivity())) {
+                noConnectionContainer.setVisibility(View.VISIBLE);
+            } else {
+                noAuthorContainer.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
     private void registerObserver() {
         handler = new Handler();
         contentObserver = new ContentObserver(handler) {
@@ -141,7 +167,7 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
             public void onChange(boolean selfChange) {
                 List<UpcomingBook> upcomingBookList = DBHelper.upcoming();
                 bookGridAdaptor.addBooks(upcomingBookList);
-                mNoMovieContainer.setVisibility((upcomingBookList == null || upcomingBookList.isEmpty()) ? View.VISIBLE : View.GONE);
+                setupEmptyContainers(upcomingBookList);
             }
 
             @Override
@@ -164,7 +190,6 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
         contentObserver = null;
         handler = null;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -230,12 +255,9 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
             if (null != booksList && !booksList.isEmpty()) {
                 Snackbar.make(getView(), R.string.books_data_loaded, Snackbar.LENGTH_LONG).show();
             }
-            mNoMovieContainer.setVisibility((booksList == null || booksList.isEmpty()) ? View.VISIBLE : View.GONE);
+            setupEmptyContainers(booksList);
         } else {
             Snackbar.make(getView(), response.getErrorMessage(), Snackbar.LENGTH_LONG).show();
-            if (!CommonUtil.isConnected(getActivity())) {
-                //toggleShowEmptyMovie(false);
-            }
         }
     }
 

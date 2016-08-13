@@ -1,6 +1,3 @@
-Analytics
-No data views
-No internet connection message
 Content Description
 "movie" text cleanup
 
@@ -42,17 +39,16 @@ Color palatte for detail page
 == SPLASH Screen / COVER / TUTORIAL / INTRO
 * http://www.materialdoc.com/splash-screens/
 
-== ANALYTICS (two of Google APIs)
-* which author is tagged more) (for that book perhaps????
+== Google Analytics
 * https://developers.google.com/analytics/devguides/collection/android/v4/mobile-implementation-guide
 
-== SIGNIN WITH GOOGLE
+== Google Identity
 * https://www.udacity.com/course/viewer#!/c-ud876-5/l-4331999941
 * https://github.com/googlesamples/google-services/tree/master/android/app-indexing
 * https://github.com/udacity/google-play-services/tree/master/Identity_Lessons_Final/UdacityPlus2_1
 * https://github.com/firebase/firebase-login-demo-android
 
-== LIBRARY REFERENCES
+== Library References
 * http://android-developers.blogspot.jp/2015/05/android-design-support-library.html
 * http://android-developers.blogspot.jp/2014/10/implementing-material-design-in-your.html
 * https://github.com/udacity/ud862-samples - Udacity material design aps
@@ -62,7 +58,7 @@ Color palatte for detail page
 * LIST OF LIBRARIES - http://alamkanak.github.io/android-libraries-and-resources/
 * Check if the list can be changed to: https://github.com/jpardogo/ListBuddies
 * https://github.com/lightSky/Awesome-MaterialDesign#View
-* *Exactly what i want: https://github.com/swissonid/android-design-support-lib-sample*
+* Exactly what i want: https://github.com/swissonid/android-design-support-lib-sample*
 * https://developers.google.com/analytics/devguides/collection/android/v4/mobile-implementation-guide
 
 == TRANSITION

@@ -21,14 +21,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.capstone.authorfollow.BaseActivity;
+import com.capstone.authorfollow.CommonUtil;
 import com.capstone.authorfollow.R;
 import com.capstone.authorfollow.data.types.AuthorFollow;
 import com.capstone.authorfollow.data.types.DBHelper;
 import com.capstone.authorfollow.data.types.UpcomingBook;
 import com.capstone.authorfollow.service.AuthorDetailHelper.AuthorSearchAsyncTask;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,8 +42,11 @@ public class AuthorListFragment extends Fragment {
     @Bind(R.id.author_list_recycle_view)
     RecyclerView authorListView;
 
-    //@Bind(R.id.empty_author_container)
-    //LinearLayout emptyAuthorContainer;
+    @Bind(R.id.no_author_container)
+    LinearLayout noAuthorContainer;
+
+    @Bind(R.id.no_connection_container)
+    LinearLayout noConnectionContainer;
 
     @Nullable
     @Bind(R.id.toolbar)
@@ -53,6 +60,7 @@ public class AuthorListFragment extends Fragment {
 
     private Handler handler;
     private ContentObserver contentObserver;
+    private List<AuthorFollow> authorsList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,11 +87,28 @@ public class AuthorListFragment extends Fragment {
         authorListView.setHasFixedSize(true);
         authorListView.setAdapter(listAdapter);
 
-        listAdapter.setAuthors(DBHelper.getAuthorsList());
+        authorsList = DBHelper.getAuthorsList();
+        listAdapter.setAuthors(authorsList);
+
+        setupEmptyContainers();
+        noAuthorContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mSearchView.setIconified(false);
+            }
+        });
 
         registerObserver();
-
         return view;
+    }
+
+    private void setupEmptyContainers() {
+        noConnectionContainer.setVisibility(View.GONE);
+        if (!CommonUtil.isConnected(getActivity())) {
+            noConnectionContainer.setVisibility(View.VISIBLE);
+        } else {
+            noAuthorContainer.setVisibility(View.VISIBLE);
+        }
     }
 
     private void registerObserver() {
@@ -160,6 +185,10 @@ public class AuthorListFragment extends Fragment {
                 return false;
             }
         });
+
+        if (authorsList == null || authorsList.isEmpty()) {
+            mSearchView.setIconified(false);
+        }
     }
 
     private void startSearch(String query) {
@@ -193,17 +222,17 @@ public class AuthorListFragment extends Fragment {
         }
     }
 
-    static class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
+static class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+    private int space;
 
-        public SpacesItemDecoration(int space) {
-            this.space = space;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            super.getItemOffsets(outRect, view, parent, state);
-            outRect.set(space, space, space, space);
-        }
+    public SpacesItemDecoration(int space) {
+        this.space = space;
     }
+
+    @Override
+    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+        super.getItemOffsets(outRect, view, parent, state);
+        outRect.set(space, space, space, space);
+    }
+}
 }

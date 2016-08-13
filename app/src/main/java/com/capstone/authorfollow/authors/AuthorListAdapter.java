@@ -41,7 +41,15 @@ public class AuthorListAdapter extends RecyclerView.Adapter<AuthorListAdapter.Vi
 
     public void addToAuthors(AuthorFollow authorFollow) {
         if (null != authorFollow) {
-            this.authorFollowList.add(0, authorFollow);
+            boolean presentInList = false;
+            for (AuthorFollow author : this.authorFollowList) {
+                if (author.getName().equalsIgnoreCase(authorFollow.getName())) {
+                    presentInList = true;
+                }
+            }
+            if (!presentInList) {
+                this.authorFollowList.add(0, authorFollow);
+            }
         }
         notifyDataSetChanged();
     }
@@ -65,7 +73,7 @@ public class AuthorListAdapter extends RecyclerView.Adapter<AuthorListAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
         AuthorFollow authorFollow = authorFollowList.get(position);
         holder.authorNameView.setText(authorFollow.getName());
-        Picasso.with(holder.authorImgView.getContext()).load(authorFollow.getImageUrl()).placeholder(R.drawable.ic_movie_placeholder).into(holder.authorImgView);
+        Picasso.with(holder.authorImgView.getContext()).load(authorFollow.getImageUrl()).placeholder(R.drawable.author_placeholder).into(holder.authorImgView);
         if (authorFollow.isFollowStatus()) {
             List<UpcomingBook> booksFromAuthorList = DBHelper.getBooksFromAuthor(authorFollow.getName());
             holder.bookCountView.setText(generateBookCountText(booksFromAuthorList, holder.bookCountView.getContext()));

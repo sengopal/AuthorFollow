@@ -284,7 +284,7 @@ public class AuthorDetailFragment extends Fragment implements OnBookClickListene
         String imageUrl = authorFollow.getImageUrl();
         Picasso.with(getActivity()).load(imageUrl).into(backdropImgView);
         if (null != authorFollow) {
-            Picasso.with(getActivity()).load(authorFollow.getImageUrl()).placeholder(R.drawable.ic_movie_placeholder).into(authorAvatarImgView);
+            Picasso.with(getActivity()).load(authorFollow.getImageUrl()).placeholder(R.drawable.author_placeholder).into(authorAvatarImgView);
         }
 
         String fanCount = getFormattedFanCount(authorFollow.getFanCount());

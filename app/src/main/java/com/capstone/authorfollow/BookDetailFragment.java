@@ -262,10 +262,10 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
 
         String imageUrl = upcomingBook.getBigImageUrl();
         Picasso.with(getActivity()).load(imageUrl).into(mBackdropMovie);
-        Picasso.with(getActivity()).load(upcomingBook.getSmallImageUrl()).placeholder(R.drawable.ic_movie_placeholder).into(mPosterMovie);
+        Picasso.with(getActivity()).load(upcomingBook.getSmallImageUrl()).placeholder(R.drawable.book_placeholder).into(mPosterMovie);
         final AuthorFollow authorInfo = DBHelper.getAuthorInfo(upcomingBook.getAuthor());
         if (null != authorInfo) {
-            Picasso.with(getActivity()).load(authorInfo.getImageUrl()).placeholder(R.drawable.ic_movie_placeholder).into(authorAvatarImgView);
+            Picasso.with(getActivity()).load(authorInfo.getImageUrl()).placeholder(R.drawable.author_placeholder).into(authorAvatarImgView);
             authorAvatarImgView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {

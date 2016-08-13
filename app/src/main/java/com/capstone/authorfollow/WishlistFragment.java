@@ -31,8 +31,8 @@ public class WishlistFragment extends Fragment {
     @Bind(R.id.book_list_recycle_view)
     RecyclerView mPopularGridView;
 
-    @Bind(R.id.main_grid_empty_container)
-    LinearLayout mNoMovieContainer;
+    @Bind(R.id.no_book_container)
+    LinearLayout noBookContainer;
 
     @Bind(R.id.main_movie_sw_refresh_layout)
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -70,7 +70,9 @@ public class WishlistFragment extends Fragment {
             @Override
             public void onChange(boolean selfChange) {
                 bookList.clear();
-                bookList.addAll(DBHelper.wishlist());
+                List<UpcomingBook> wishlist = DBHelper.wishlist();
+                bookList.addAll(wishlist);
+                setupEmptyContainers(wishlist);
                 bookGridAdaptor.notifyDataSetChanged();
             }
 
@@ -80,6 +82,13 @@ public class WishlistFragment extends Fragment {
             }
         };
         getContext().getContentResolver().registerContentObserver(WishlistBook.CONTENT_URI, true, contentObserver);
+    }
+
+    private void setupEmptyContainers(List<UpcomingBook> bookList) {
+        noBookContainer.setVisibility(View.GONE);
+        if (null == bookList || bookList.isEmpty()) {
+            noBookContainer.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -114,35 +123,12 @@ public class WishlistFragment extends Fragment {
         bookGridAdaptor = new BookGridAdaptor((BookSelectionListener) getActivity(), bookList, colorPrimaryLight);
         mPopularGridView.setAdapter(bookGridAdaptor);
         mSwipeRefreshLayout.setRefreshing(false);
+
+        setupEmptyContainers(bookList);
+        mSwipeRefreshLayout.setRefreshing(false);
         registerObserver();
         return view;
     }
-
-    /*
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        String sortType;
-        boolean result;
-
-        switch (item.getItemId()) {
-            case R.id.sort_by_popularity_desc:
-                sortType = Constants.SORT_BY_POPULARITY_DESC;
-                result = true;
-                break;
-            case R.id.sort_by_rates_desc:
-                sortType = Constants.SORT_BY_RATING_DESC;
-                result = true;
-                break;
-            default:
-                sortType = Constants.SORT_BY_POPULARITY_DESC;
-                result = super.onOptionsItemSelected(item);
-                break;
-        }
-        PreferenceUtil.savePrefs(getActivity(), Constants.SORT_BY_KEY, sortType);
-        restartLoader();
-        return result;
-    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -152,60 +138,23 @@ public class WishlistFragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    /*
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.booklist_menu, menu);
-        MenuItem searchMenuItem = menu.findItem(R.id.action_search);
-        final SearchView mSearchView = (SearchView) searchMenuItem.getActionView();
-        mSearchView.setQueryHint(getString(R.string.search_in_wishlist));
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                bookGridAdaptor.addBooks(DBHelper.filterWishlist(query));
-                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(mSearchView.getWindowToken(), 0);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return true;
-            }
-        });
-        mSearchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                bookGridAdaptor.addBooks(DBHelper.wishlist());
-                return false;
-            }
-        });
-    }
-    */
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
     }
 
-    /*
-    public void onLoadFinished(Loader<NetworkResponse<List<UpcomingBook>>> loader, NetworkResponse<List<UpcomingBook>> response) {
-        bookGridAdaptor.addBooks(bookList);
-        Snackbar.make(getView(), R.string.movies_data_loaded, Snackbar.LENGTH_LONG).show();
-    }*/
+static class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+    private int space;
 
-    static class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private int space;
-
-        public SpacesItemDecoration(int space) {
-            this.space = space;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            super.getItemOffsets(outRect, view, parent, state);
-            outRect.set(space, space, space, space);
-        }
+    public SpacesItemDecoration(int space) {
+        this.space = space;
     }
+
+    @Override
+    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+        super.getItemOffsets(outRect, view, parent, state);
+        outRect.set(space, space, space, space);
+    }
+}
 }

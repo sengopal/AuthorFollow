@@ -77,7 +77,7 @@ public class AuthorListActivity extends BaseListActivity implements AuthorListAd
     public void onAuthorClick(AuthorFollow author, View view) {
         Log.d(TAG, "onAuthorClick() returned: " + author);
         Fragment listFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_author_list);
-        if(null!=listFragment && listFragment instanceof AuthorListFragment){
+        if (null != listFragment && listFragment instanceof AuthorListFragment) {
             ((AuthorListFragment) listFragment).resetSearchBar();
         }
 

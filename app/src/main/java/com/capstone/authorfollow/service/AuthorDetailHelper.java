@@ -98,6 +98,7 @@ public class AuthorDetailHelper {
                     authorDetail = goodReadsService.getAuthorDetailById(authorInfo.authorId, params).execute().body();
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 Log.e(TAG, "Exception in calling aws", e);
             }
             return authorDetail;
