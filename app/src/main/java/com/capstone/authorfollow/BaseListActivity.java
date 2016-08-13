@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.capstone.authorfollow.authors.AuthorListActivity;
 import com.capstone.authorfollow.settings.SettingsActivity;
+import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
@@ -33,6 +34,8 @@ public class BaseListActivity extends AppCompatActivity {
     @Nullable
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
+
+    private Tracker mTracker;
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -107,7 +110,12 @@ public class BaseListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        AuthorFollowApplication application = (AuthorFollowApplication) getApplication();
+        mTracker = application.getDefaultTracker();
     }
 
-
+    protected Tracker getTracker() {
+        return mTracker;
+    }
 }

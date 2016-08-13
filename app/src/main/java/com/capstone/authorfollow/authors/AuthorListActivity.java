@@ -10,8 +10,10 @@ import android.view.View;
 
 import com.capstone.authorfollow.BaseListActivity;
 import com.capstone.authorfollow.Constants;
+import com.capstone.authorfollow.Constants.TrackScreens;
 import com.capstone.authorfollow.R;
 import com.capstone.authorfollow.data.types.AuthorFollow;
+import com.google.android.gms.analytics.HitBuilders;
 
 import butterknife.ButterKnife;
 
@@ -40,6 +42,8 @@ public class AuthorListActivity extends BaseListActivity implements AuthorListAd
         }
         setupDrawerContent();
         syncDrawerState(R.id.nav_author);
+        getTracker().setScreenName(TrackScreens.AUTHORLIST);
+        getTracker().send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

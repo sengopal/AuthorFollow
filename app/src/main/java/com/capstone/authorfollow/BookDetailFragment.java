@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -12,13 +13,18 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -31,6 +37,8 @@ import com.capstone.authorfollow.authors.AuthorDetailFragment;
 import com.capstone.authorfollow.data.types.AuthorFollow;
 import com.capstone.authorfollow.data.types.DBHelper;
 import com.capstone.authorfollow.data.types.UpcomingBook;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
@@ -40,6 +48,9 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.capstone.authorfollow.Constants.TrackEvents.ADD_BOOK;
+import static com.capstone.authorfollow.Constants.TrackEvents.REMOVE_BOOK;
 
 
 /**
@@ -107,14 +118,19 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
 
     @Bind(R.id.author_avatar)
     CircleImageView authorAvatarImgView;
-    ;
 
-    // private Bitmap mPosterImage;
-    //private boolean mTwoPane;
+    @Bind(R.id.amazon_icon_image_view)
+    ImageView amazonLinkImgView;
+
+    @Bind(R.id.gr_icon_image_view)
+    ImageView grLinkImgView;
+
     private UpcomingBook upcomingBook;
     private boolean isAddedToWishlist;
     private SimilarBooksAdapter similarBooksAdapter;
     private GenresListAdapter genresListAdapter;
+    private ShareActionProvider mShareActionProvider;
+    private Tracker mTracker;
 
     public BookDetailFragment() {
 
@@ -126,19 +142,21 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
         return fragment;
     }
 
+    protected Tracker getTracker() {
+        return mTracker;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        if (null != getArguments() && getArguments().containsKey(Constants.BOOK_DETAIL)) {
-            //TODO: use a Loader to load content from a content provider.
-            upcomingBook = getArguments().getParcelable(Constants.BOOK_DETAIL);
-            // mPosterImage = getArguments().getParcelable(Constants.POSTER_IMAGE_KEY);
-            //mTwoPane = getArguments().getBoolean(Constants.TWO_PANE_KEY);
 
+        AuthorFollowApplication application = (AuthorFollowApplication) getActivity().getApplication();
+        mTracker = application.getDefaultTracker();
+
+        if (null != getArguments() && getArguments().containsKey(Constants.BOOK_DETAIL)) {
+            upcomingBook = getArguments().getParcelable(Constants.BOOK_DETAIL);
             Log.d(TAG, "onCreate() called with: " + "mMovieData = [" + upcomingBook + "]");
-            //Log.d(TAG, "onCreate() called with: " + "mPosterImage = [" + mPosterImage + "]");
-            //Log.d(TAG, "onCreate() called with: " + "mTwoPane = [" + mTwoPane + "]");
         }
     }
 
@@ -186,6 +204,7 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
                     DBHelper.addToWishlist(upcomingBook);
                     isAddedToWishlist = true;
                     Snackbar.make(getView(), getString(R.string.book_added_to_wishlist), Snackbar.LENGTH_LONG).show();
+                    trackBookUpdate(true);
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AppCompatAlertDialogStyle);
                     builder.setTitle(getString(R.string.wishlist_remove_confirm_title));
@@ -196,6 +215,7 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
                             DBHelper.removeFromWishlist(upcomingBook.getGrApiId());
                             Snackbar.make(getView(), getString(R.string.book_removed_from_wishlist), Snackbar.LENGTH_LONG).show();
                             isAddedToWishlist = false;
+                            trackBookUpdate(false);
                             syncFabButtonState();
                         }
                     });
@@ -205,6 +225,12 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
                 syncFabButtonState();
             }
         });
+    }
+
+    private void trackBookUpdate(boolean bookAdded) {
+        int value = bookAdded ? 1 : -1;
+        String event = bookAdded ? ADD_BOOK : REMOVE_BOOK;
+        getTracker().send(new HitBuilders.EventBuilder().setCategory(Constants.TrackScreens.BOOK_DETAIL).setAction(event).setLabel(upcomingBook.getTitle()).setValue(value).build());
     }
 
     private void syncFabButtonState() {
@@ -259,23 +285,40 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
 
         ratingBar.setRating(upcomingBook.getRating());
 
-        //mDetailMovieTitle.setText(upcomingBook.getTitle());
-        //mDetailMovieTitle.setContentDescription(getString(R.string.a11y_movie_title, upcomingBook.getTitle()));
-
         mDetailRateTextView.setText(rating);
         mDetailRateTextView.setContentDescription(getString(R.string.a11y_movie_rate, rating));
 
 
         isbnTextView.setText(upcomingBook.getIsbn());
 
-        //TODO: Build the description
-        mDetailMovieSynopsis.setText(android.text.Html.fromHtml(upcomingBook.getDescription()));
-        mDetailMovieSynopsis.setContentDescription(getString(R.string.a11y_movie_overview, upcomingBook.getDescription()));
+        if (null != upcomingBook.getDescription()) {
+            mDetailMovieSynopsis.setText(android.text.Html.fromHtml(upcomingBook.getDescription()));
+            mDetailMovieSynopsis.setContentDescription(getString(R.string.a11y_movie_overview, upcomingBook.getDescription()));
+        } else {
+            mDetailMovieSynopsis.setText(getString(R.string.no_description_available));
+            mDetailMovieSynopsis.setContentDescription(getString(R.string.no_description_available));
+        }
 
         if (null != upcomingBook.getPublishedDate()) {
             mDetailMovieYear.setText(DATE_FORMAT.format(upcomingBook.getPublishedDate()));
             mDetailMovieYear.setContentDescription(getString(R.string.a11y_book_year, upcomingBook.getPublishedDate()));
         }
+
+        amazonLinkImgView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(upcomingBook.getAmazonLink()));
+                startActivity(i);
+            }
+        });
+
+        grLinkImgView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(upcomingBook.getGrLink()));
+                startActivity(i);
+            }
+        });
     }
 
     private void toggleNonSelectedView(boolean noMovieData) {
@@ -354,6 +397,22 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
             }
             outRect.left = 0;
             outRect.right = 0;
+        }
+    }
+
+    //Reference: https://gist.github.com/mariol3/d43b0629756b8227e037
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.bookdetail_menu, menu);
+
+        MenuItem shareItem = menu.findItem(R.id.action_share);
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
+        if (mShareActionProvider != null) {
+            Intent mShareIntent = new Intent(Intent.ACTION_SEND);
+            mShareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+            mShareIntent.setType("text/plain");
+            mShareIntent.putExtra(Intent.EXTRA_TEXT, upcomingBook.getAmazonLink());
+            mShareActionProvider.setShareIntent(mShareIntent);
         }
     }
 }

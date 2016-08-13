@@ -3,6 +3,8 @@ package com.capstone.authorfollow;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.google.android.gms.analytics.HitBuilders;
+
 import butterknife.ButterKnife;
 
 /**
@@ -24,6 +26,9 @@ public class BookDetailActivity extends BaseActivity {
             arguments.putParcelable(Constants.BOOK_DETAIL, getIntent().getParcelableExtra(Constants.BOOK_DETAIL));
             getSupportFragmentManager().beginTransaction().add(R.id.detail_container, BookDetailFragment.newInstance(arguments)).commit();
         }
+
+        getTracker().setScreenName(Constants.TrackScreens.BOOK_DETAIL);
+        getTracker().send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override

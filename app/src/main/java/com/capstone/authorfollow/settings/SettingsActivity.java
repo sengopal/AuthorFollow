@@ -8,7 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.capstone.authorfollow.BaseActivity;
+import com.capstone.authorfollow.Constants;
 import com.capstone.authorfollow.R;
+import com.google.android.gms.analytics.HitBuilders;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -23,7 +26,7 @@ Settings are managing
     http://stackoverflow.com/questions/26564400/creating-a-preference-screen-with-support-v21-toolbar
     http://stackoverflow.com/questions/27639786/android-preferencefragment-setting-status-bar-as-per-tool-bar-color
  */
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends BaseActivity {
 
     @Bind(R.id.settings_toolbar)
     Toolbar mToolbar;
@@ -33,7 +36,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         ButterKnife.bind(this);
-        
+
         getFragmentManager().beginTransaction().replace(R.id.content_frame, new SettingsFragment()).commit();
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -42,6 +45,9 @@ public class SettingsActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        getTracker().setScreenName(Constants.TrackScreens.SETTINGS);
+        getTracker().send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     public static class SettingsFragment extends PreferenceFragment implements OnSharedPreferenceChangeListener {
@@ -67,9 +73,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-            //TODO: Update Upcoming books if the values have changed
+
         }
     }
-
-
 }

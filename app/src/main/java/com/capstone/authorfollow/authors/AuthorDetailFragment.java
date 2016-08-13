@@ -1,11 +1,11 @@
 package com.capstone.authorfollow.authors;
 
 import android.content.DialogInterface;
-import android.database.ContentObserver;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -29,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.capstone.authorfollow.AuthorFollowApplication;
 import com.capstone.authorfollow.BaseActivity;
 import com.capstone.authorfollow.BookDetailFragment;
 import com.capstone.authorfollow.CommonUtil;
@@ -41,6 +42,8 @@ import com.capstone.authorfollow.data.types.DBHelper;
 import com.capstone.authorfollow.data.types.NetworkResponse;
 import com.capstone.authorfollow.data.types.UpcomingBook;
 import com.capstone.authorfollow.service.BooksDataLoader;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
@@ -52,6 +55,9 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.capstone.authorfollow.Constants.TrackEvents.ADD_AUTHOR;
+import static com.capstone.authorfollow.Constants.TrackEvents.REMOVE_AUTHOR;
 
 
 /**
@@ -110,15 +116,13 @@ public class AuthorDetailFragment extends Fragment implements OnBookClickListene
     @Bind(R.id.no_upcoming_books_found_text_view)
     TextView noUpcomingBooksTextView;
 
-    private Bitmap mPosterImage;
-    private boolean mTwoPane;
+    @Bind(R.id.gr_icon_image_view)
+    ImageView grLinkImgView;
+
     private AuthorFollow authorFollow;
     private boolean isAddedToFollow;
     private SimilarBooksAdapter similarBooksAdapter;
-
-    private Handler handler;
-    private ContentObserver contentObserver;
-    private String authorUri;
+    private Tracker mTracker;
 
     public AuthorDetailFragment() {
 
@@ -134,6 +138,10 @@ public class AuthorDetailFragment extends Fragment implements OnBookClickListene
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        AuthorFollowApplication application = (AuthorFollowApplication) getActivity().getApplication();
+        mTracker = application.getDefaultTracker();
+
         if (null != getArguments() && getArguments().containsKey(Constants.AUTHOR_DETAIL)) {
             authorFollow = getArguments().getParcelable(Constants.AUTHOR_DETAIL);
             Log.d(TAG, "onCreate() called with: " + "authorFollow = [" + authorFollow + "]");
@@ -170,6 +178,7 @@ public class AuthorDetailFragment extends Fragment implements OnBookClickListene
                     DBHelper.addToFollowList(authorFollow);
                     isAddedToFollow = true;
                     Snackbar.make(getView(), getString(R.string.author_added_to_wishlist), Snackbar.LENGTH_LONG).show();
+                    trackAuthorUpdate(true);
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AppCompatAlertDialogStyle);
                     builder.setTitle(getString(R.string.author_remove_confirm_title));
@@ -181,6 +190,7 @@ public class AuthorDetailFragment extends Fragment implements OnBookClickListene
                             Snackbar.make(getView(), getString(R.string.author_removed_from_wishlist), Snackbar.LENGTH_LONG).show();
                             isAddedToFollow = false;
                             syncFabButtonState();
+                            trackAuthorUpdate(false);
                         }
                     });
                     builder.setNegativeButton(getString(R.string.confirmation_cancel), null);
@@ -189,6 +199,16 @@ public class AuthorDetailFragment extends Fragment implements OnBookClickListene
                 syncFabButtonState();
             }
         });
+    }
+
+    private void trackAuthorUpdate(boolean authorAdded) {
+        int value = authorAdded ? 1 : -1;
+        String event = authorAdded ? ADD_AUTHOR : REMOVE_AUTHOR;
+        getTracker().send(new HitBuilders.EventBuilder().setCategory(Constants.TrackScreens.AUTHOR_DETAIL).setAction(event).setLabel(authorFollow.getName()).setValue(value).build());
+    }
+
+    protected Tracker getTracker() {
+        return mTracker;
     }
 
     private void syncFabButtonState() {
@@ -276,6 +296,14 @@ public class AuthorDetailFragment extends Fragment implements OnBookClickListene
 
         aboutDataTextView.setText(android.text.Html.fromHtml(authorFollow.getDesc()));
         aboutDataTextView.setContentDescription(getString(R.string.a11y_movie_overview, authorFollow.getDesc()));
+
+        grLinkImgView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(authorFollow.getGrPageLink()));
+                startActivity(i);
+            }
+        });
     }
 
     private String getFormattedBday(Date dateOfBirth) {

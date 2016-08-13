@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.capstone.authorfollow.data.types.UpcomingBook;
+import com.google.android.gms.analytics.HitBuilders;
 
 import java.util.ArrayList;
 
@@ -56,6 +57,9 @@ public class BookListActivity extends BaseListActivity implements BookGridAdapto
         tabLayout.setupWithViewPager(viewPager);
         setupDrawerContent();
         syncDrawerState(R.id.nav_home);
+
+        getTracker().setScreenName(Constants.TrackScreens.BOOKS);
+        getTracker().send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     @Override
@@ -75,19 +79,6 @@ public class BookListActivity extends BaseListActivity implements BookGridAdapto
         syncDrawerState(R.id.nav_home);
     }
 
-    /*
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        drawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        drawerToggle.onConfigurationChanged(newConfig);
-    }
-*/
     private void initFragments(Bundle savedInstanceState) {
         upcomingListFragment = new BookListFragment();
         wishlistFragment = new WishlistFragment();
@@ -104,26 +95,12 @@ public class BookListActivity extends BaseListActivity implements BookGridAdapto
             @Override
             public void onPageSelected(int position) {
                 upcomingListFragment.resetSearchBar();
+                getTracker().setScreenName((position == 0) ? Constants.TrackScreens.BOOKS : Constants.TrackScreens.WISHLIST);
+                getTracker().send(new HitBuilders.ScreenViewBuilder().build());
             }
         });
     }
 
-    /*
-    private void setupDrawerContent(NavigationView navigationView) {
-        mToolbar.setTitle(getTitle());
-        setSupportActionBar(mToolbar);
-        drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        menuItem.setChecked(true);
-                        mDrawerLayout.closeDrawers();
-                        return true;
-                    }
-                });
-    }
-*/
     @Override
     public void onItemSelected(UpcomingBook bookData, Bitmap posterBitmap, View view) {
         Log.d(TAG, "onItemSelected() returned: " + bookData);

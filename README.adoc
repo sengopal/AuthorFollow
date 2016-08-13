@@ -1,16 +1,9 @@
-Add share provider for detail page
-Sign out
 Analytics
 No data views
 No internet connection message
 Content Description
 "movie" text cleanup
-Replace Goodreads and Amazon links on the detail page
-Books page - Fab button to search for Authors - link to the Authors page ???
 
-
-Add pubdate check to DB.upcoming() query
-Change pub date to Date and use Locale for publication date
 Add check for system time off value amazon
 
 <ItemSearchErrorResponse xmlns="http://ecs.amazonaws.com/doc/2005-10-05/">

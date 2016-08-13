@@ -66,4 +66,7 @@
     <string name="search_for_new_authors">Search for new Authors</string>
     <string name="settings_title">Settings</string>
     <string name="follow_sub_title">follow your favorite authors !</string>
+    <string name="signout_title">SignOut</string>
+    <string name="action_share">share with</string>
+    <string name="no_description_available">No description available</string>
 </resources>

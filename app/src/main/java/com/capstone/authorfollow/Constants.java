@@ -12,4 +12,20 @@ public class Constants {
     public static final String PREF_EMAIL = "pref.useremail";
     public static final String PREF_USER_PIC = "pref.userpic";
     public static final String SIGN_OUT_ATTEMPT = "signout";
+
+    public interface TrackScreens {
+        public static final String BOOKS = "books";
+        public static final String WISHLIST = "wishlist";
+        public static final String BOOK_DETAIL = "book_detail";
+        public static final String AUTHORLIST = "authors";
+        public static final String AUTHOR_DETAIL = "author_detail";
+        public static final String SETTINGS = "settings";
+    }
+
+    public interface TrackEvents {
+        public static final String ADD_BOOK = "add_book";
+        public static final String REMOVE_BOOK = "remove_book";
+        public static final String ADD_AUTHOR = "add_author";
+        public static final String REMOVE_AUTHOR = "remove_author";
+    }
 }
