@@ -257,7 +257,7 @@ public class BookListFragment extends Fragment implements SwipeRefreshLayout.OnR
             }
             setupEmptyContainers(booksList);
         } else {
-            Snackbar.make(getView(), response.getErrorMessage(), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(getView(), getString(R.string.error_message_in_connection), Snackbar.LENGTH_LONG).show();
         }
     }
 

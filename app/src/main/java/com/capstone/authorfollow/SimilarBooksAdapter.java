@@ -39,7 +39,10 @@ public class SimilarBooksAdapter extends RecyclerView.Adapter<SimilarBooksAdapte
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         Picasso.with(holder.imageView.getContext()).load(books.get(position).getSmallImageUrl()).placeholder(R.drawable.book_placeholder).into(holder.imageView);
-        holder.textView.setText(books.get(position).getTitle());
+        String title = books.get(position).getTitle();
+        holder.textView.setText(title);
+        holder.textView.setContentDescription(holder.textView.getContext().getString(R.string.a11y_similar_book, title));
+
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -255,11 +255,8 @@ public class AuthorDetailFragment extends Fragment implements OnBookClickListene
                 noUpcomingBooksTextView.setVisibility(View.VISIBLE);
             }
         } else {
-            Snackbar.make(getView(), response.getErrorMessage(), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(getView(), getString(R.string.error_message_in_connection), Snackbar.LENGTH_LONG).show();
             noUpcomingBooksTextView.setVisibility(View.VISIBLE);
-            if (!CommonUtil.isConnected(getActivity())) {
-
-            }
         }
         //If there are no upcoming books for selected Authors
         //TODO: Set no upcoming books message

@@ -73,6 +73,8 @@ public class AuthorListAdapter extends RecyclerView.Adapter<AuthorListAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
         AuthorFollow authorFollow = authorFollowList.get(position);
         holder.authorNameView.setText(authorFollow.getName());
+        holder.authorNameView.setContentDescription(holder.authorNameView.getContext().getString(R.string.a11y_author_name, authorFollow.getName()));
+
         Picasso.with(holder.authorImgView.getContext()).load(authorFollow.getImageUrl()).placeholder(R.drawable.author_placeholder).into(holder.authorImgView);
         if (authorFollow.isFollowStatus()) {
             List<UpcomingBook> booksFromAuthorList = DBHelper.getBooksFromAuthor(authorFollow.getName());
@@ -82,6 +84,7 @@ public class AuthorListAdapter extends RecyclerView.Adapter<AuthorListAdapter.Vi
             holder.followStatusImgView.setImageDrawable(holder.followStatusImgView.getResources().getDrawable(R.drawable.plus_circle));
             holder.bookCountView.setText(holder.bookCountView.getContext().getString(R.string.author_not_followed_yet));
         }
+        holder.followStatusImgView.setContentDescription(holder.authorNameView.getContext().getString(R.string.a11y_follow_status, String.valueOf(authorFollow.isFollowStatus())));
     }
 
     private String generateBookCountText(List<UpcomingBook> booksFromAuthorList, Context context) {

@@ -122,10 +122,18 @@ public class WishlistFragment extends Fragment {
 
         bookGridAdaptor = new BookGridAdaptor((BookSelectionListener) getActivity(), bookList, colorPrimaryLight);
         mPopularGridView.setAdapter(bookGridAdaptor);
-        mSwipeRefreshLayout.setRefreshing(false);
 
         setupEmptyContainers(bookList);
         mSwipeRefreshLayout.setRefreshing(false);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                bookList = DBHelper.wishlist();
+                setupEmptyContainers(bookList);
+                bookGridAdaptor.addBooks(bookList);
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
         registerObserver();
         return view;
     }
@@ -144,17 +152,17 @@ public class WishlistFragment extends Fragment {
         ButterKnife.unbind(this);
     }
 
-static class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-    private int space;
+    static class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private int space;
 
-    public SpacesItemDecoration(int space) {
-        this.space = space;
-    }
+        public SpacesItemDecoration(int space) {
+            this.space = space;
+        }
 
-    @Override
-    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-        super.getItemOffsets(outRect, view, parent, state);
-        outRect.set(space, space, space, space);
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            super.getItemOffsets(outRect, view, parent, state);
+            outRect.set(space, space, space, space);
+        }
     }
-}
 }

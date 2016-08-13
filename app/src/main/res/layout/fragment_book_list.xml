@@ -21,10 +21,13 @@
             android:clipToPadding="false"
             android:paddingTop="@dimen/grid_top_padding"
             android:visibility="visible"
-            tools:context="com.capstone.authorfollow.BookListActivity"
-            tools:listitem="@layout/book_list_content" />
+            tools:context="com.capstone.authorfollow.BookListActivity" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/spacing_big" />
 
     <include layout="@layout/inc_no_connection" />
 

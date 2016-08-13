@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
@@ -72,14 +73,19 @@ public class BooksDataLoader extends AsyncTaskLoader<NetworkResponse<List<Upcomi
         List<UpcomingBook> booksList = new ArrayList<>();
         int upcomingFwdDays = PreferenceUtil.getPrefs(getContext(), PreferenceUtil.PREF_SHOW_RESULTS_FOR_DAYS, 120);
         Call<ItemSearchResponse> bookSvcInfoCall = service.findBooks(buildParams(author, upcomingFwdDays, 1));
-        ItemSearchResponse searchResponse = bookSvcInfoCall.execute().body();
-        booksList.addAll(convertToDBData(author, searchResponse));
-        if (searchResponse.resultItems.totalPages > 1) {
-            for (int i = 2; i <= searchResponse.resultItems.totalPages; i++) {
-                bookSvcInfoCall = service.findBooks(buildParams(author, upcomingFwdDays, i));
-                searchResponse = bookSvcInfoCall.execute().body();
-                booksList.addAll(convertToDBData(author, searchResponse));
+        Response<ItemSearchResponse> response = bookSvcInfoCall.execute();
+        if (response.isSuccessful()) {
+            ItemSearchResponse searchResponse = response.body();
+            booksList.addAll(convertToDBData(author, searchResponse));
+            if (null != searchResponse && searchResponse.resultItems.totalPages > 1) {
+                for (int i = 2; i <= searchResponse.resultItems.totalPages; i++) {
+                    bookSvcInfoCall = service.findBooks(buildParams(author, upcomingFwdDays, i));
+                    searchResponse = bookSvcInfoCall.execute().body();
+                    booksList.addAll(convertToDBData(author, searchResponse));
+                }
             }
+        } else {
+            throw new RuntimeException("error in connecting");
         }
         return booksList;
     }

@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@drawable/default_bg"
-    android:layout_height="@dimen/drawer_header_height">
+    android:layout_height="@dimen/drawer_header_height"
+    android:background="@drawable/default_bg">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_margin="@dimen/activity_horizontal_margin"
-        android:id="@+id/linearLayout">
+        android:orientation="vertical">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -23,24 +22,26 @@
                 android:id="@+id/profile_image"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                app:border_width="2dp"
                 android:layout_gravity="left"
-                app:border_color="@android:color/white"/>
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:contentDescription="@string/a11y_signedin_user_profile_img"
+                app:border_color="@android:color/white"
+                app:border_width="2dp" />
         </FrameLayout>
 
         <TextView
             android:id="@+id/drawer_user_name"
+            style="@style/DrawerNameText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sample_name"
-            style="@style/DrawerNameText" />
+            android:text="@string/sample_name" />/>
+
         <TextView
             android:id="@+id/drawer_user_email"
+            style="@style/ViewText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sample_email"
-            style="@style/ViewText" />
+            android:text="@string/sample_email" />/>
     </LinearLayout>
 
 </RelativeLayout>

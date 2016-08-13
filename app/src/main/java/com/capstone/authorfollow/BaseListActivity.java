@@ -86,8 +86,14 @@ public class BaseListActivity extends AppCompatActivity {
         CircleImageView userImgView = (CircleImageView) headerView.findViewById(R.id.profile_image);
         TextView userNameTextView = (TextView) headerView.findViewById(R.id.drawer_user_name);
         TextView userEmailTextView = (TextView) headerView.findViewById(R.id.drawer_user_email);
-        userNameTextView.setText(PreferenceUtil.getPrefs(getApplicationContext(), Constants.PREF_USERNAME, ""));
-        userEmailTextView.setText(PreferenceUtil.getPrefs(getApplicationContext(), Constants.PREF_EMAIL, ""));
+        String userName = PreferenceUtil.getPrefs(getApplicationContext(), Constants.PREF_USERNAME, "");
+        userNameTextView.setText(userName);
+        userNameTextView.setContentDescription(getString(R.string.a11y_signedin_user_profile_name, userName));
+
+        String emailAddress = PreferenceUtil.getPrefs(getApplicationContext(), Constants.PREF_EMAIL, "");
+        userEmailTextView.setText(emailAddress);
+        userEmailTextView.setContentDescription(getString(R.string.a11y_signedin_user_profile_email, emailAddress));
+
         String userPicUrl = PreferenceUtil.getPrefs(getApplicationContext(), Constants.PREF_USER_PIC, "");
         Picasso.with(userImgView.getContext()).load(userPicUrl).placeholder(R.drawable.user_image_placeholder).into(userImgView);
     }

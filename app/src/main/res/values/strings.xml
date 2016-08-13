@@ -66,4 +66,13 @@
     <string name="action_share">share with</string>
     <string name="no_description_available">No description available</string>
     <string name="add_books">Add books to save them to your wishlist</string>
+    <string name="a11y_splash_img">Splash image</string>
+    <string name="a11y_signin_btn_desc">SignIn button</string>
+    <string name="a11y_signedin_user_profile_img">Signed In user profile image</string>
+    <string name="a11y_signedin_user_profile_name">Signed In User profile name : <xliff:g id="name">%1$s</xliff:g></string>
+    <string name="a11y_signedin_user_profile_email">Signed In User profile email address : <xliff:g id="email">%1$s</xliff:g></string>
+    <string name="a11y_similar_book">Similar book: <xliff:g id="book">%1$s</xliff:g></string>
+    <string name="a11y_author_name">Author Name: <xliff:g id="author">%1$s</xliff:g></string>
+    <string name="a11y_follow_status">Follow Status: <xliff:g id="status">%1$s</xliff:g></string>
+    <string name="error_message_in_connection">Error in connecting. Verify system time or network connection</string>
 </resources>

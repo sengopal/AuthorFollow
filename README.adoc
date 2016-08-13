@@ -1,8 +1,4 @@
-Content Description
-"movie" text cleanup
-
 Add check for system time off value amazon
-
 <ItemSearchErrorResponse xmlns="http://ecs.amazonaws.com/doc/2005-10-05/">
 <Error>
 <Code>RequestExpired</Code>
@@ -36,7 +32,7 @@ Color palatte for detail page
 * MAPS - http://googlemaps.github.io/android-maps-utils/, https://developers.google.com/maps/documentation/android-api/?hl=en
 * RATING BAR - http://www.materialdoc.com/rating-bar/
 
-== SPLASH Screen / COVER / TUTORIAL / INTRO
+== SPLASH Screen
 * http://www.materialdoc.com/splash-screens/
 
 == Google Analytics
@@ -44,7 +40,7 @@ Color palatte for detail page
 
 == Google Identity
 * https://www.udacity.com/course/viewer#!/c-ud876-5/l-4331999941
-* https://github.com/googlesamples/google-services/tree/master/android/app-indexing
+* https://developers.google.com/identity/sign-in/android/sign-in
 * https://github.com/udacity/google-play-services/tree/master/Identity_Lessons_Final/UdacityPlus2_1
 * https://github.com/firebase/firebase-login-demo-android
 
@@ -102,6 +98,7 @@ Recommendations : http://lifehacker.com/5595842/five-best-book-recommendation-se
  .. Price and Preview: https://www.googleapis.com/books/v1/volumes?q=isbn:9781429985208
  .. https://github.com/google/google-api-java-client-samples
 6. EXPORT VIA GOOGLE DRIVE
-
+7. About page
+8. Notifications
 
 
