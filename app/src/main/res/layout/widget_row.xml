@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/widget_row_layout"
     android:gravity="center"
     android:orientation="horizontal">
 
@@ -39,7 +40,8 @@
             android:layout_gravity="fill_vertical"
             android:ellipsize="end"
             android:maxLines="1"
-            tools:text="3 books" />
+            android:textColor="@color/grey"
+            tools:text="Stephen king" />
     </LinearLayout>
 
 </LinearLayout>

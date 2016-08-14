@@ -22,11 +22,11 @@ public class WidgetProvider extends AppWidgetProvider {
             svcIntent.setData(Uri.parse(svcIntent.toUri(Intent.URI_INTENT_SCHEME)));
 
             RemoteViews widget = new RemoteViews(ctxt.getPackageName(), R.layout.widget);
-            widget.setRemoteAdapter(R.id.words, svcIntent);
+            widget.setRemoteAdapter(R.id.widget_list_view, svcIntent);
 
             Intent clickIntent = new Intent(ctxt, SignInActivity.class);
             PendingIntent clickPI = PendingIntent.getActivity(ctxt, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            widget.setPendingIntentTemplate(R.id.words, clickPI);
+            widget.setPendingIntentTemplate(R.id.widget_list_view, clickPI);
             appWidgetManager.updateAppWidget(appWidgetIds[i], widget);
         }
 

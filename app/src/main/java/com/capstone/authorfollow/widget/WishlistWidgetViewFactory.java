@@ -74,12 +74,12 @@ public class WishlistWidgetViewFactory implements RemoteViewsService.RemoteViews
                 e.printStackTrace();
             }
         }
-        Intent i = new Intent();
+        Intent intent = new Intent();
         Bundle extras = new Bundle();
 
         extras.putInt(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
-        i.putExtras(extras);
-        row.setOnClickFillInIntent(android.R.id.text1, i);
+        intent.putExtras(extras);
+        row.setOnClickFillInIntent(R.id.widget_row_layout, intent);
         return row;
     }
 

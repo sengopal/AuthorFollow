@@ -1,5 +1,5 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:autoAdvanceViewId="@+id/words"
+    android:autoAdvanceViewId="@+id/widget_provider"
     android:initialLayout="@layout/widget"
     android:minHeight="175dip"
     android:minWidth="175dip"
