@@ -1,0 +1,8 @@
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:autoAdvanceViewId="@+id/words"
+    android:initialLayout="@layout/widget"
+    android:minHeight="175dip"
+    android:minWidth="175dip"
+    android:previewImage="@drawable/widget_preview"
+    android:resizeMode="vertical|horizontal"
+    android:updatePeriodMillis="0" />

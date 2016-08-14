@@ -75,4 +75,5 @@
     <string name="a11y_author_name">Author Name: <xliff:g id="author">%1$s</xliff:g></string>
     <string name="a11y_follow_status">Follow Status: <xliff:g id="status">%1$s</xliff:g></string>
     <string name="error_message_in_connection">Error in connecting. Verify system time or network connection</string>
+    <string name="no_wishlist_books">Add books to wishlist for display here!</string>
 </resources>

@@ -1,5 +1,8 @@
 package com.capstone.authorfollow;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.database.ContentObserver;
 import android.graphics.Rect;
 import android.net.Uri;
@@ -20,6 +23,7 @@ import com.capstone.authorfollow.BookGridAdaptor.BookSelectionListener;
 import com.capstone.authorfollow.data.types.DBHelper;
 import com.capstone.authorfollow.data.types.UpcomingBook;
 import com.capstone.authorfollow.data.types.WishlistBook;
+import com.capstone.authorfollow.widget.WidgetProvider;
 
 import java.util.List;
 
@@ -74,6 +78,7 @@ public class WishlistFragment extends Fragment {
                 bookList.addAll(wishlist);
                 setupEmptyContainers(wishlist);
                 bookGridAdaptor.notifyDataSetChanged();
+                updateWidget();
             }
 
             @Override
@@ -82,6 +87,33 @@ public class WishlistFragment extends Fragment {
             }
         };
         getContext().getContentResolver().registerContentObserver(WishlistBook.CONTENT_URI, true, contentObserver);
+    }
+
+    private void updateWidget() {
+        /*
+        Context context = getContext();
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
+        ComponentName thisWidget = new ComponentName(context, WidgetProvider.class);
+        //remoteViews.setTextViewText(android.R.id.text1, "myText" + System.currentTimeMillis());
+        appWidgetManager.updateAppWidget(thisWidget, remoteViews);
+        */
+/*
+        Intent intent = new Intent(getActivity(), WidgetProvider.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
+        // since it seems the onUpdate() is only fired on that:
+        int[] ids = {R.xml.widget_provider};
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        getActivity().sendBroadcast(intent);
+        */
+
+        Context context = getContext();
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        ComponentName thisWidget = new ComponentName(context, WidgetProvider.class);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.words);
+
     }
 
     private void setupEmptyContainers(List<UpcomingBook> bookList) {

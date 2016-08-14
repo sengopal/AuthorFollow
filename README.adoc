@@ -48,10 +48,10 @@ An avid book reader is always on the lookout for new releases especially from th
 * Google Analytics and Auth
 
 === Screenshots
+Screenshots of the app on phone and tablet are available in the screens folder
 
-
+=== Release version/Installable
+Available under app-release folder
 
 === Screencast
-
-
-===
+_TBD_

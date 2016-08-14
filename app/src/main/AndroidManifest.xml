@@ -5,6 +5,10 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+    <uses-feature
+        android:name="android.software.app_widgets"
+        android:required="true" />
+
     <application
         android:name="com.capstone.authorfollow.AuthorFollowApplication"
         android:allowBackup="true"
@@ -56,14 +60,24 @@
         </activity>
         <activity
             android:name=".settings.SettingsActivity"
-            android:label="@string/settings_title">
+            android:label="@string/settings_title"></activity>
+
+        <receiver
+            android:name=".widget.WidgetProvider"
+            android:icon="@drawable/launcher_icon"
+            android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-        </activity>
 
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_provider" />
+        </receiver>
+
+        <service
+            android:name=".widget.WidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <provider
             android:name="com.activeandroid.content.ContentProvider"
