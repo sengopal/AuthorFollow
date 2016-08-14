@@ -1,3 +1,6 @@
+== Reference Documentation
+The App design and details are available under **AuthorFollow_App_Document.pdf**. The reference material, citations are available under **DEVNOTES.adoc**
+
 == Setup
 To run the code in Android Studio, the following build parameters need to be setup in your local `gradle.properties` file.
 
