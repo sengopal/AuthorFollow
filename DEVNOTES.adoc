@@ -1,0 +1,85 @@
+== Reference Apps
+* https://github.com/firebase/firebase-login-demo-android
+* https://github.com/chrisbanes/cheesesquare
+* MAIN STARTING POINT: https://github.com/swissonid/android-design-support-lib-sample
+* https://codelabs.developers.google.com/codelabs/material-design-style/index.html
+
+== UI ELEMENTS
+* LOGO - http://mdbootstrap.com/material-design-logo-generator/
+* DIALOGS - https://github.com/afollestad/material-dialogs
+* SUPER RECYCLER View - https://github.com/Malinskiy/SuperRecyclerView
+* CIRCLE IMAGE VIEW - https://github.com/hdodenhof/CircleImageView
+* SETTINGS - https://github.com/kenumir/MaterialSettings
+* NAVIGATION DRAWER - https://github.com/mikepenz/MaterialDrawer
+* SWIPE TO ACTION - https://github.com/vcalvello/SwipeToAction
+* MAPS - http://googlemaps.github.io/android-maps-utils/, https://developers.google.com/maps/documentation/android-api/?hl=en
+* RATING BAR - http://www.materialdoc.com/rating-bar/
+
+== SPLASH Screen
+* http://www.materialdoc.com/splash-screens/
+
+== Google Analytics
+* https://developers.google.com/analytics/devguides/collection/android/v4/mobile-implementation-guide
+
+== Google Identity
+* https://www.udacity.com/course/viewer#!/c-ud876-5/l-4331999941
+* https://developers.google.com/identity/sign-in/android/sign-in
+* https://github.com/udacity/google-play-services/tree/master/Identity_Lessons_Final/UdacityPlus2_1
+* https://github.com/firebase/firebase-login-demo-android
+
+== Library References
+* http://android-developers.blogspot.jp/2015/05/android-design-support-library.html
+* http://android-developers.blogspot.jp/2014/10/implementing-material-design-in-your.html
+* https://github.com/udacity/ud862-samples - Udacity material design aps
+* http://blog.grafixartist.com/top-10-material-design-libraries-for-android/
+* https://github.com/lightSky/Awesome-MaterialDesign
+* https://github.com/wasabeef/awesome-android-ui
+* LIST OF LIBRARIES - http://alamkanak.github.io/android-libraries-and-resources/
+* Check if the list can be changed to: https://github.com/jpardogo/ListBuddies
+* https://github.com/lightSky/Awesome-MaterialDesign#View
+* Exactly what i want: https://github.com/swissonid/android-design-support-lib-sample*
+* https://developers.google.com/analytics/devguides/collection/android/v4/mobile-implementation-guide
+
+== TRANSITION
+* http://www.thedroidsonroids.com/blog/android/meaningful-motion-with-shared-element-transition-and-circular-reveal-animation/
+* https://github.com/saulmm/Android-L-Preview-Concepts
+* http://avatars.adorable.io/#what
+* http://lorempixel.com/
+* https://github.com/googlesamples/android-ActivitySceneTransitionBasic/
+
+
+== AMAZON
+http://docs.aws.amazon.com/AWSECommerceService/latest/DG/EX_SearchingbyAuthor.html
+http://docs.aws.amazon.com/AWSECommerceService/latest/DG/NewReleases.html
+http://docs.aws.amazon.com/AWSECommerceService/latest/DG/rest-signature.html
+http://docs.aws.amazon.com/AWSECommerceService/latest/DG/BrowseNodeIDValues.html
+http://webservices.amazon.com/scratchpad/index.html
+http://webservices.amazon.com/onca/xml?Service=AWSECommerceService&Operation=ItemSearch&SubscriptionId=AKIAIV32PE3ER4WKYHOA&AssociateTag=sengopalme-20&SearchIndex=Books&Keywords=John Grisham&ResponseGroup=Large&Sort=-publication_date&Author=John+Grisham
+
+http://webservices.amazon.com/onca/xml?
+  Service=AWSECommerceService
+  &Operation=ItemSearch
+  &ResponseGroup=Small
+  &SearchIndex=Books
+  &Author=J.K.Rowling
+  &AWSAccessKeyId=[Your_AWSAccessKeyID]
+  &AssociateTag=[Your_AssociateTag]
+  &Timestamp=[YYYY-MM-DDThh:mm:ssZ]
+  &Signature=[Request_Signature]
+
+  Langage Restriction: http://docs.aws.amazon.com/AWSECommerceService/latest/DG/PowerSearchSyntax.html
+
+
+=== FUTURE
+1. Recommendations
+2. Affliates
+3. In App purchase for books
+4. Adding a reading challenge
+Recommendations : http://lifehacker.com/5595842/five-best-book-recommendation-services
+5. *PREVIEW*
+ .. https://developers.google.com/books/docs/overview?csw=1#data_api
+ .. Price and Preview: https://www.googleapis.com/books/v1/volumes?q=isbn:9781429985208
+ .. https://github.com/google/google-api-java-client-samples
+6. EXPORT VIA GOOGLE DRIVE
+7. About page
+8. Notifications

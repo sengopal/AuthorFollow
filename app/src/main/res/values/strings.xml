@@ -35,7 +35,7 @@
     <string name="book_removed_from_wishlist">Book removed from wishlist</string>
     <string name="author_title">Author</string>
     <string name="nav_author">Authors</string>
-    <string name="nav_home">Home</string>
+    <string name="nav_books">Books</string>
     <string name="nav_settings">Settings</string>
     <string name="nav_goodread">Goodreads</string>
     <string name="book_count_text_none">No upcoming books</string>

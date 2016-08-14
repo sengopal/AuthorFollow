@@ -396,16 +396,18 @@ public class BookDetailFragment extends Fragment implements OnBookClickListener,
     //Reference: https://gist.github.com/mariol3/d43b0629756b8227e037
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.bookdetail_menu, menu);
+        if (null != upcomingBook) {
+            inflater.inflate(R.menu.bookdetail_menu, menu);
 
-        MenuItem shareItem = menu.findItem(R.id.action_share);
-        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
-        if (mShareActionProvider != null) {
-            Intent mShareIntent = new Intent(Intent.ACTION_SEND);
-            mShareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-            mShareIntent.setType("text/plain");
-            mShareIntent.putExtra(Intent.EXTRA_TEXT, upcomingBook.getAmazonLink());
-            mShareActionProvider.setShareIntent(mShareIntent);
+            MenuItem shareItem = menu.findItem(R.id.action_share);
+            mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(shareItem);
+            if (mShareActionProvider != null) {
+                Intent mShareIntent = new Intent(Intent.ACTION_SEND);
+                mShareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+                mShareIntent.setType("text/plain");
+                mShareIntent.putExtra(Intent.EXTRA_TEXT, upcomingBook.getAmazonLink());
+                mShareActionProvider.setShareIntent(mShareIntent);
+            }
         }
     }
 }

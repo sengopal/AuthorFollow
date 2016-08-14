@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:gravity="center"
     android:orientation="vertical">
 
     <ProgressBar
@@ -23,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="10"
+        android:layout_gravity="center"
         android:visibility="visible"
         tools:context="com.capstone.authorfollow.AuthorListActivity" />
 

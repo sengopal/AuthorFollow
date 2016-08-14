@@ -19,6 +19,7 @@
             android:layout_width="@dimen/author_img_avatar_size"
             android:layout_height="@dimen/author_img_avatar_size"
             android:layout_gravity="center"
+            android:textAlignment="center"
             android:src="@drawable/add_authors" />
 
         <TextView

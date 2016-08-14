@@ -1,104 +1,57 @@
-Add check for system time off value amazon
-<ItemSearchErrorResponse xmlns="http://ecs.amazonaws.com/doc/2005-10-05/">
-<Error>
-<Code>RequestExpired</Code>
-<Message>
-Request has expired. Timestamp date is 2016-06-23T02:21:41Z.
-</Message>
-</Error>
-<RequestId>ed2d30d6-e075-47b8-9cf2-8bfd5df0d42f</RequestId>
-</ItemSearchErrorResponse>
+== Setup
+To run the code in Android Studio, the following build parameters need to be setup in your local `gradle.properties` file.
 
-=== LATER
-Firebase - Login and Save Data for user
-Change Add button to Fab in Author list page - dropped
-Color palatte for detail page
+=== AWS Product Advertising API
+The app uses AWS Product advertising API to get the details of the upcoming releases.
 
-== Reference Apps
-* https://github.com/firebase/firebase-login-demo-android
-* https://github.com/chrisbanes/cheesesquare
-* MAIN STARTING POINT: https://github.com/swissonid/android-design-support-lib-sample
-* https://codelabs.developers.google.com/codelabs/material-design-style/index.html
+URL : http://docs.aws.amazon.com/AWSECommerceService/latest/DG/becomingDev.html
 
+Properties to be added the gradle properties are:
 
-== UI ELEMENTS
-* LOGO - http://mdbootstrap.com/material-design-logo-generator/
-* DIALOGS - https://github.com/afollestad/material-dialogs
-* SUPER RECYCLER View - https://github.com/Malinskiy/SuperRecyclerView
-* CIRCLE IMAGE VIEW - https://github.com/hdodenhof/CircleImageView
-* SETTINGS - https://github.com/kenumir/MaterialSettings
-* NAVIGATION DRAWER - https://github.com/mikepenz/MaterialDrawer
-* SWIPE TO ACTION - https://github.com/vcalvello/SwipeToAction
-* MAPS - http://googlemaps.github.io/android-maps-utils/, https://developers.google.com/maps/documentation/android-api/?hl=en
-* RATING BAR - http://www.materialdoc.com/rating-bar/
+* `AwsCustKey="<aws-customer-key>"`
+* `AwsApiKey="<aws-api-key>"`
 
-== SPLASH Screen
-* http://www.materialdoc.com/splash-screens/
+=== Goodreads API
+The app uses Goodreads API to find author and book related information
+URL : https://www.goodreads.com/api
 
-== Google Analytics
-* https://developers.google.com/analytics/devguides/collection/android/v4/mobile-implementation-guide
+Property to be added the gradle properties are:
 
-== Google Identity
-* https://www.udacity.com/course/viewer#!/c-ud876-5/l-4331999941
-* https://developers.google.com/identity/sign-in/android/sign-in
-* https://github.com/udacity/google-play-services/tree/master/Identity_Lessons_Final/UdacityPlus2_1
-* https://github.com/firebase/firebase-login-demo-android
+`GrApiKey="<gr-api-key>"`
 
-== Library References
-* http://android-developers.blogspot.jp/2015/05/android-design-support-library.html
-* http://android-developers.blogspot.jp/2014/10/implementing-material-design-in-your.html
-* https://github.com/udacity/ud862-samples - Udacity material design aps
-* http://blog.grafixartist.com/top-10-material-design-libraries-for-android/
-* https://github.com/lightSky/Awesome-MaterialDesign
-* https://github.com/wasabeef/awesome-android-ui
-* LIST OF LIBRARIES - http://alamkanak.github.io/android-libraries-and-resources/
-* Check if the list can be changed to: https://github.com/jpardogo/ListBuddies
-* https://github.com/lightSky/Awesome-MaterialDesign#View
-* Exactly what i want: https://github.com/swissonid/android-design-support-lib-sample*
-* https://developers.google.com/analytics/devguides/collection/android/v4/mobile-implementation-guide
+=== Google Services Configuration - Identity and Analytics
+The app uses Google Play services to perform Google Identity Signin and use Google Analytics to track user activity. Generate a `google-services.json` file for your android debug key including both Signin and Analytics.
+Follow the instructions from https://developers.google.com/identity/sign-in/android/start-integrating. The package name to be used is `com.capstone.authorfollow`
 
-== TRANSITION
-* http://www.thedroidsonroids.com/blog/android/meaningful-motion-with-shared-element-transition-and-circular-reveal-animation/
-* https://github.com/saulmm/Android-L-Preview-Concepts
-* http://avatars.adorable.io/#what
-* http://lorempixel.com/
-* https://github.com/googlesamples/android-ActivitySceneTransitionBasic/
+=== Verifying Google Analytics Execution
+Refer to https://developers.google.com/analytics/devguides/collection/android/v4/ for more details
+
+Use these commands to track the Analytics Events and hits being sent
+
+* `adb shell setprop log.tag.GAv4 DEBUG`
+* `adb logcat -s GAv4`
 
 
-== AMAZON
-http://docs.aws.amazon.com/AWSECommerceService/latest/DG/EX_SearchingbyAuthor.html
-http://docs.aws.amazon.com/AWSECommerceService/latest/DG/NewReleases.html
-http://docs.aws.amazon.com/AWSECommerceService/latest/DG/rest-signature.html
-http://docs.aws.amazon.com/AWSECommerceService/latest/DG/BrowseNodeIDValues.html
-http://webservices.amazon.com/scratchpad/index.html
-http://webservices.amazon.com/onca/xml?Service=AWSECommerceService&Operation=ItemSearch&SubscriptionId=AKIAIV32PE3ER4WKYHOA&AssociateTag=sengopalme-20&SearchIndex=Books&Keywords=John Grisham&ResponseGroup=Large&Sort=-publication_date&Author=John+Grisham
+== About the App
 
-http://webservices.amazon.com/onca/xml?
-  Service=AWSECommerceService
-  &Operation=ItemSearch
-  &ResponseGroup=Small
-  &SearchIndex=Books
-  &Author=J.K.Rowling
-  &AWSAccessKeyId=[Your_AWSAccessKeyID]
-  &AssociateTag=[Your_AssociateTag]
-  &Timestamp=[YYYY-MM-DDThh:mm:ssZ]
-  &Signature=[Request_Signature]
+=== Introduction
+An avid book reader is always on the lookout for new releases especially from the authors that they love. However, there is no such tool today which informs you about upcoming releases. “Author Follow” allows you to keep tabs on upcoming and recent releases of your favorite book authors, search for new authors and more. This app uses Amazon’s product release API to scour for their favorite authors’ publications.
 
-  Langage Restriction: http://docs.aws.amazon.com/AWSECommerceService/latest/DG/PowerSearchSyntax.html
+=== Libraries
+* App Compat Libraries
+* ButterKnife
+* Retrofit
+* CircleImageView
+* SimpleXml
+* Picasso
+* ActiveAndroid
+* Google Analytics and Auth
+
+=== Screenshots
 
 
-=== FUTURE
-1. Recommendations
-2. Affliates
-3. In App purchase for books
-4. Adding a reading challenge
-Recommendations : http://lifehacker.com/5595842/five-best-book-recommendation-services
-5. *PREVIEW*
- .. https://developers.google.com/books/docs/overview?csw=1#data_api
- .. Price and Preview: https://www.googleapis.com/books/v1/volumes?q=isbn:9781429985208
- .. https://github.com/google/google-api-java-client-samples
-6. EXPORT VIA GOOGLE DRIVE
-7. About page
-8. Notifications
+
+=== Screencast
 
 
+===

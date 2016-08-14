@@ -13,15 +13,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "971994860410-nrjm6osm2hvfei1uliasi4pdh0oh3pjq.apps.googleusercontent.com",
+          "client_id": "971994860410-nn3trr053is1hr6tur1d40al7k2aelj1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.capstone.authorfollow",
-            "certificate_hash": "E087F8ADA981E549C5FEFDAB14A01114695E4F6C"
+            "certificate_hash": "9A2484BF6572F2A917926B9718E8102FE4B76330"
           }
         },
         {
-          "client_id": "971994860410-nrjm6osm2hvfei1uliasi4pdh0oh3pjq.apps.googleusercontent.com",
+          "client_id": "971994860410-3s01j1s5nvftjuvn1uq72vm9rmgd9aqd.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

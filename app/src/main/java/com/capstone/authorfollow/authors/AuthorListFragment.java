@@ -90,7 +90,7 @@ public class AuthorListFragment extends Fragment {
         authorsList = DBHelper.getAuthorsList();
         listAdapter.setAuthors(authorsList);
 
-        setupEmptyContainers();
+        setupEmptyContainers(authorsList);
         noAuthorContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,12 +102,14 @@ public class AuthorListFragment extends Fragment {
         return view;
     }
 
-    private void setupEmptyContainers() {
+    private void setupEmptyContainers(List<AuthorFollow> authorsList) {
         noConnectionContainer.setVisibility(View.GONE);
         if (!CommonUtil.isConnected(getActivity())) {
             noConnectionContainer.setVisibility(View.VISIBLE);
-        } else {
+        } else if (null == authorsList || authorsList.size() < 2) {
             noAuthorContainer.setVisibility(View.VISIBLE);
+        } else {
+            noAuthorContainer.setVisibility(View.GONE);
         }
     }
 
@@ -116,7 +118,9 @@ public class AuthorListFragment extends Fragment {
         contentObserver = new ContentObserver(handler) {
             @Override
             public void onChange(boolean selfChange) {
-                listAdapter.setAuthors(DBHelper.getAuthorsList());
+                List<AuthorFollow> authorsList = DBHelper.getAuthorsList();
+                listAdapter.setAuthors(authorsList);
+                setupEmptyContainers(authorsList);
             }
 
             @Override
@@ -164,8 +168,6 @@ public class AuthorListFragment extends Fragment {
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //Set from the already followed authors
-                //listAdapter.setAuthors(DBHelper.getFilteredAuthorsList(query));
                 startSearch(query);
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(mSearchView.getWindowToken(), 0);
@@ -202,6 +204,7 @@ public class AuthorListFragment extends Fragment {
                     Snackbar.make(getView(), getString(R.string.author_not_found), Snackbar.LENGTH_LONG).show();
                 } else {
                     listAdapter.addToAuthors(authorFollow);
+                    noAuthorContainer.setVisibility(View.GONE);
                 }
             }
         }).execute();
@@ -222,17 +225,17 @@ public class AuthorListFragment extends Fragment {
         }
     }
 
-static class SpacesItemDecoration extends RecyclerView.ItemDecoration {
-    private int space;
+    static class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private int space;
 
-    public SpacesItemDecoration(int space) {
-        this.space = space;
-    }
+        public SpacesItemDecoration(int space) {
+            this.space = space;
+        }
 
-    @Override
-    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-        super.getItemOffsets(outRect, view, parent, state);
-        outRect.set(space, space, space, space);
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            super.getItemOffsets(outRect, view, parent, state);
+            outRect.set(space, space, space, space);
+        }
     }
-}
 }
