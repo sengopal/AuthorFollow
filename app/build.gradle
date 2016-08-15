@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'android-release-key'
             keyPassword 'Wel@come08'
-            storeFile file('/Users/sengopal/.ssh/android-release-key.keystore')
+            storeFile file('../keystore/android-release-key.keystore')
             storePassword 'Wel@come08'
         }
     }
