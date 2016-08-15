@@ -14,7 +14,7 @@
 
     <style name="DetailTitle" parent="TextAppearance.AppCompat.Title">
         <item name="android:textColor">@color/colorTextWhite</item>
-        <item name="android:layout_marginLeft">@dimen/text_margin_left</item>
+        <item name="android:layout_marginStart">@dimen/text_margin_left</item>
         <item name="android:layout_marginTop">@dimen/text_margin_top</item>
         <item name="android:textSize">@dimen/title_text_size</item>
         <item name="android:layout_height">wrap_content</item>
@@ -28,14 +28,14 @@
 
     <style name="DetailSubtitle" parent="TextAppearance.AppCompat.Small">
         <item name="android:textColor">@color/colorTextWhite</item>
-        <item name="android:paddingLeft">@dimen/text_padding_16dp</item>
-        <item name="android:paddingRight">@dimen/text_padding_16dp</item>
+        <item name="android:paddingStart">@dimen/text_padding_16dp</item>
+        <item name="android:paddingEnd">@dimen/text_padding_16dp</item>
         <item name="android:textSize">@dimen/subtitle_text_size</item>
     </style>
 
     <style name="DetailContainerSubTitle" parent="TextAppearance.AppCompat.Subhead">
         <item name="android:textColor">@color/colorPrimaryText</item>
-        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingStart">0dp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -64,7 +64,7 @@
 
     <style name="AuthorListSubTitle" parent="TextAppearance.AppCompat.Subhead">
         <item name="android:textColor">@color/colorSecondaryText</item>
-        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingStart">0dp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -72,7 +72,7 @@
         <item name="android:textColor">@color/colorSecondaryText</item>
         <item name="android:paddingTop">@dimen/text_padding_8dp</item>
         <item name="android:paddingBottom">@dimen/text_padding_8dp</item>
-        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingStart">0dp</item>
     </style>
 
     <style name="SubTextContent" parent="TextAppearance.AppCompat.Body2">
@@ -82,9 +82,9 @@
 
     <style name="DetailContainer" parent="android:Widget">
         <item name="android:layout_marginTop">@dimen/detail_card_view_margin</item>
-        <item name="android:layout_marginLeft">@dimen/detail_card_view_margin_left</item>
-        <item name="android:layout_marginRight">@dimen/detail_card_view_margin_right</item>
-        <item name="android:paddingRight">16dp</item>
+        <item name="android:layout_marginStart">@dimen/detail_card_view_margin_left</item>
+        <item name="android:layout_marginEnd">@dimen/detail_card_view_margin_right</item>
+        <item name="android:paddingEnd">16dp</item>
         <item name="android:orientation">vertical</item>
     </style>
 
@@ -102,8 +102,8 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="Widget.CardContent" parent="android:Widget">
-        <item name="android:paddingLeft">16dp</item>
-        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
         <item name="android:paddingTop">12dp</item>
         <item name="android:orientation">vertical</item>
     </style>

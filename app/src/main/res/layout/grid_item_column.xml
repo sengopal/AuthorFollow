@@ -29,7 +29,7 @@
             android:textSize="@dimen/grid_text_size"
             android:textAlignment="center"
             tools:text="James Patterson"
-            android:paddingRight="@dimen/grid_text_padding"/>
+            android:paddingEnd="@dimen/grid_text_padding"/>
 
     </RelativeLayout>
 

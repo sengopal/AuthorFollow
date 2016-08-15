@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <View xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="1dp"
-    android:layout_marginLeft="4dp"
-    android:layout_marginRight="4dp"
-    android:layout_marginTop="12dp"
-    android:layout_marginBottom="8dp"
+    android:layout_height="@dimen/divider_height"
+    android:layout_marginStart="@dimen/divider_margin"
+    android:layout_marginEnd="@dimen/divider_margin"
+    android:layout_marginTop="@dimen/divider_margin_top"
+    android:layout_marginBottom="@dimen/divider_margin_bottom"
     android:background="@color/colorDivider">
 
 </View>

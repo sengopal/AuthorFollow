@@ -20,13 +20,13 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_image"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
+                android:layout_width="@dimen/drawer_img_size"
+                android:layout_height="@dimen/drawer_img_size"
                 android:layout_gravity="left"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:contentDescription="@string/a11y_signedin_user_profile_img"
                 app:border_color="@android:color/white"
-                app:border_width="2dp" />
+                app:border_width="@dimen/drawer_img_border_width" />
         </FrameLayout>
 
         <TextView

@@ -24,7 +24,7 @@
                 style="@style/Widget.CardContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/book_card_margin"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -33,7 +33,6 @@
                     android:layout_width="@dimen/detail_poster_image_width"
                     android:layout_height="@dimen/detail_poster_image_height"
                     android:layout_gravity="left|top"
-                    android:layout_marginLeft="@dimen/detail_poster_image_margin_left"
                     android:layout_marginStart="@dimen/detail_poster_image_margin_left"
                     android:background="@drawable/image_border"
                     android:fitsSystemWindows="true"
@@ -66,7 +65,7 @@
                 style="@style/Widget.CardContent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/book_card_margin"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -115,7 +114,7 @@
             android:id="@+id/recycler_view_genres_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/genres_left_margin" />
+            android:layout_marginStart="@dimen/genres_left_margin" />
 
         <include layout="@layout/view_divider" />
 
@@ -165,24 +164,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:paddingLeft="@dimen/rate_icon_margin_right"
-                    android:paddingRight="@dimen/rate_icon_margin_right"
+                    android:paddingStart="@dimen/rate_icon_margin_right"
+                    android:paddingEnd="@dimen/rate_icon_margin_right"
                     android:text="@string/find_out_more" />
 
                 <ImageView
                     android:id="@+id/amazon_icon_image_view"
                     android:layout_width="@dimen/play_icon_size"
                     android:layout_height="@dimen/play_icon_size"
-                    android:paddingLeft="@dimen/rate_icon_margin_right"
-                    android:paddingRight="@dimen/rate_icon_margin_right"
+                    android:paddingStart="@dimen/rate_icon_margin_right"
+                    android:paddingEnd="@dimen/rate_icon_margin_right"
                     android:src="@drawable/amazon_icon" />
 
                 <ImageView
                     android:id="@+id/gr_icon_image_view"
                     android:layout_width="@dimen/play_icon_size"
                     android:layout_height="@dimen/play_icon_size"
-                    android:paddingLeft="@dimen/rate_icon_margin_right"
-                    android:paddingRight="@dimen/rate_icon_margin_right"
+                    android:paddingStart="@dimen/rate_icon_margin_right"
+                    android:paddingEnd="@dimen/rate_icon_margin_right"
                     android:src="@drawable/goodreads_icon" />
             </LinearLayout>
 
@@ -205,7 +204,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:text="@string/similar"
                     android:textSize="20sp" />
@@ -213,8 +211,8 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_view_similar_books_list"
                     android:layout_width="match_parent"
-                    android:layout_height="140dp"
-                    android:layout_marginTop="4dp" />
+                    android:layout_height="@dimen/similar_books_height"
+                    android:layout_marginTop="@dimen/spacing_small" />
             </LinearLayout>
 
         </android.support.v7.widget.CardView>

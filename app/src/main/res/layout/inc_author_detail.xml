@@ -108,14 +108,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/card_margin"
+            android:layout_marginStart="@dimen/card_margin"
             android:orientation="vertical">
 
             <TextView
                 style="@style/InfoSubTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_margin="@dimen/spacing_small"
                 android:text="@string/upcoming_books" />
@@ -141,7 +140,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view_similar_books_list"
                 android:layout_width="match_parent"
-                android:layout_height="140dp" />
+                android:layout_height="@dimen/similar_books_height" />
         </LinearLayout>
 
         <include layout="@layout/view_divider" />
@@ -192,16 +191,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:paddingLeft="@dimen/rate_icon_margin_right"
-                    android:paddingRight="@dimen/rate_icon_margin_right"
+                    android:paddingStart="@dimen/rate_icon_margin_right"
+                    android:paddingEnd="@dimen/rate_icon_margin_right"
                     android:text="@string/find_out_more" />
 
                 <ImageView
                     android:id="@+id/gr_icon_image_view"
                     android:layout_width="@dimen/play_icon_size"
                     android:layout_height="@dimen/play_icon_size"
-                    android:paddingLeft="@dimen/rate_icon_margin_right"
-                    android:paddingRight="@dimen/rate_icon_margin_right"
+                    android:paddingStart="@dimen/rate_icon_margin_right"
+                    android:paddingEnd="@dimen/rate_icon_margin_right"
                     android:src="@drawable/goodreads_icon" />
             </LinearLayout>
 

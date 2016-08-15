@@ -10,7 +10,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="@dimen/appBarSize"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
@@ -20,8 +20,8 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginEnd="64dp"
-            app:expandedTitleMarginStart="48dp"
+            app:expandedTitleMarginEnd="@dimen/toolbar_title_margin_end"
+            app:expandedTitleMarginStart="@dimen/toolbar_title_margin_start"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
@@ -60,7 +60,7 @@
         android:layout_margin="40dp"
         android:clickable="true"
         android:src="@drawable/ic_check_white_36px"
-        app:elevation="4dp"
+        app:elevation="@dimen/fab_elevation"
         app:layout_anchor="@id/appbar"
         app:layout_anchorGravity="bottom|right|end" />
 

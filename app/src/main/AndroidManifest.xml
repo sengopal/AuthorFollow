@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.capstone.authorfollow">
+    package="com.capstone.authorfollow" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -10,13 +10,12 @@
         android:required="true" />
 
     <application
-        android:name="com.capstone.authorfollow.AuthorFollowApplication"
+        android:name=".AuthorFollowApplication"
         android:allowBackup="true"
         android:icon="@drawable/launcher_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-
+        android:theme="@style/AppTheme" >
         <meta-data
             android:name="AA_DB_NAME"
             android:value="AuthorFollow.db" />
@@ -29,43 +28,43 @@
 
         <activity
             android:name=".BookListActivity"
-            android:label="@string/app_name"></activity>
-
+            android:label="@string/app_name" />
         <activity
-            android:name="com.capstone.authorfollow.SignInActivity"
-            android:label="@string/app_name">
+            android:name=".SignInActivity"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".BookDetailActivity"
             android:label="@string/title_book_detail"
-            android:parentActivityName=".BookListActivity">
+            android:parentActivityName=".BookListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.capstone.authorfollow.BookListActivity" />
         </activity>
         <activity
             android:name=".authors.AuthorListActivity"
-            android:label="@string/nav_author"></activity>
+            android:label="@string/nav_author" />
         <activity
             android:name=".authors.AuthorDetailActivity"
             android:label="@string/title_author_detail"
-            android:parentActivityName=".authors.AuthorListActivity">
+            android:parentActivityName=".authors.AuthorListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.capstone.authorfollow.authors.AuthorListActivity" />
         </activity>
         <activity
             android:name=".settings.SettingsActivity"
-            android:label="@string/settings_title"></activity>
+            android:label="@string/settings_title" />
 
         <receiver
             android:name=".widget.WidgetProvider"
             android:icon="@drawable/launcher_icon"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -83,6 +82,10 @@
             android:name="com.activeandroid.content.ContentProvider"
             android:authorities="com.capstone.authorfollow"
             android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

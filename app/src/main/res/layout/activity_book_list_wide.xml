@@ -15,7 +15,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero_width"
             android:layout_height="match_parent"
             android:layout_weight="9">
 
@@ -59,7 +59,7 @@
         </LinearLayout>
 
         <FrameLayout
-            android:layout_width="0dp"
+            android:layout_width="@dimen/zero_width"
             android:layout_height="match_parent"
             android:layout_weight="11">
 

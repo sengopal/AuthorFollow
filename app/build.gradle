@@ -1,9 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'android-release-key'
+            keyPassword 'Wel@come08'
+            storeFile file('/Users/sengopal/.ssh/android-release-key.keystore')
+            storePassword 'Wel@come08'
+        }
+    }
     compileSdkVersion 24
     buildToolsVersion "24.0.0"
-
     defaultConfig {
         applicationId "com.capstone.authorfollow"
         minSdkVersion 19
@@ -16,20 +23,18 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
-
     buildTypes.each {
         it.buildConfigField 'String', 'AWS_CUST_KEY', AwsCustKey
         it.buildConfigField 'String', 'AWS_API_KEY', AwsApiKey
         it.buildConfigField 'String', 'GR_API_KEY', GrApiKey
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
     }
-
     lintOptions {
         abortOnError false
     }
@@ -66,5 +71,8 @@ dependencies {
     compile 'com.google.android.gms:play-services-auth:9.4.0'
     compile 'com.google.android.gms:play-services-analytics:9.4.0'
 }
+
+
+
 
 apply plugin: 'com.google.gms.google-services'

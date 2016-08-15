@@ -11,13 +11,13 @@
         android:layout_width="@dimen/author_img_avatar_size"
         android:layout_height="@dimen/author_img_avatar_size"
         android:layout_gravity="bottom"
-        android:layout_marginLeft="@dimen/author_img_margin_left"
+        android:layout_marginStart="@dimen/author_img_margin_left"
         tools:src="@drawable/author_placeholder" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/author_list_left_margin"
+        android:layout_marginStart="@dimen/author_list_left_margin"
         android:layout_marginTop="@dimen/spacing_small"
         android:layout_weight="2"
         android:orientation="vertical">
@@ -48,7 +48,7 @@
         android:layout_width="@dimen/author_follow_status_size"
         android:layout_height="@dimen/author_follow_status_size"
         android:layout_gravity="center"
-        android:layout_marginLeft="@dimen/status_margin"
+        android:layout_marginStart="@dimen/status_margin"
         tools:src="@drawable/check_circle" />
 
 </LinearLayout>
