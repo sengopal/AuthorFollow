@@ -74,4 +74,5 @@
     <dimen name="genre_padding">6dp</dimen>
     <dimen name="genre_text_size">12dp</dimen>
     <dimen name="widget_margin">3dp</dimen>
+    <dimen name="genres_left_margin">8dp</dimen>
 </resources>
